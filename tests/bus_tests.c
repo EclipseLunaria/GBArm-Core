@@ -36,6 +36,13 @@ void test_write_byte_to_board_wram(){
     CU_ASSERT_EQUAL(232, DATA_BUS.boardWRAM[52]);
 }
 
+void test_write_byte_to_vram(){
+    uint8_t byte = 232;
+    writeByte(0x06000000+52, &byte);
+    CU_ASSERT_EQUAL(232, DATA_BUS.boardWRAM[52]);
+    
+}
+
 void test_read_byte_to_bios(){
     byte_t byte = 111;
     DATA_BUS.bios[8] = byte;
@@ -73,10 +80,16 @@ void test_get_valid_sector_impl(){
     const address_t board_sector_location = 0x02000100;
     const address_t chip_sector_location = 0x03000200;
     const address_t io_register_location = 0x04000010;
+    const address_t bg_palette_location = 0x05000020;
+    const address_t vram_location = 0x06000300;
+    const address_t oam_location = 0x07000200;
     CU_ASSERT_PTR_EQUAL(&DATA_BUS.bios, getSector(bios_sector_location))
     CU_ASSERT_PTR_EQUAL(&DATA_BUS.boardWRAM, getSector(board_sector_location))
     CU_ASSERT_PTR_EQUAL(&DATA_BUS.chipWRAM, getSector(chip_sector_location))
     CU_ASSERT_PTR_EQUAL(&DATA_BUS.ioRegisters, getSector(io_register_location))
+    CU_ASSERT_PTR_EQUAL(&DATA_BUS.bgPalette, getSector(bg_palette_location))
+    CU_ASSERT_PTR_EQUAL(&DATA_BUS.vram, getSector(vram_location))
+    CU_ASSERT_PTR_EQUAL(&DATA_BUS.oam, getSector(oam_location))
 
 }
 
@@ -128,6 +141,12 @@ int add_bus_tests(){
         CU_cleanup_registry();
         return CU_get_error();
     }
+
+    if (NULL == CU_add_test(suite, "test write byte to vram sector", test_write_byte_to_vram)) {
+        CU_cleanup_registry();
+        return CU_get_error();
+    }
+
     if (NULL == CU_add_test(suite, "test read byte to board bios", test_read_byte_to_bios)) {
         CU_cleanup_registry();
         return CU_get_error();
@@ -148,7 +167,7 @@ int add_bus_tests(){
         return CU_get_error();
     }
 
-    if (NULL == CU_add_test(suite, "test get sector function for each valid sector", test_clear_bus_data)) {
+    if (NULL == CU_add_test(suite, "test get sector function for each valid sector", test_get_valid_sector_impl)) {
         CU_cleanup_registry();
         return CU_get_error();
     }

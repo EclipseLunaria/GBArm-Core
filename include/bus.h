@@ -20,8 +20,18 @@
 #define IO_REGISTERS_START 0x04000000
 #define IO_REGISTERS_END IO_REGISTERS_START + IO_REGISTERS_SIZE
 
+#define BG_PALETTE_RAM_START 0x05000000
+#define BG_PALETTE_RAM_END 0x050003FF
+
+#define VRAM_START 0x06000000
+#define VRAM_END 0x06017FFF   
+
+// OBJ Attributes
+#define OAM_START 0x07000000
+#define OAM_END 0x070003FF
 
 // Internal Display Memory
+
 
 
 typedef struct SystemMemoryMap {
@@ -29,6 +39,9 @@ typedef struct SystemMemoryMap {
    byte_t boardWRAM[256*KB];
    byte_t chipWRAM[32*KB];
    byte_t ioRegisters[IO_REGISTERS_SIZE];
+   byte_t bgPalette[1*KB];
+   byte_t vram[96*KB];
+   byte_t oam[1*KB];
    byte_t errorFlag;
 } SystemMemoryMap;
 
