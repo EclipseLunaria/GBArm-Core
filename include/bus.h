@@ -2,6 +2,8 @@
 #define BUS_H
 
 #include <stdint.h>
+#include "types.h"
+
 #define KB 1024
 #define SYSTEM_BIOS_SIZE 16 * KB
 #define SYS_BIOS_OFFSET 0
@@ -14,23 +16,23 @@
 
 
 typedef struct SystemMemoryMap {
-   uint8_t bios[16*1024];
-   uint8_t boardWRAM[256*1024];
-   uint8_t chipWRAM[32*1024];
-   uint8_t ioRegisters[0x3FE];
-   uint8_t errorFlag;
+   byte_t bios[16*1024];
+   byte_t boardWRAM[256*1024];
+   byte_t chipWRAM[32*1024];
+   byte_t ioRegisters[0x3FE];
+   byte_t errorFlag;
 } SystemMemoryMap;
 
 
 extern SystemMemoryMap DATA_BUS;
 
-int writeByte (uint32_t address, uint8_t *data);
-int writeHalfWord (uint32_t address, uint16_t *data);
-int writeWord (uint32_t address, uint32_t *data);
+int writeByte (address_t address, byte_t *data);
+int writeHalfWord (address_t address, half_word_t *data);
+int writeWord (address_t address, word_t *data);
 
-int readByte (uint32_t address, uint8_t * byte);
-int readHalfWord (uint32_t address, uint16_t *halfWord);
-int readWord (uint32_t address, uint32_t *word);
+int readByte (address_t address, byte_t * data);
+int readHalfWord (address_t address, half_word_t *data);
+int readWord (address_t address, word_t *data);
 
 int clearDataBus();
 

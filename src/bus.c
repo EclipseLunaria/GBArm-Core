@@ -1,11 +1,10 @@
 #include "bus.h"
 #include <stdio.h>
-    SystemMemoryMap DATA_BUS;
+SystemMemoryMap DATA_BUS;
 
 // Main Methods
-void* getSector(uint32_t address){
+void* getSector(address_t address){
     if (address < SYSTEM_BIOS_SIZE) {
-        printf("ptr: %d\n", DATA_BUS.bios);
         return &DATA_BUS.bios;
     }
     else if (address>=BOARD_WRAM_OFFSET && address<BOARD_WRAM_OFFSET+BOARD_WRAM_SIZE){
@@ -18,11 +17,10 @@ void* getSector(uint32_t address){
         return &DATA_BUS.ioRegisters;
     }
     else {
-        return -1;
+        return NULL;
     }
 }
-uint32_t getSectorOffset(void * sectorPtr){
-    printf("Board WRAM %d",&DATA_BUS.boardWRAM);
+address_t getSectorOffset(void * sectorPtr){
     if (sectorPtr == &DATA_BUS.bios) {
         return SYS_BIOS_OFFSET;
     }
@@ -40,54 +38,54 @@ uint32_t getSectorOffset(void * sectorPtr){
     }
 }
 
-int writeByte(const uint32_t address, uint8_t *data) {
-    uint8_t * sectorPtr = (uint8_t *)getSector(address);
+int writeByte(const address_t address, byte_t *data) {
+    byte_t * sectorPtr = (byte_t *)getSector(address);
     if (!sectorPtr) return -1;
     uint32_t sectorOffset = getSectorOffset(sectorPtr);
     sectorPtr[address-sectorOffset] = *data;
     return 0;
 }
 
-int writeHalfWord (uint32_t address, uint16_t * data){
-    uint8_t * sectorPtr = (uint8_t *)getSector(address);
+int writeHalfWord (address_t address, half_word_t * data){
+    byte_t * sectorPtr = (byte_t *)getSector(address);
     if (!sectorPtr) return -1;
-    uint32_t sectorOffset = getSectorOffset(sectorPtr);
-    *(uint16_t *)(sectorPtr+address-sectorOffset) = *data;
+    address_t sectorOffset = getSectorOffset(sectorPtr);
+    *(half_word_t *)(sectorPtr+address-sectorOffset) = *data;
 
     return 0;
 }
-int writeWord (uint32_t address, uint32_t *data){
-    uint8_t * sectorPtr = (uint8_t *)getSector(address);
+int writeWord (address_t address, word_t *data){
+    byte_t * sectorPtr = (byte_t *)getSector(address);
     if (!sectorPtr) return -1;
-    uint32_t sectorOffset = getSectorOffset(sectorPtr);
-    *(uint32_t *)(sectorPtr+address-sectorOffset) = *data;
+    address_t sectorOffset = getSectorOffset(sectorPtr);
+    *(word_t *)(sectorPtr+address-sectorOffset) = *data;
 
     return 0;
 }
 
 
-int readByte (uint32_t address, uint8_t *byte){
-    uint8_t * sectorPtr = (uint8_t*)getSector(address);
+int readByte (address_t address, byte_t *data){
+    byte_t * sectorPtr = (byte_t*)getSector(address);
     if (!sectorPtr) return -1;
-    uint32_t sectorOffset = (uint8_t*)getSectorOffset(sectorPtr);
+    uint32_t sectorOffset = (byte_t*)getSectorOffset(sectorPtr);
 
-    *byte = sectorPtr[address-sectorOffset];
+    *data = sectorPtr[address-sectorOffset];
     return 0;
 }
-int readHalfWord (uint32_t address, uint16_t *halfWord){
-    uint8_t * sectorPtr = (uint8_t*)getSector(address);
+int readHalfWord (address_t address, half_word_t *data){
+    byte_t * sectorPtr = (byte_t*)getSector(address);
     if (!sectorPtr) return -1;
-    uint32_t sectorOffset = (uint8_t*)getSectorOffset(sectorPtr);
+    address_t sectorOffset = (byte_t*)getSectorOffset(sectorPtr);
 
-    *halfWord = *((uint16_t *)(sectorPtr + address-sectorOffset));
+    *data = *((half_word_t *)(sectorPtr + address-sectorOffset));
     return 0;
 }
-int readWord (uint32_t address, uint32_t *word){
-        uint8_t * sectorPtr = (uint8_t*)getSector(address);
+int readWord (address_t address, word_t *data){
+    byte_t * sectorPtr = (byte_t*)getSector(address);
     if (!sectorPtr) return -1;
-    uint32_t sectorOffset = (uint8_t*)getSectorOffset(sectorPtr);
+    uint32_t sectorOffset = (byte_t*)getSectorOffset(sectorPtr);
 
-    *word = *((uint32_t *)(sectorPtr + address-sectorOffset));
+    *data = *((word_t *)(sectorPtr + address-sectorOffset));
     return 0;
 }
 
