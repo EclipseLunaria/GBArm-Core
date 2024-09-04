@@ -4,16 +4,16 @@ SystemMemoryMap DATA_BUS;
 
 // Main Methods
 byte_t* getSector(address_t address){
-    if (address < SYSTEM_BIOS_SIZE) {
+    if (address < SYS_BIOS_END) {
         return (byte_t*)&DATA_BUS.bios;
     }
-    else if (address>=BOARD_WRAM_OFFSET && address<BOARD_WRAM_OFFSET+BOARD_WRAM_SIZE){
+    else if (address>=BOARD_WRAM_START && address<BOARD_WRAM_END){
         return (byte_t*)&DATA_BUS.boardWRAM;
     }
-    else if (address>=CHIP_WRAM_OFFSET && address<CHIP_WRAM_OFFSET+CHIP_WRAM_SIZE) {
+    else if (address>=CHIP_WRAM_START && address<CHIP_WRAM_END) {
         return (byte_t*)&DATA_BUS.chipWRAM;
     }
-    else if (address>=IO_REGISTERS_OFFSET && address <IO_REGISTERS_OFFSET+IO_REGISTERS_SIZE){
+    else if (address>=IO_REGISTERS_START && address <IO_REGISTERS_END){
         return (byte_t*)&DATA_BUS.ioRegisters;
     }
     else {
@@ -22,16 +22,16 @@ byte_t* getSector(address_t address){
 }
 address_t getSectorOffset(byte_t * sectorPtr){
     if (sectorPtr == (byte_t*)&DATA_BUS.bios) {
-        return SYS_BIOS_OFFSET;
+        return SYSTEM_BIOS_START;
     }
     else if (sectorPtr == (byte_t*)&DATA_BUS.boardWRAM){
-        return BOARD_WRAM_OFFSET;
+        return BOARD_WRAM_START;
     }
     else if (sectorPtr == (byte_t*)&DATA_BUS.chipWRAM) {
-        return CHIP_WRAM_OFFSET;
+        return CHIP_WRAM_START;
     }
     else if (sectorPtr == (byte_t*)&DATA_BUS.ioRegisters){
-        return IO_REGISTERS_OFFSET;
+        return IO_REGISTERS_START;
     }
     else {
         return -1;

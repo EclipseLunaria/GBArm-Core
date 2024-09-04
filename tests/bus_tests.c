@@ -32,7 +32,7 @@ void test_write_byte_to_bios(){
 
 void test_write_byte_to_board_wram(){
     uint8_t byte = 232;
-    writeByte(BOARD_WRAM_OFFSET+52, &byte);
+    writeByte(BOARD_WRAM_START+52, &byte);
     CU_ASSERT_EQUAL(232, DATA_BUS.boardWRAM[52]);
 }
 
@@ -45,7 +45,7 @@ void test_read_byte_to_bios(){
 void test_read_byte_to_board_wram(){
     byte_t byte = 44;
     DATA_BUS.boardWRAM[8] = byte;
-    readByte(BOARD_WRAM_OFFSET+8, &byte);
+    readByte(BOARD_WRAM_START+8, &byte);
     CU_ASSERT_EQUAL(44, byte);
 }
 

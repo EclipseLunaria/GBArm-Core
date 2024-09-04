@@ -5,26 +5,29 @@
 #include "types.h"
 
 #define KB 1024
-#define SYSTEM_BIOS_SIZE 16 * KB
-#define SYS_BIOS_OFFSET 0
 
-#define BOARD_WRAM_SIZE 256 * KB
-#define BOARD_WRAM_OFFSET 0x02000000
+#define SYSTEM_BIOS_START 0
+#define SYS_BIOS_END SYSTEM_BIOS_START + 16 * KB
 
-#define CHIP_WRAM_SIZE 32 *KB
-#define CHIP_WRAM_OFFSET  0x03000000
+#define BOARD_WRAM_START 0x02000000
+#define BOARD_WRAM_END BOARD_WRAM_START + 256 * KB
+
+
+#define CHIP_WRAM_START 0x03000000
+#define CHIP_WRAM_END CHIP_WRAM_START + 32 *KB
 
 #define IO_REGISTERS_SIZE 0x03FE
-#define IO_REGISTERS_OFFSET 0x04000000
+#define IO_REGISTERS_START 0x04000000
+#define IO_REGISTERS_END IO_REGISTERS_START + IO_REGISTERS_SIZE
+
 
 // Internal Display Memory
 
 
-
 typedef struct SystemMemoryMap {
-   byte_t bios[16*1024];
-   byte_t boardWRAM[256*1024];
-   byte_t chipWRAM[32*1024];
+   byte_t bios[16*KB];
+   byte_t boardWRAM[256*KB];
+   byte_t chipWRAM[32*KB];
    byte_t ioRegisters[0x3FE];
    byte_t errorFlag;
 } SystemMemoryMap;
