@@ -28,7 +28,7 @@ typedef struct SystemMemoryMap {
    byte_t bios[16*KB];
    byte_t boardWRAM[256*KB];
    byte_t chipWRAM[32*KB];
-   byte_t ioRegisters[0x3FE];
+   byte_t ioRegisters[IO_REGISTERS_SIZE];
    byte_t errorFlag;
 } SystemMemoryMap;
 

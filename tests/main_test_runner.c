@@ -8,12 +8,6 @@ int main() {
         return CU_get_error();
     }
 
-    // CU_pSuite pSuite = CU_add_suite("Bus_Suite",0,0);
-
-    // if(NULL==pSuite){
-    //     CU_cleanup_registry();
-    //     return CU_get_error();
-    // }
     add_bus_tests();
 
 
