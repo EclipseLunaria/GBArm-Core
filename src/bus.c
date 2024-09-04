@@ -7,14 +7,23 @@ byte_t* getSector(address_t address){
     if (address < SYS_BIOS_END) {
         return (byte_t*)&DATA_BUS.bios;
     }
-    else if (address>=BOARD_WRAM_START && address<BOARD_WRAM_END){
+    else if (address >= BOARD_WRAM_START && address < BOARD_WRAM_END){
         return (byte_t*)&DATA_BUS.boardWRAM;
     }
-    else if (address>=CHIP_WRAM_START && address<CHIP_WRAM_END) {
+    else if (address >= CHIP_WRAM_START && address < CHIP_WRAM_END) {
         return (byte_t*)&DATA_BUS.chipWRAM;
     }
-    else if (address>=IO_REGISTERS_START && address <IO_REGISTERS_END){
+    else if (address >= IO_REGISTERS_START && address < IO_REGISTERS_END){
         return (byte_t*)&DATA_BUS.ioRegisters;
+    }
+    else if (address >= BG_PALETTE_RAM_START && address < BG_PALETTE_RAM_END){
+        return (byte_t*)&DATA_BUS.bgPalette;
+    }
+    else if (address >= VRAM_START && address < VRAM_END){
+        return (byte_t*)&DATA_BUS.vram;
+    }
+    else if (address >= OAM_START && address < OAM_END){
+        return (byte_t*)&DATA_BUS.oam;
     }
     else {
         return NULL;
@@ -32,6 +41,15 @@ address_t getSectorOffset(byte_t * sectorPtr){
     }
     else if (sectorPtr == (byte_t*)&DATA_BUS.ioRegisters){
         return IO_REGISTERS_START;
+    }
+    else if (sectorPtr == (byte_t*)&DATA_BUS.bgPalette){
+        return BG_PALETTE_RAM_START;
+    }
+    else if (sectorPtr == (byte_t*)&DATA_BUS.vram){
+        return VRAM_START;
+    }
+    else if (sectorPtr == (byte_t*)&DATA_BUS.oam){
+        return OAM_START;
     }
     else {
         return -1;
