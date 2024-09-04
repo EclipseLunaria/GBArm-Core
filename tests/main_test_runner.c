@@ -1,7 +1,7 @@
 #include <CUnit/CUnit.h>
 #include <CUnit/Basic.h>
 extern int add_bus_tests();
-
+extern int add_cpu_tests();
 
 int main() {
     if (CUE_SUCCESS != CU_initialize_registry()){
@@ -9,7 +9,7 @@ int main() {
     }
 
     add_bus_tests();
-
+    add_cpu_tests();
 
     CU_basic_set_mode(CU_BRM_VERBOSE);
     CU_basic_run_tests();
