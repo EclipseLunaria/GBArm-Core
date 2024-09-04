@@ -2,6 +2,8 @@
   "files.associations": {
     "*.ejs": "html",
     "bus.h": "c",
-    "stdio.h": "c"
+    "stdio.h": "c",
+    "basic.h": "c",
+    "cunit.h": "c"
   }
 }

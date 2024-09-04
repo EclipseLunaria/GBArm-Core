@@ -7,12 +7,18 @@
 #define KB 1024
 #define SYSTEM_BIOS_SIZE 16 * KB
 #define SYS_BIOS_OFFSET 0
+
 #define BOARD_WRAM_SIZE 256 * KB
 #define BOARD_WRAM_OFFSET 0x02000000
+
 #define CHIP_WRAM_SIZE 32 *KB
 #define CHIP_WRAM_OFFSET  0x03000000
+
 #define IO_REGISTERS_SIZE 0x03FE
 #define IO_REGISTERS_OFFSET 0x04000000
+
+// Internal Display Memory
+
 
 
 typedef struct SystemMemoryMap {
