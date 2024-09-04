@@ -1,6 +1,5 @@
 #include <CUnit/CUnit.h>
 #include <CUnit/Basic.h>
-#include <string.h>
 #include "../include/bus.h"
 #include "types.h"
 // #include "../src/bus.c"
