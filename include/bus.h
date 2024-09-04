@@ -32,4 +32,6 @@ int readByte (uint32_t address, uint8_t * byte);
 int readHalfWord (uint32_t address, uint16_t *halfWord);
 int readWord (uint32_t address, uint32_t *word);
 
+int clearDataBus();
+
 #endif

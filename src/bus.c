@@ -1,9 +1,9 @@
 #include "bus.h"
 #include <stdio.h>
-SystemMemoryMap DATA_BUS;
+    SystemMemoryMap DATA_BUS;
+
 // Main Methods
 void* getSector(uint32_t address){
-
     if (address < SYSTEM_BIOS_SIZE) {
         printf("ptr: %d\n", DATA_BUS.bios);
         return &DATA_BUS.bios;
@@ -89,4 +89,11 @@ int readWord (uint32_t address, uint32_t *word){
 
     *word = *((uint32_t *)(sectorPtr + address-sectorOffset));
     return 0;
+}
+
+
+int clearDataBus(){
+  for(uint32_t i = 0; i<sizeof(SystemMemoryMap);i++){
+    ((uint8_t *)(&DATA_BUS))[i] = 0;
+  } 
 }
