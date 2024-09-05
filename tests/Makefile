@@ -2,8 +2,8 @@
 
 CC = gcc
 CFLAGS = -I../include -Wall -Werror -lcunit
-SRC = ../src/bus.c ../src/cpu.c bus_tests.c cpu_tests.c main_test_runner.c
-HEADERS = ../include/bus.h ../include/cpu.h ../include/types.h 
+SRC = ../src/bus.c ../src/cpu.c ../src/cond.c  bus_tests.c cpu_tests.c cond_tests.c main_test_runner.c
+HEADERS = ../include/bus.h ../include/cpu.h ../include/cond.h ../include/types.h 
 TARGET = run_tests
 
 # Build the main project executable

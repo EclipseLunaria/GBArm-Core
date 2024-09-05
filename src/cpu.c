@@ -1,5 +1,5 @@
 #include "cpu.h"
-
+#include <stdio.h>
 
 
 /*
@@ -21,11 +21,15 @@ void CSPR_set_flag(const CPSRFLAGS f, const uint8_t value){
     uint32_t mask;
     if (value) {
         mask = f;
+        CSPR_state = CSPR_state | f;
+        printf("\n\nCPSR STATE: %x, MASK: %x\n\n", CSPR_state, mask);
     }
     else {
         mask = !f;
+        CSPR_state = CSPR_state & !f;
+        printf("\n\nCPSR STATE: %x, MASK: %x\n\n", CSPR_state, mask);
     }
-    CSPR_state = CSPR_state & mask;
+    
 }
 
 

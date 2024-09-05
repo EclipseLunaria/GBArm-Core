@@ -8,7 +8,7 @@ void test_inital_CSRP_status(){
 
 void test_set_flag(){
     CSPR_set_flag(A,1);
-    CU_ASSERT(CSPR_state&A);
+    CU_ASSERT_TRUE(CSPR_state&A);
     CU_ASSERT_FALSE(CSPR_state&N);
 }
 
