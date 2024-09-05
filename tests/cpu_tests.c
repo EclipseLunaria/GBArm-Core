@@ -2,20 +2,21 @@
 #include <CUnit/Basic.h>
 #include "cpu.h"
 
-void test_inital_CSRP_status(){
-    CU_ASSERT_EQUAL(CSPR_state, 0);
-}
 
 void test_set_flag(){
-    CSPR_set_flag(A,1);
-    CU_ASSERT_TRUE(CSPR_state&A);
-    CU_ASSERT_FALSE(CSPR_state&N);
+    uint32_t cspr = 0;
+    CSPR_set_flag(A,1, &cspr);
+    CU_ASSERT_TRUE(cspr&A);
+    CU_ASSERT_FALSE(cspr&N);
 }
 
 void test_set_get_flag(){
-    CSPR_set_flag(A,3);
-    CU_ASSERT_TRUE(CSPR_get_flag(A));
-    CU_ASSERT_FALSE(CSPR_get_flag(N))
+    uint32_t cspr = 0;
+
+    CSPR_set_flag(A,3, &cspr);
+    printf("CSPR: %x", cspr);
+    CU_ASSERT_TRUE(CSPR_get_flag(A, &cspr));
+    CU_ASSERT_FALSE(CSPR_get_flag(N, &cspr))
 }
 
 
@@ -31,10 +32,6 @@ int add_cpu_tests(){
 
     if (suite == NULL) return CU_get_error();
 
-    if (NULL == CU_add_test(suite, "test initial CSRP value", test_inital_CSRP_status)) {
-        CU_cleanup_registry();
-        return CU_get_error();
-    }
 
     if (NULL == CU_add_test(suite, "test set CSRP flag value", test_set_flag)) {
         CU_cleanup_registry();
