@@ -12,6 +12,7 @@
     "string_view": "c",
     "initializer_list": "c",
     "utility": "c",
-    "utils.h": "c"
+    "utils.h": "c",
+    "registers.h": "c"
   }
 }

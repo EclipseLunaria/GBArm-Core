@@ -19,16 +19,19 @@ void test_set_get_flag(){
     CU_ASSERT_FALSE(CSPR_get_flag(N, &cspr))
 }
 
-
-//STARTUP FUNCTIONS
-
-int startup(void){
-    CSPR_state = 0;
-    return CUE_SUCCESS;
+void test_cpu_init(){
+    CPU cpu;
+    initCpu(&cpu);
+    // check system memory.
+    CU_ASSERT_PTR_NOT_NULL(cpu.registers.curRegSet)
+    CU_ASSERT_PTR_EQUAL(cpu.registers.curRegSet->pRegisters[0], &cpu.registers.registerData.registers[0])
+    
 }
 
+
+
 int add_cpu_tests(){
-    CU_pSuite suite = CU_add_suite("CPU Tests",startup,0);
+    CU_pSuite suite = CU_add_suite("CPU Tests",0,0);
 
     if (suite == NULL) return CU_get_error();
 
@@ -39,6 +42,11 @@ int add_cpu_tests(){
     }
 
     if (NULL == CU_add_test(suite, "test set and getting CSRP flag value", test_set_get_flag)) {
+        CU_cleanup_registry();
+        return CU_get_error();
+    }
+
+    if (NULL == CU_add_test(suite, "test init cpu", test_cpu_init)) {
         CU_cleanup_registry();
         return CU_get_error();
     }

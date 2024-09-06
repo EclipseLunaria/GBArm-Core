@@ -27,11 +27,5 @@ typedef struct CPSR {
 } CPSR;
 
 
-typedef struct CPU {
-    uint32_t registers[15];
-    uint32_t fiqRegisters[7];
-    uint32_t cspr;
-    CPSR * pCpsr;
-} CpuState;
 
 #endif

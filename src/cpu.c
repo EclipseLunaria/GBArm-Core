@@ -1,5 +1,11 @@
 #include "cpu.h"
-#include <stdio.h>
+
+
+int initCpu(CPU *cpu){
+    initCpuRegisters(&cpu->registers);
+
+    return 0;
+}
 
 /*
 -------------------------
@@ -10,25 +16,35 @@ CSPR LOGIC REGION START
 
 */
 
-uint32_t CSPR_state = 0;
 
 uint8_t CSPR_get_flag(const CPSRFLAGS f, uint32_t * pCspr){
     if (*pCspr&f) return 1;
     return 0;
 }
 void CSPR_set_flag(const CPSRFLAGS f, const uint8_t value, uint32_t * pCspr){
-    uint32_t mask;
     if (value) {
-        mask = f;
         *pCspr = *pCspr | f;
-        printf("\n\nCPSR STATE: %x, MASK: %x\n\n", CSPR_state, mask);
     }
     else {
-        mask = !f;
         *pCspr = *pCspr & !f;
-        printf("\n\nCPSR STATE: %x, MASK: %x\n\n", CSPR_state, mask);
     }
     
+}
+
+uint8_t evaluate_cond(uint8_t opcode, const uint32_t CPSR_state){
+    CPSR * cpsr = (CPSR *)&CPSR_state;
+    uint8_t evalStates = 
+         (cpsr->Z << 0) 
+        |(cpsr->C << 1)
+        |(cpsr->N << 2)
+        |(cpsr->V << 3)
+        |((cpsr->C && !cpsr->Z) << 4)
+        |((cpsr->N == cpsr->V) << 5)
+        |((!cpsr->Z && (cpsr->N==cpsr->V))<< 6)
+        |(cpsr->V << 7);
+    uint8_t v = (1 << (opcode/2)) &evalStates;
+
+    return opcode % 2 == 0 ? v : !v;
 }
 
 

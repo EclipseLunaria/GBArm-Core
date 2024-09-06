@@ -1,15 +1,18 @@
+#ifndef CPU_H
+#define CPU_H
+
 #include "types.h"
+#include "bus.h"
+#include "registers.h"
+#include <stdio.h>
 
 // Register Info: https://problemkaputt.de/gbatek-arm-cpu-register-set.htm
 
-typedef struct SystemRegisters {
-    
-    uint32_t r[13]; //General Purpose Registers
-    uint32_t stackPointer; // Stack Pointers
-    uint32_t linkRegister; //Link Register
-    uint32_t programCounter;
-    uint32_t CPSR; 
-} SystemRegisters;
+typedef struct CPU {
+    SystemMemoryMap ram;
+    CpuRegister registers;
+
+} CPU;
 
 typedef enum CPSRFLAGS {
     N = (1 << 31),          // Sign Flag      (0=Not Signed, 1=Signed)
@@ -22,7 +25,15 @@ typedef enum CPSRFLAGS {
     A = (1 << 8),           //Abort disable   (1=Disable Imprecise Data Aborts) (ARM11 only)
     I = (1 << 7),           //IRQ disable     (0=Enable, 1=Disable)
     F = (1 << 6),           //FIQ disable     (0=Enable, 1=Disable)
+    T = (1 << 5)            // The T Bit signalizes the current state of the CPU (0=ARM, 1=THUMB), this bit should never be changed manually - instead, changing between ARM and THUMB state must be done by BX instructions.
 } CPSRFLAGS;
-extern uint32_t CSPR_state;
+
+int initCpu(CPU *cpu);
+int clockCpu(CPU *cpu);
+
 uint8_t CSPR_get_flag(CPSRFLAGS f, uint32_t * pCspr);
 void CSPR_set_flag(CPSRFLAGS f, uint8_t value, uint32_t * pCspr);
+
+uint8_t evaluate_cond(uint8_t opcode, const uint32_t CPSR_state);
+
+#endif

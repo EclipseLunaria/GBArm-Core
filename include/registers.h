@@ -37,4 +37,5 @@ int setMode(uint8_t mode, CpuRegister * cpuReg);
 int readRegister(uint8_t regNum, CpuRegister * cpuReg, uint32_t *buf);
 int writeRegister(uint8_t regNum, uint32_t value, CpuRegister * cpuReg);
 
+
 #endif

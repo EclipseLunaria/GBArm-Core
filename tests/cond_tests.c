@@ -1,6 +1,6 @@
 #include <CUnit/CUnit.h>
 #include <CUnit/Basic.h>
-#include "cond.h"
+#include "cpu.h"
 
 void test_EQ_OPCODE(){
     uint32_t state = 0;
