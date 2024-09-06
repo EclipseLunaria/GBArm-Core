@@ -45,11 +45,19 @@ void test_fiq_save_bank_pointers() {
     CU_ASSERT_NOT_EQUAL(*reg.regSets[1].pRegisters[8], 10)
 }
 
+void test_current_register_initialize() {
+    CpuRegister reg;
+    initCpuRegisters(&reg);
+    CU_ASSERT_PTR_NOT_NULL(reg.curRegSet)
+    CU_ASSERT_PTR_EQUAL(&reg.regSets[0],reg.curRegSet)
+}
+
 void test_write_default_register() {
     CpuRegister reg;
     initCpuRegisters(&reg);
     writeRegister(2, 100, &reg);
-    CU_ASSERT_EQUAL(100, (reg.curRegSet))
+    CU_ASSERT_EQUAL(100, reg.registerData.registers[2])
+    CU_ASSERT_EQUAL(100, *reg.curRegSet->pRegisters[2])
 }
 
 void test_read_default_register() {
@@ -74,9 +82,9 @@ void test_write_read_default_register() {
 void test_current_reg_pointer_after_mode_set(){
     CpuRegister reg;
     initCpuRegisters(&reg);
-    RegisterSet * pStart = reg.curRegSet;
+    RegisterSet *pStart = &*reg.curRegSet;
     setMode(1, &reg);
-    CU_ASSERT_EQUAL(reg.curRegSet, pStart)
+    CU_ASSERT_PTR_NOT_EQUAL(reg.curRegSet, pStart)
 }
 
 void test_write_mode_set_then_read_on_banked_register(){
@@ -84,16 +92,12 @@ void test_write_mode_set_then_read_on_banked_register(){
     initCpuRegisters(&reg);
     uint32_t first;
     uint32_t second;
-    RegisterSet * startRegPointer = reg.curRegSet;  
     writeRegister(9, 5050, &reg);
     readRegister(9, &reg, &first);
-    dumpRegisterSet(*startRegPointer);
     CU_ASSERT_EQUAL(first, 5050)
     setMode(1, &reg);
-    dumpRegisterSet(*reg.curRegSet);
 
-
-    CU_ASSERT_EQUAL(second, first)
+    CU_ASSERT_NOT_EQUAL(second, first)
 
 }
 
@@ -130,60 +134,71 @@ int add_register_tests(){
         CU_cleanup_registry();
         return CU_get_error();
     }
-    // if (NULL == CU_add_test(suite, "test init PC pointer", test_register_init_pc_pointer)) {
-    //     CU_cleanup_registry();
-    //     return CU_get_error();
-    // }
+    if (NULL == CU_add_test(suite, "test init PC pointer", test_register_init_pc_pointer)) {
+        CU_cleanup_registry();
+        return CU_get_error();
+    }
 
-    // if (NULL == CU_add_test(suite, "test init register values", test_register_init_values)) {
-    //     CU_cleanup_registry();
-    //     return CU_get_error();
-    // }
+    if (NULL == CU_add_test(suite, "test init register values", test_register_init_values)) {
+        CU_cleanup_registry();
+        return CU_get_error();
+    }
 
-    // if (NULL == CU_add_test(suite, "test init user register pointers", test_user_register_pointers)) {
-    //     CU_cleanup_registry();
-    //     return CU_get_error();
-    // }
+    if (NULL == CU_add_test(suite, "test init user register pointers", test_user_register_pointers)) {
+        CU_cleanup_registry();
+        return CU_get_error();
+    }
 
-    // if (NULL == CU_add_test(suite, "test init fiq register pointers", test_fiq_pointer_register_init)) {
-    //     CU_cleanup_registry();
-    //     return CU_get_error();
-    // }
+    if (NULL == CU_add_test(suite, "test init fiq register pointers", test_fiq_pointer_register_init)) {
+        CU_cleanup_registry();
+        return CU_get_error();
+    }
 
-    // if (NULL == CU_add_test(suite, "test init fiq register bank values", test_fiq_save_bank_pointers)) {
-    //     CU_cleanup_registry();
-    //     return CU_get_error();
-    // }
+    if (NULL == CU_add_test(suite, "test init fiq register bank values", test_fiq_save_bank_pointers)) {
+        CU_cleanup_registry();
+        return CU_get_error();
+    }
 
-    // if (NULL == CU_add_test(suite, "test write normal register in default mode", test_write_default_register)) {
-    //     CU_cleanup_registry();
-    //     return CU_get_error();
-    // }
+    if (NULL == CU_add_test(suite, "test current register init", test_current_register_initialize)) {
+        CU_cleanup_registry();
+        return CU_get_error();
+    }
+
     
-    // if (NULL == CU_add_test(suite, "test read normal register in default mode", test_read_default_register)) {
-    //     CU_cleanup_registry();
-    //     return CU_get_error();
-    // }
+
+    if (NULL == CU_add_test(suite, "test write normal register in default mode", test_write_default_register)) {
+        CU_cleanup_registry();
+        return CU_get_error();
+    }
     
-    // if (NULL == CU_add_test(suite, "test write then read normal register in default mode", test_write_read_default_register)) {
-    //     CU_cleanup_registry();
-    //     return CU_get_error();
-    // }
+
     
-    // if (NULL == CU_add_test(suite, "test cur register pointer after mode switch", test_current_reg_pointer_after_mode_set)) {
-    //     CU_cleanup_registry();
-    //     return CU_get_error();
-    // }
+    if (NULL == CU_add_test(suite, "test write then read normal register in default mode", test_write_read_default_register)) {
+        CU_cleanup_registry();
+        return CU_get_error();
+    }
+
+
+
+    if (NULL == CU_add_test(suite, "test read normal register in default mode", test_read_default_register)) {
+        CU_cleanup_registry();
+        return CU_get_error();
+    }
     
-    // if (NULL == CU_add_test(suite, "test write-modeset read on banked register", test_write_mode_set_then_read_on_banked_register)) {
-    //     CU_cleanup_registry();
-    //     return CU_get_error();
-    // }
+    if (NULL == CU_add_test(suite, "test cur register pointer after mode switch", test_current_reg_pointer_after_mode_set)) {
+        CU_cleanup_registry();
+        return CU_get_error();
+    }
     
-    // if (NULL == CU_add_test(suite, "test  fiq register bank pointer initialized", test_fiq_register_bank_pointer_initialized)) {
-    //     CU_cleanup_registry();
-    //     return CU_get_error();
-    // }
+    if (NULL == CU_add_test(suite, "test write-modeset read on banked register", test_write_mode_set_then_read_on_banked_register)) {
+        CU_cleanup_registry();
+        return CU_get_error();
+    }
+    
+    if (NULL == CU_add_test(suite, "test  fiq register bank pointer initialized", test_fiq_register_bank_pointer_initialized)) {
+        CU_cleanup_registry();
+        return CU_get_error();
+    }
 
     
    
