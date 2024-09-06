@@ -13,6 +13,8 @@
     "initializer_list": "c",
     "utility": "c",
     "utils.h": "c",
-    "registers.h": "c"
+    "registers.h": "c",
+    "cpu.h": "c",
+    "string.h": "c"
   }
 }

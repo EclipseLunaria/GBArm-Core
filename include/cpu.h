@@ -2,17 +2,13 @@
 #define CPU_H
 
 #include "types.h"
+#include "core.h"
+
 #include "bus.h"
 #include "registers.h"
 #include <stdio.h>
 
-// Register Info: https://problemkaputt.de/gbatek-arm-cpu-register-set.htm
 
-typedef struct CPU {
-    SystemMemoryMap ram;
-    CpuRegister registers;
-
-} CPU;
 
 typedef enum CPSRFLAGS {
     N = (1 << 31),          // Sign Flag      (0=Not Signed, 1=Signed)
@@ -29,7 +25,6 @@ typedef enum CPSRFLAGS {
 } CPSRFLAGS;
 
 int initCpu(CPU *cpu);
-int clockCpu(CPU *cpu);
 
 uint8_t CSPR_get_flag(CPSRFLAGS f, uint32_t * pCspr);
 void CSPR_set_flag(CPSRFLAGS f, uint8_t value, uint32_t * pCspr);
