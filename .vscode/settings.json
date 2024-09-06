@@ -5,6 +5,13 @@
     "stdio.h": "c",
     "basic.h": "c",
     "cunit.h": "c",
-    "stdint.h": "c"
+    "stdint.h": "c",
+    "types.h": "c",
+    "cstdint": "cpp",
+    "array": "c",
+    "string_view": "c",
+    "initializer_list": "c",
+    "utility": "c",
+    "utils.h": "c"
   }
 }

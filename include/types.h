@@ -2,7 +2,7 @@
 #define TYPES_H
 
 #include <stdint.h>
-
+#include <string.h>
 typedef uint8_t byte_t;
 typedef uint16_t half_word_t;
 typedef uint32_t word_t;
@@ -26,9 +26,10 @@ typedef struct CPSR {
     mode_bits:5;  //Mode Bits   
 } CPSR;
 
+
 typedef struct CPU {
     uint32_t registers[15];
-
+    uint32_t fiqRegisters[7];
     uint32_t cspr;
     CPSR * pCpsr;
 } CpuState;
