@@ -17,6 +17,7 @@ int initCpuRegisters(CpuRegister * cpuRegister){
     memset(cpuRegister, 0, sizeof(*cpuRegister));
     // set program counter
     cpuRegister->PC = &cpuRegister->registerData.registers[15];
+    cpuRegister->LR = &cpuRegister->registerData.registers[14];
     for(uint8_t i = 0; i < 6; ++i) cpuRegister->regSets[i].pRegisters[15] = &cpuRegister->registerData.registers[15];
     
     for(uint8_t i = 0; i < 6; ++i) {

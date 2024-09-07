@@ -42,6 +42,7 @@ typedef struct CpuRegister {
     RegisterSet * curRegSet;
     uint8_t currentMode;
     uint32_t * PC;
+    uint32_t * LR;
     uint32_t cpsr;
 
 } CpuRegister;

@@ -123,12 +123,17 @@ void test_register_value_init(){
     }
 }
 
+void test_register_init_pc_and_lr(){
+    CpuRegister reg;
+    initCpuRegisters(&reg);
+    CU_ASSERT_EQUAL(*reg.LR, reg.registerData.registers[14])
+    CU_ASSERT_EQUAL(*reg.PC, reg.registerData.registers[15])
+}
+
 int add_register_tests(){
     CU_pSuite suite = CU_add_suite("Register Tests",0,0);
 
     if (suite == NULL) return CU_get_error();
-
-
 
     if (NULL == CU_add_test(suite, "test init register values", test_register_value_init)) {
         CU_cleanup_registry();
@@ -196,6 +201,11 @@ int add_register_tests(){
     }
     
     if (NULL == CU_add_test(suite, "test  fiq register bank pointer initialized", test_fiq_register_bank_pointer_initialized)) {
+        CU_cleanup_registry();
+        return CU_get_error();
+    }
+    
+    if (NULL == CU_add_test(suite, "test register init pc and lr", test_register_init_pc_and_lr)) {
         CU_cleanup_registry();
         return CU_get_error();
     }
