@@ -5,7 +5,7 @@ uint32_t ALU_AND(uint32_t op1, uint32_t op2, CPU* cpu){
 }
 
 uint32_t ALU_EOR(uint32_t op1, uint32_t op2, CPU* cpu){
-    return op1 & op2;
+    return op1 ^ op2;
 }
 
 uint32_t ALU_SUB(uint32_t op1, uint32_t op2, CPU* cpu){
@@ -49,19 +49,19 @@ uint32_t ALU_CMN(uint32_t op1, uint32_t op2, CPU* cpu){
 }
 
 uint32_t ALU_ORR(uint32_t op1, uint32_t op2, CPU* cpu){
-    return op1 & op2;
+    return op1 | op2;
 }
 
 uint32_t ALU_MOV(uint32_t op1, uint32_t op2, CPU* cpu){
-    return op1 & op2;
+    return op2;
 }
 
 uint32_t ALU_BIC(uint32_t op1, uint32_t op2, CPU* cpu){
-    return op1 & op2;
+    return op1 & !op2;
 }
 
 uint32_t ALU_MVN(uint32_t op1, uint32_t op2, CPU* cpu){
-    return op1 & op2;
+    return !op2;
 }
 
 
@@ -94,7 +94,7 @@ int evaluateRegOperand(uint16_t regOpcode, CPU *cpu, uint32_t *value){
     uint32_t rValue;
     readRegister(rm, &(cpu->registers), &rValue);
     if(shift){
-
+        //TODO implement shift logic
     }
     printf("VALUE: %x",rm);
     *value = rValue;

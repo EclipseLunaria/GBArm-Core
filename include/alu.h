@@ -22,6 +22,7 @@ typedef struct RegisterOpperand {
 } RegisterOpperand;
 
 
+extern uint32_t (*aluOp[16])(uint32_t, uint32_t, CPU*);
 uint32_t ALU_AND(uint32_t op1, uint32_t op2, CPU* cpu);
 uint32_t ALU_EOR(uint32_t op1, uint32_t op2, CPU* cpu);
 uint32_t ALU_SUB(uint32_t op1, uint32_t op2, CPU* cpu);
@@ -42,9 +43,6 @@ uint32_t ALU_MVN(uint32_t op1, uint32_t op2, CPU* cpu);
 
 
 // ALU OPERATIONS
-
-
-extern uint32_t (*aluOp[16])(uint32_t, uint32_t, CPU*);
 
 int ALUExecute(uint32_t instruction, CPU *cpu);
 
