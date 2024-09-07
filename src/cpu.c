@@ -1,13 +1,20 @@
 #include "cpu.h"
-
+#include "core.h"
 
 int initCpu(CPU *cpu){
+    memset(cpu, 0, sizeof(CPU));
     initCpuRegisters(&cpu->registers);
-
+    
     return 0;
 }
 
-int clock(CPU *cpu){
+int fetchInstruction(CPU * cpu) {
+    readWord(*cpu->registers.PC,&cpu->loadedInstruction);
+    *cpu->registers.PC += 4;
+    return 0;
+}
+
+int clockCpu(CPU *cpu){
     cpu->clockCycle += 1;
 
     // if no sleep cycles -> wait
@@ -15,6 +22,8 @@ int clock(CPU *cpu){
         --cpu->sleepCycles;
         return 0;
     }
+
+    fetchInstruction(cpu);
 
     // load instruction to cpu
     

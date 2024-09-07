@@ -1,8 +1,8 @@
 #ifndef CPU_H
 #define CPU_H
 
-#include "types.h"
 #include "core.h"
+#include "types.h"
 
 #include "bus.h"
 #include "registers.h"
@@ -25,7 +25,7 @@ typedef enum CPSRFLAGS {
 } CPSRFLAGS;
 
 int initCpu(CPU *cpu);
-int clock(CPU *cpu);
+int clockCpu(CPU *cpu);
 
 
 uint8_t CSPR_get_flag(CPSRFLAGS f, uint32_t * pCspr);

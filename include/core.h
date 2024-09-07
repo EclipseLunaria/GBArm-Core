@@ -1,5 +1,6 @@
 #ifndef CORE_H
 #define CORE_H
+
 #include "types.h"
 #define AVAILABLE_REGISTERS 16
 
@@ -49,9 +50,9 @@ typedef struct CpuRegister {
 typedef struct CPU {
     SystemMemoryMap ram;
     CpuRegister registers;
+    uint32_t loadedInstruction;
     uint64_t clockCycle;
-    uint8_t sleepCycles;
-    Instruction loadedInstruction;
+    uint16_t sleepCycles;
 } CPU;
 
 #endif
