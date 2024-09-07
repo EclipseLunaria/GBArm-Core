@@ -25,6 +25,7 @@ void test_cpu_init(){
     // check system memory.
     CU_ASSERT_PTR_NOT_NULL(cpu.registers.curRegSet)
     CU_ASSERT_PTR_EQUAL(cpu.registers.curRegSet->pRegisters[0], &cpu.registers.registerData.registers[0])
+    CU_ASSERT_EQUAL(cpu.clockCycle, 0)
     
 }
 
