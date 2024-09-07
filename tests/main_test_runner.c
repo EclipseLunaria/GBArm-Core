@@ -4,6 +4,7 @@ extern int add_bus_tests();
 extern int add_cpu_tests();
 extern int add_cond_tests();
 extern int add_register_tests();
+extern int add_instruction_tests();
 
 int main() {
     if (CUE_SUCCESS != CU_initialize_registry()){
