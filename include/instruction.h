@@ -15,4 +15,7 @@ typedef struct BranchInstruction
 
 int B(CPU * cpu);
 int BL(CPU * cpu);
+
+
+
 #endif

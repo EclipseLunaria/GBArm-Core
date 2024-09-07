@@ -55,6 +55,8 @@ void CSPR_set_flag(const CPSRFLAGS f, const uint8_t value, uint32_t * pCspr){
 }
 
 uint8_t evaluate_cond(uint8_t opcode, const uint32_t CPSR_state){
+    printf("OPCODE: %x", opcode);
+    if (opcode == 0xE) return 1;
     CPSR * cpsr = (CPSR *)&CPSR_state;
     uint8_t evalStates = 
          (cpsr->Z << 0) 

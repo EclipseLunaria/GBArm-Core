@@ -15,7 +15,8 @@ int main() {
     add_cpu_tests();
     add_cond_tests();
     add_register_tests();
-
+    add_instruction_tests();
+    
     CU_basic_set_mode(CU_BRM_VERBOSE);
     CU_basic_run_tests();
 

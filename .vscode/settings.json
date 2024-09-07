@@ -15,6 +15,8 @@
     "utils.h": "c",
     "registers.h": "c",
     "cpu.h": "c",
-    "string.h": "c"
+    "string.h": "c",
+    "instruction.h": "c",
+    "core.h": "c"
   }
 }
