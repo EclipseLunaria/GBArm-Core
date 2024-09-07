@@ -33,30 +33,6 @@ void test_double_branch_and_load(){
 
 }
 
-void test_alu_decode(){
-    uint32_t jump1 = 0xE1A020A0;
-    ALUInstruction aluInstruction;
-    decodeALUInstruction(jump1, &aluInstruction);
-    printf("ALU INSTRUCTION(cond:%x, IFlag:%x, Opcode:%x, setCodes:%x, rn:%x, rd:%x):", aluInstruction.cond, aluInstruction.IFlag, aluInstruction.opcode, aluInstruction.setCodes,aluInstruction.rn, aluInstruction.rd);
-
-    CU_ASSERT_EQUAL(aluInstruction.cond, 0xE)
-    CU_ASSERT_EQUAL(aluInstruction.rd, 0x2)
-    CU_ASSERT_EQUAL(aluInstruction.rn, 0x0)
-    CU_ASSERT_EQUAL(aluInstruction.setCodes, 0x0)
-}
-
-void test_register_and_operand(){
-    uint32_t jump1 = 0xE1A020A0;
-    ALUInstruction aluInstruction;
-    decodeALUInstruction(jump1, &aluInstruction);
-    printf("ALU INSTRUCTION(cond:%x, IFlag:%x, Opcode:%x, setCodes:%x, rn:%x, rd:%x):", aluInstruction.cond, aluInstruction.IFlag, aluInstruction.opcode, aluInstruction.setCodes,aluInstruction.rn, aluInstruction.rd);
-
-    CU_ASSERT_EQUAL(aluInstruction.cond, 0xE)
-    CU_ASSERT_EQUAL(aluInstruction.rd, 0x2)
-    CU_ASSERT_EQUAL(aluInstruction.rn, 0x0)
-    CU_ASSERT_EQUAL(aluInstruction.setCodes, 0x0)
-}
-
 void test_eval_register_operand_no_shift(){
     CPU cpu;
     initCpu(&cpu);
@@ -85,11 +61,6 @@ int add_instruction_tests(){
         return CU_get_error();
     }
 
-    if (NULL == CU_add_test(suite, "test alu decode", test_alu_decode)) {
-        CU_cleanup_registry();
-        return CU_get_error();
-    }
-    
 
     if (NULL == CU_add_test(suite, "test eval register operand no shift", test_eval_register_operand_no_shift)) {
         CU_cleanup_registry();

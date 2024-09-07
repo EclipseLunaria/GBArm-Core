@@ -46,9 +46,6 @@ uint32_t ALU_MVN(uint32_t op1, uint32_t op2, CPU* cpu);
 
 extern uint32_t (*aluOp[16])(uint32_t, uint32_t, CPU*);
 
-int decodeALUInstruction(uint32_t instruction, ALUInstruction * aluInstruction);
-
-
 int ALUExecute(uint32_t instruction, CPU *cpu);
 
 #endif

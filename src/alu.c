@@ -86,25 +86,8 @@ uint32_t (*aluOp[16])(uint32_t, uint32_t, CPU*) = {
 };
 
 
-int decodeALUInstruction(uint32_t instruction, ALUInstruction * aluInstruction) {
-    uint8_t cond = (instruction >> 28) & 0xF;
-    uint8_t IFlag = (instruction >> 25) & 0x1;
-    uint8_t opcode = (instruction >> 21) & 0xF;
-    uint8_t setCodes = (instruction >> 20) & 0x1;
-    uint8_t rn = (instruction >> 16) & 0xF;
-    uint8_t rd = (instruction >> 12) & 0xF;
-    uint16_t op2 = instruction & 0xFFF;
-    aluInstruction->cond = cond;
-    aluInstruction->IFlag = IFlag;
-    aluInstruction->opcode = opcode;
-    aluInstruction->setCodes = setCodes;
-    aluInstruction->rn = rn;
-    aluInstruction->rd = rd;
-    aluInstruction->op2 = op2;
-    return 0;
-}
-
 int evaluateRegOperand(uint16_t regOpcode, CPU *cpu, uint32_t *value){
+    
     uint8_t rm = regOpcode & 0xF;
     uint8_t shift = (regOpcode >> 4) & 0xFF;
     // uint8_t aluOpCode = (cpu->loadedInstruction >> 21) & 0xFF;
@@ -120,15 +103,20 @@ int evaluateRegOperand(uint16_t regOpcode, CPU *cpu, uint32_t *value){
 
 
 int ALUExecute(uint32_t instruction, CPU *cpu) {
-    ALUInstruction instruct;
-    decodeALUInstruction(instruction, &instruct);
+    uint8_t rn = (instruction >> 16) & 0xF;
+    uint8_t rd = (instruction >> 12) & 0xF;
+    uint8_t opcode = (instruction >> 21) & 0xF;
     uint32_t op2;
 
-    if (!instruct.IFlag){
-        //register operand
-        evaluateRegOperand((instruction & 0xFFF), cpu,&op2);
+    // if Immediate flag set
+    if ((instruction >> 25) & 0x1){
     }
+    else {
+        //register operand
+        evaluateRegOperand((instruction & 0xFFF), cpu, &op2);
 
-    // uint32_t regOut = aluOp[instruct.opcode](instruct.rn, op2, cpu);
+    }
+    uint32_t regOut = aluOp[opcode](rn, op2, cpu);
+    writeRegister(rd, regOut, &cpu->registers);
     return 0;
 }
