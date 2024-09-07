@@ -25,6 +25,8 @@ typedef enum CPSRFLAGS {
 } CPSRFLAGS;
 
 int initCpu(CPU *cpu);
+int clock(CPU *cpu);
+
 
 uint8_t CSPR_get_flag(CPSRFLAGS f, uint32_t * pCspr);
 void CSPR_set_flag(CPSRFLAGS f, uint8_t value, uint32_t * pCspr);

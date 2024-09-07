@@ -7,6 +7,20 @@ int initCpu(CPU *cpu){
     return 0;
 }
 
+int clock(CPU *cpu){
+    cpu->clockCycle += 1;
+
+    // if no sleep cycles -> wait
+    if (cpu->sleepCycles){
+        --cpu->sleepCycles;
+        return 0;
+    }
+
+    // load instruction to cpu
+    
+    return 0;
+}
+
 /*
 -------------------------
 
