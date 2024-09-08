@@ -28,6 +28,7 @@ void test_and_op_no_shift_large_number(){
 }
 
 
+
 int add_alu_tests(){
     CU_pSuite suite = CU_add_suite("ALU Tests",0,0);
 

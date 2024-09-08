@@ -4,7 +4,7 @@
 int initCpu(CPU *cpu){
     memset(cpu, 0, sizeof(CPU));
     initCpuRegisters(&cpu->registers);
-    
+    cpu->CPSR = (CPSR *)&cpu->registers.cpsr;
     return 0;
 }
 

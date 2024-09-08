@@ -3,24 +3,6 @@
 #include "core.h"
 #include "cpu.h"
 
-typedef struct ALUInstruction {
-    uint8_t cond;
-    uint8_t IFlag;
-    uint8_t opcode;
-    uint8_t setCodes;
-    uint8_t rn;
-    uint8_t rd;
-    uint16_t op2;
-} ALUInstruction;
-
-
-typedef struct RegisterOpperand {
-    uint16_t 
-    padding:4,
-    shift: 8,
-    rm:4;
-} RegisterOpperand;
-
 
 extern uint32_t (*aluOp[16])(uint32_t, uint32_t, CPU*);
 uint32_t ALU_AND(uint32_t op1, uint32_t op2, CPU* cpu);

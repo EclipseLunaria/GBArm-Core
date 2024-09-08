@@ -9,19 +9,20 @@ uint32_t ALU_EOR(uint32_t op1, uint32_t op2, CPU* cpu){
 }
 
 uint32_t ALU_SUB(uint32_t op1, uint32_t op2, CPU* cpu){
-    return op1 & op2;
+    if (op1 < op2) cpu->CPSR->N = 1;
+    return op1 - op2;
 }
 
 uint32_t ALU_RSB(uint32_t op1, uint32_t op2, CPU* cpu){
-    return op1 & op2;
+    return op2 - op1;
 }
 
 uint32_t ALU_ADD(uint32_t op1, uint32_t op2, CPU* cpu){
-    return op1 & op2;
+    return op1 + op2;
 }
 
 uint32_t ALU_ADC(uint32_t op1, uint32_t op2, CPU* cpu){
-    return op1 & op2;
+    return op1 + op2 + cpu->CPSR->C;
 }
 
 uint32_t ALU_SBC(uint32_t op1, uint32_t op2, CPU* cpu){
@@ -117,6 +118,9 @@ int ALUExecute(uint32_t instruction, CPU *cpu) {
 
     }
     uint32_t regOut = aluOp[opcode](rn, op2, cpu);
-    writeRegister(rd, regOut, &cpu->registers);
+    if ((opcode >> 2)!=0x3){
+        writeRegister(rd, regOut, &cpu->registers);
+    }
+
     return 0;
 }
