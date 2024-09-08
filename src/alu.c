@@ -65,8 +65,6 @@ uint32_t ALU_MVN(uint32_t op1, uint32_t op2, CPU* cpu){
     return !op2;
 }
 
-
-
 uint32_t (*aluOp[16])(uint32_t, uint32_t, CPU*) = {
     ALU_AND,
     ALU_EOR,
@@ -86,16 +84,42 @@ uint32_t (*aluOp[16])(uint32_t, uint32_t, CPU*) = {
     ALU_MVN
 };
 
+uint32_t ALU_LSL(uint32_t value, uint8_t shitAmt, CPU* cpu){
 
-int evaluateRegOperand(uint16_t regOpcode, CPU *cpu, uint32_t *value){
+}
+uint32_t ALU_LSR(uint32_t value, uint8_t shitAmt, CPU* cpu){
+
+}
+uint32_t ALU_ASR(uint32_t value, uint8_t shitAmt, CPU* cpu){
+
+}
+uint32_t ALU_ROR(uint32_t value, uint8_t shitAmt, CPU* cpu){
+
+}
+
+uint32_t (*shiftOp[4])(uint32_t, uint8_t, CPU*) = {
+    ALU_LSL,
+    ALU_LSR,
+    ALU_ASR,
+    ALU_ROR
+};
+
+int evaluateRegOperand(uint16_t operandData, CPU *cpu, uint32_t *value){
     
-    uint8_t rm = regOpcode & 0xF;
-    uint8_t shift = (regOpcode >> 4) & 0xFF;
-    // uint8_t aluOpCode = (cpu->loadedInstruction >> 21) & 0xFF;
+    uint8_t rm = operandData & 0xF;
+    uint8_t shift = (operandData >> 4) & 0xFF;
     uint32_t rValue;
     readRegister(rm, &(cpu->registers), &rValue);
+
     if(shift){
-        //TODO implement shift logic
+        uint8_t shiftType = (shift >> 1) & 0b11;
+        // if register shift
+        if (shift & 1){
+            uint32_t rs; // shift register 
+            readRegister(shift >> 4, &cpu->registers, rs);
+            rs &= 0xFF; // take lower byte
+            rValue = shiftOp[shiftType](rm, rs, cpu);
+        }
     }
     printf("VALUE: %x",rm);
     *value = rValue;

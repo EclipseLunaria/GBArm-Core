@@ -22,6 +22,12 @@ uint32_t ALU_MOV(uint32_t op1, uint32_t op2, CPU* cpu);
 uint32_t ALU_BIC(uint32_t op1, uint32_t op2, CPU* cpu);
 uint32_t ALU_MVN(uint32_t op1, uint32_t op2, CPU* cpu);
 
+// Shift Operations
+extern uint32_t (*shiftOp[4])(uint32_t, uint8_t, CPU*);
+uint32_t ALU_LSL(uint32_t value, uint8_t shitAmt, CPU* cpu);
+uint32_t ALU_LSR(uint32_t value, uint8_t shitAmt, CPU* cpu);
+uint32_t ALU_ASR(uint32_t value, uint8_t shitAmt, CPU* cpu);
+uint32_t ALU_ROR(uint32_t value, uint8_t shitAmt, CPU* cpu);
 
 
 // ALU OPERATIONS
