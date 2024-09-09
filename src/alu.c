@@ -86,12 +86,7 @@ uint32_t (*aluOp[16])(uint32_t, uint32_t, CPU*) = {
     ALU_MVN
 };
 
-uint32_t ALU_LSL(uint32_t value, uint8_t shiftAmt, CPU* cpu){
-    value <<= shiftAmt;
-    //set flags.
-    return value;
 
-}
 uint32_t ALU_LSR(uint32_t value, uint8_t shiftAmt, CPU* cpu){
     value >>= shiftAmt;
     return value;
@@ -119,7 +114,7 @@ uint32_t ALU_ROR(uint32_t value, uint8_t shiftAmt, CPU* cpu){
 }
 
 uint32_t (*shiftOp[4])(uint32_t, uint8_t, CPU*) = {
-    ALU_LSL,
+    // ALU_LSL,
     ALU_LSR,
     ALU_ASR,
     ALU_ROR
@@ -137,7 +132,7 @@ int evaluateRegOperand(uint16_t operandData, CPU *cpu, uint32_t *value){
         // if register shift
         if (shift & 1){
             uint32_t rs; // shift register 
-            readRegister(shift >> 4, &cpu->registers, rs);
+            readRegister(shift >> 4, &cpu->registers, &rs);
             rs &= 0xFF; // take lower byte
             rValue = shiftOp[shiftType](rm, rs, cpu);
         }

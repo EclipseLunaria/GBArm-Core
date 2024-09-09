@@ -5,7 +5,7 @@ extern int add_cpu_tests();
 extern int add_cond_tests();
 extern int add_register_tests();
 extern int add_instruction_tests();
-
+extern int add_barrel_shifter_tests();
 int main() {
     if (CUE_SUCCESS != CU_initialize_registry()){
         return CU_get_error();
@@ -16,6 +16,7 @@ int main() {
     add_cond_tests();
     add_register_tests();
     add_instruction_tests();
+    add_barrel_shifter_tests();
     
     CU_basic_set_mode(CU_BRM_VERBOSE);
     CU_basic_run_tests();
