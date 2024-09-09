@@ -87,27 +87,6 @@ uint32_t (*aluOp[16])(uint32_t, uint32_t, CPU*) = {
 };
 
 
-uint32_t ALU_LSR(uint32_t value, uint8_t shiftAmt, CPU* cpu){
-    value >>= shiftAmt;
-    return value;
-}
-uint32_t ALU_ASR(uint32_t value, uint8_t shiftAmt, CPU* cpu){
-    uint32_t msb = value & 0x80000000;
-    // Perform the shift
-    if (shiftAmt >= 32) {
-        // If the shift amount is greater than or equal to 32, return all 1s or 0s depending on the MSB
-        return (msb ? 0xFFFFFFFF : 0);
-    }
-    value >>= shiftAmt;
-
-    if (msb) {
-        uint32_t mask = (1 << (32-shiftAmt)) - 1;
-        value |= ~mask;
-    }
-
-    return value;
-    
-}
 uint32_t ALU_ROR(uint32_t value, uint8_t shiftAmt, CPU* cpu){
     shiftAmt %= 32;
     return (value >> shiftAmt) | (value << (32 - shiftAmt));
@@ -115,9 +94,6 @@ uint32_t ALU_ROR(uint32_t value, uint8_t shiftAmt, CPU* cpu){
 
 uint32_t (*shiftOp[4])(uint32_t, uint8_t, CPU*) = {
     // ALU_LSL,
-    ALU_LSR,
-    ALU_ASR,
-    ALU_ROR
 };
 
 int evaluateRegOperand(uint16_t operandData, CPU *cpu, uint32_t *value){

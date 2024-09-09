@@ -15,5 +15,8 @@ typedef struct BS_FLAGS {
 
 
 int BS_LSL(uint32_t value, uint8_t shiftAmt, BS_FLAGS* flags, uint32_t *result);
+int BS_LSR(uint32_t value, uint8_t shiftAmt, BS_FLAGS* flags, uint32_t *result);
+int BS_ASR(uint32_t value, uint8_t shiftAmt, BS_FLAGS* flags, uint32_t *result);
+int BS_ROR(uint32_t value, uint8_t shiftAmt, BS_FLAGS* flags, uint32_t *result);
 
 #endif
