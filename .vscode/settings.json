@@ -17,6 +17,8 @@
     "cpu.h": "c",
     "string.h": "c",
     "instruction.h": "c",
-    "core.h": "c"
+    "core.h": "c",
+    "barrel_shifter.h": "c",
+    "type_traits": "c"
   }
 }

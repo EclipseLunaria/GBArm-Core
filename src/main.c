@@ -17,7 +17,6 @@ int main(){
 
     Instruction i;
     i.execute = &execInstruction;
-
     i.execute(&cpu);
 
 

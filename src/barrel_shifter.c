@@ -1,5 +1,11 @@
 #include "barrel_shifter.h"
 
+int (*shiftOp[4])(uint32_t, uint8_t, BS_FLAGS*, uint32_t*) = {
+    BS_LSL,
+    BS_LSR,
+    BS_ASR,
+    BS_ROR
+};
 
 int BS_LSL(uint32_t value, uint8_t shiftAmt, BS_FLAGS* flags, uint32_t *result){
     if (shiftAmt == 0){

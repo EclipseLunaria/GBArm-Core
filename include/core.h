@@ -23,6 +23,17 @@ typedef struct CPSR {
     mode_bits:5;  //Mode Bits   
 } CPSR;
 
+typedef struct BS_FLAGS {
+    uint8_t
+    unused:3,
+    IsArithmetic:1,
+    Z:1,
+    N:1,
+    C:1,
+    V:1;
+
+} BS_FLAGS;
+
 
 typedef struct SystemMemoryMap {
    byte_t bios[16*KB];

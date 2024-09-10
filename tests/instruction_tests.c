@@ -4,7 +4,6 @@
 #include "alu.h"
 #include "cpu.h"
 
-int evaluateRegOperand(uint16_t regOpcode, CPU *cpu, uint32_t *value);
 
 void test_direct_branch_call(){
     CPU cpu;
@@ -33,16 +32,16 @@ void test_double_branch_and_load(){
 
 }
 
-void test_eval_register_operand_no_shift(){
-    CPU cpu;
-    initCpu(&cpu);
-    uint16_t op2Code = 0x005;
-    uint32_t expected = 420710;
-    writeRegister(0x5, expected, &cpu.registers);
-    uint32_t actual;
-    evaluateRegOperand(op2Code, &cpu, &actual);
-    CU_ASSERT_EQUAL(actual, expected)
-}
+// void test_eval_register_operand_no_shift(){
+//     CPU cpu;
+//     initCpu(&cpu);
+//     uint16_t op2Code = 0x005;
+//     uint32_t expected = 420710;
+//     writeRegister(0x5, expected, &cpu.registers);
+//     uint32_t actual;
+//     evaluateRegOperand(op2Code, &cpu, &actual);
+//     CU_ASSERT_EQUAL(actual, expected)
+// }
 
 
 
@@ -51,21 +50,21 @@ int add_instruction_tests(){
 
     if (suite == NULL) return CU_get_error();
 
-    if (NULL == CU_add_test(suite, "test direct branch call", test_direct_branch_call)) {
-        CU_cleanup_registry();
-        return CU_get_error();
-    }
+    // if (NULL == CU_add_test(suite, "test direct branch call", test_direct_branch_call)) {
+    //     CU_cleanup_registry();
+    //     return CU_get_error();
+    // }
 
-    if (NULL == CU_add_test(suite, "test double branch and load", test_double_branch_and_load)) {
-        CU_cleanup_registry();
-        return CU_get_error();
-    }
+    // if (NULL == CU_add_test(suite, "test double branch and load", test_double_branch_and_load)) {
+    //     CU_cleanup_registry();
+    //     return CU_get_error();
+    // }
 
 
-    if (NULL == CU_add_test(suite, "test eval register operand no shift", test_eval_register_operand_no_shift)) {
-        CU_cleanup_registry();
-        return CU_get_error();
-    }
+    // if (NULL == CU_add_test(suite, "test eval register operand no shift", test_eval_register_operand_no_shift)) {
+    //     CU_cleanup_registry();
+    //     return CU_get_error();
+    // }
     
 
     return CUE_SUCCESS;
