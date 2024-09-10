@@ -23,10 +23,9 @@ int clockCpu(CPU *cpu){
         return 0;
     }
 
+    // load instruction to cpu
     fetchInstruction(cpu);
 
-    // load instruction to cpu
-    
     return 0;
 }
 

@@ -181,20 +181,46 @@ uint32_t ALU_ROR(uint32_t value, uint8_t shiftAmt, CPU* cpu){
     return (value >> shiftAmt) | (value << (32 - shiftAmt));
 }
 
+int evalRegisterOperand(uint32_t operandBits, BS_FLAGS *flags, CPU *cpu, uint32_t *result){
+    uint32_t shiftAmt;
+    uint32_t rm = operandBits & 0xF;
+    uint32_t rmValue;
+    
+    uint8_t isRegShift = (operandBits >> 4 & 1);
+    uint8_t rs = (operandBits >> 8) & 0xF;
+    
+    readRegister(rm, &cpu->registers, &rmValue);
 
+    if (rm == 15) {
+        *result = rmValue + 8;
+        return 0;
+    }
+
+    if (isRegShift){
+        //Shift by register at bit 8-11
+        readRegister(rs, &cpu->registers, &shiftAmt);
+        shiftAmt &= 0xFF;
+        if (rs == 15) shiftAmt += 12;
+        if (!shiftAmt) flags->C = cpu->CPSR->C;
+
+    }
+    else {
+        //immediate values
+        uint32_t immediateShift = (operandBits >> 7) & 0x1F;
+        shiftAmt = immediateShift; 
+    }
+    
+    shiftOp[(operandBits >> 5) & 0b11](rmValue, shiftAmt, flags, result);
+    return 0;
+}
 
 // REFERENCE (4-12): https://iitd-plos.github.io/col718/ref/arm-instructionset.pdf
 int ALUExecute(uint32_t instruction, CPU *cpu) {
     BS_FLAGS flags;
-    uint8_t rn = (instruction >> 16) & 0xF;
-    uint8_t rd = (instruction >> 12) & 0xF;
-    uint8_t opcode = (instruction >> 21) & 0xF;
-    uint8_t writableOperation = (opcode >> 2) != 0x3;
+    
+    // handle evaluating op2
     uint32_t op2;
     uint8_t I = (instruction >> 25) & 1;
-    uint8_t S = (instruction >> 20) & 1;
-    
-    // evaluate op2
     if (I){
         // if immediate flag set
         uint8_t rotate = instruction >> 8 & 0xF;
@@ -202,34 +228,30 @@ int ALUExecute(uint32_t instruction, CPU *cpu) {
         BS_ROR(imm, 2*rotate, &flags, &op2);
     }
     else {
-        uint32_t shiftAmt;
-        uint32_t rm;
-        readRegister(instruction & 0xF, &cpu->registers, &rm);
-        if ((instruction >> 4 & 1)){
-            //Shift by register at bit 8-11
-            readRegister((instruction >> 8) & 0xF, &cpu->registers, &shiftAmt);
-            shiftAmt &= 0xF;
-        }
-        else {
-            shiftAmt = (instruction >> 7) & 0x1F; 
-        }
-        shiftOp[(instruction >> 5) & 0b11](rm, shiftAmt, &flags, &op2);
+        evalRegisterOperand(instruction & 0xFFF, &flags, &cpu->registers, &op2);
     }
-    //evaluate expression
+
+    //evaluate value for output.
     uint32_t regOut;
+    uint8_t opcode = (instruction >> 21) & 0xF;
+    // operation register numbers
+    uint8_t rn = (instruction >> 16) & 0xF;
+    uint8_t rd = (instruction >> 12) & 0xF;    
     aluOp[opcode](rn, op2,&flags,&regOut);
     
+    uint8_t writableOperation = (opcode >> 2) != 0x3;
     if (writableOperation){
-        // valid write operation
         writeRegister(rd, regOut, &cpu->registers);
     }
 
+    // handle writing flags to register
+    uint8_t S = (instruction >> 20) & 1;
     if (S) {
         cpu->CPSR->C = flags.C;
         cpu->CPSR->N = flags.N;
         cpu->CPSR->Z = flags.Z;
         if (flags.IsArithmetic) cpu->CPSR->V = flags.V;
-
+        if (rd == 15) setMode(0, &cpu->registers);
     }
 
     return 0;

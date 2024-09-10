@@ -24,7 +24,7 @@ int ALU_MOV(uint32_t op1, uint32_t op2, BS_FLAGS* flags, uint32_t *result);
 int ALU_BIC(uint32_t op1, uint32_t op2, BS_FLAGS* flags, uint32_t *result);
 int ALU_MVN(uint32_t op1, uint32_t op2, BS_FLAGS* flags, uint32_t *result);
 
-
+int evalRegisterOperand(uint32_t operandBits, BS_FLAGS *flags, CPU *cpu, uint32_t *result);
 
 int ALUExecute(uint32_t instruction, CPU *cpu);
 

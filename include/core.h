@@ -1,7 +1,10 @@
 #ifndef CORE_H
 #define CORE_H
-
+#include <memory.h>
 #include "types.h"
+
+// define helper method macro for allowing for allowing for testing
+
 #define AVAILABLE_REGISTERS 16
 
 #define KB 1024

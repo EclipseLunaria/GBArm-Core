@@ -219,28 +219,47 @@ void test_SUB_no_overflow(){
     CU_ASSERT_FALSE(flags.Z)  // Result is non-zero
 }
 
-// void test_op_template(){
-//     BS_FLAGS flags;
-//     uint32_t result;
-//     uint32_t op1 = 0xF0;
-//     uint32_t op2 = 0x10;
-//     uint32_t expected = 0x10;
-//     ALU_AND(op1, op2, &flags, &result);
-//     // assert result
-//     CU_ASSERT_EQUAL(result, expected)
-//     // assert flags
-//     CU_ASSERT_TRUE(flags.C)
-//     CU_ASSERT_FALSE(flags.C)
-//     CU_ASSERT_TRUE(flags.N)
-//     CU_ASSERT_FALSE(flags.N)
-//     CU_ASSERT_TRUE(flags.V)
-//     CU_ASSERT_FALSE(flags.V)
-//     CU_ASSERT_TRUE(flags.Z)
-//     CU_ASSERT_FALSE(flags.Z)
-//     CU_ASSERT_TRUE(flags.IsArithmetic)
-//     CU_ASSERT_FALSE(flags.IsArithmetic)
-// }
+// Register specified shift amount tests 
+// https://iitd-plos.github.io/col718/ref/arm-instructionset.pdf 4-14
 
+// Only the least significant byte of the contents of Rs is used to determine the shift
+// amount. Rs can be any general register other than R15. 
+void test_eval_operand2(){
+    // int evalRegisterOperand(uint32_t operandBits, BS_FLAGS *flags, CpuRegister *reg, uint32_t *result)
+    CPU cpu;
+    initCpu(&cpu);
+    BS_FLAGS flags;
+    //set register to 
+    uint32_t result;
+    uint32_t expected = 4;
+    uint32_t operandBits = 0x214;
+    writeRegister(2, 1,&cpu.registers);
+    writeRegister(4, 0x2, &cpu.registers);
+
+    evalRegisterOperand(operandBits, &flags, &cpu, &result);
+    CU_ASSERT_EQUAL(result, expected)
+    
+}
+void test_eval_operand2_get_least_sig_byte(){
+    // int evalRegisterOperand(uint32_t operandBits, BS_FLAGS *flags, CpuRegister *reg, uint32_t *result)
+    CPU cpu;
+    initCpu(&cpu);
+    BS_FLAGS flags;
+    //set register to 
+    uint32_t result;
+    uint32_t expected = 4;
+    uint32_t operandBits = 0x214;
+    writeRegister(2, 0xE01,&cpu.registers); // only read least significant 
+    writeRegister(4, 0x2, &cpu.registers);
+
+    evalRegisterOperand(operandBits, &flags, &cpu, &result);
+    CU_ASSERT_EQUAL(result, expected)
+    
+}
+
+// test PC as operand
+
+// test PC as shift operand
 
 int add_alu_tests(){
     CU_pSuite suite = CU_add_suite("ALU Tests",0,0);
@@ -261,5 +280,10 @@ int add_alu_tests(){
     ADD_TEST(test_SUB_zero_result);
     ADD_TEST(test_SUB_signed_overflow);
     ADD_TEST(test_SUB_no_overflow);
+
+    // test evalRegisterOperand
+    ADD_TEST(test_eval_operand2)
+    ADD_TEST(test_eval_operand2_get_least_sig_byte)
+    // Register specified shift amount tests 
     return CUE_SUCCESS;
 }
