@@ -39,19 +39,6 @@ CSPR LOGIC REGION START
 */
 
 
-uint8_t CSPR_get_flag(const CPSRFLAGS f, uint32_t * pCspr){
-    if (*pCspr&f) return 1;
-    return 0;
-}
-void CSPR_set_flag(const CPSRFLAGS f, const uint8_t value, uint32_t * pCspr){
-    if (value) {
-        *pCspr = *pCspr | f;
-    }
-    else {
-        *pCspr = *pCspr & !f;
-    }
-    
-}
 
 uint8_t evaluate_cond(uint8_t opcode, const uint32_t CPSR_state){
     printf("OPCODE: %x", opcode);
