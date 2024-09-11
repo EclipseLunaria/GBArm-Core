@@ -52,5 +52,25 @@ int handleLongMultiply(uint32_t instruction, CPU* cpu){
     readRegister(rs, &cpu->registers, &rsValue);
     readRegister(rm, &cpu->registers, &rmValue);
 
-    uint64_t product = rsValue * rmValue;
+    // handle unsigned vs signed
+    uint64_t product = U ? (uint64_t)rsValue * (uint64_t)rmValue : (int64_t)(int32_t)rsValue * (int64_t)(int32_t)rmValue;
+
+    uint64_t result = product;
+
+    if (A) {
+        uint64_t accValue = ((uint64_t)rdhValue << 32) | rdhValue;
+        result += accValue;
+    }
+
+    uint32_t newRdlValue = (uint32_t)(result & 0xFFFFFFFF);
+    uint32_t newRdhValue = (uint32_t)((result >> 32) & 0xFFFFFFFF);
+    writeRegister(rdl, &cpu->registers, newRdlValue);
+    writeRegister(rdh, &cpu->registers, newRdhValue);
+    
+    // if flag bit set
+    if (S) {
+        cpu->CPSR->N = (newRdhValue >> 31) & 1;
+        cpu->CPSR->Z = !(newRdhValue == 0 && newRdlValue == 0);
+    }
+    return 0;
 }

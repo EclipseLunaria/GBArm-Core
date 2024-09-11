@@ -189,7 +189,7 @@ int evalRegisterOperand(uint32_t operandBits, BS_FLAGS *flags, CPU *cpu, uint32_
     uint8_t isRegShift = (operandBits >> 4 & 1);
     uint8_t rs = (operandBits >> 8) & 0xF;
     
-    readRegister(rm, &cpu->registers, &rmValue);
+    readRegister(rm, &(cpu->registers), &rmValue);
 
     if (rm == 15) {
         *result = rmValue + 8;
@@ -228,7 +228,7 @@ int ALUExecute(uint32_t instruction, CPU *cpu) {
         BS_ROR(imm, 2*rotate, &flags, &op2);
     }
     else {
-        evalRegisterOperand(instruction & 0xFFF, &flags, &cpu->registers, &op2);
+        evalRegisterOperand(instruction & 0xFFF, &flags, cpu, &op2);
     }
 
     //evaluate value for output.
