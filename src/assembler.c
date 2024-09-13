@@ -2,6 +2,22 @@
 #include <stdio.h>
 #include <regex.h>
 
+int initIStream(InstructionStream * iStream){
+    memset(iStream,0, sizeof(InstructionStream));
+    return 0;
+}
+
+int writeIStream(InstructionStream * iStream, uint32_t instruction){
+    if (iStream->length == STREAM_SIZE) {
+        printf("Stream is full");
+        return -1;
+    }
+    iStream->instructions[iStream->length] = instruction;
+    iStream->length++;
+    return 0;
+}
+
+
 int isRegister(char * r){
     return r[0] == 'R';
 }
@@ -38,12 +54,14 @@ int readImmediateValue(char * r){
         printf("invalid immediate value missing #");
         return -1;
     }
+    // TODO: Add hex support
     for (int i = 1; i < strlen(r); ++i){
         if (!isdigit(r[i])){
             printf("\ninvalid register value\n");
             return -1;
         }
     }
+    
     int val = atoi(r+1);
     return val;
 }
@@ -168,7 +186,20 @@ int encodeALUInstruction(char tokens[16][8], int n, uint32_t *encodedInstruction
         *encodedInstruction |= rm;
     }
     else if (isImmediate(tokens[3])){
-        
+        // set I bit
+        *encodedInstruction |= 1 << 25;
+
+        // TODO: handle negative offsets
+        /*
+            EXAMPLE: 
+            MOV R0, 0x12345678
+            VVVVVVVVVVVVVVVVVVV
+            MOV R0, #0x12340000
+            ORR R0, R0, #0x5678
+        */
+       uint32_t imm = readImmediateValue(tokens[3]);
+       *encodedInstruction |= imm;
+
     } 
     else {
         printf("invalid parameter: %s", tokens[3]);
@@ -213,6 +244,5 @@ int encodeInstruction(char * line, uint32_t *instruction){
         } 
     }
 
-    // identify
     return 0;
 }

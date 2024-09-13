@@ -22,7 +22,7 @@
     "type_traits": "c",
     "assembler.h": "c",
     "memory.h": "c",
-    "functional": "c"
+    "ctype.h": "c"
   },
   "editor.formatOnSave": true,
   "C_Cpp.codeAnalysis.clangTidy.checks.disabled": [

@@ -1,8 +1,12 @@
 #ifndef CORE_H
 #define CORE_H
+
+#include <assert.h>
+#include <ctype.h>
 #include <memory.h>
 #include <stdlib.h>
-#include <ctype.h>
+#include <stdio.h>
+
 #include "types.h"
 // define helper method macro for allowing for allowing for testing
 

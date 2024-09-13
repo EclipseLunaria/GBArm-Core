@@ -32,18 +32,18 @@ void test_EOR_opcode(){
     char buf[512];
     char tokens[16][8];
     strcpy(buf, "EOR R0, R1;");
-    tokenizeInstruction(buf, tokens);
+    int n = tokenizeInstruction(buf, tokens);
     uint32_t actual;
-    encodeALUInstruction(tokens, &actual);
+    encodeALUInstruction(tokens, n, &actual);
     CU_ASSERT_EQUAL((actual >> 21) & 0xF, 1)
 }
 
 void test_set_cond() {
     char buf[512] = "MOVNE R0, R1";
     char tokens[16][8];
-    tokenizeInstruction(buf, tokens);
+    int n = tokenizeInstruction(buf, tokens);
     uint32_t actual;
-    encodeALUInstruction(tokens, &actual);
+    encodeALUInstruction(tokens, n, &actual);
 
     CU_ASSERT_EQUAL(actual, 0x1 << 28)
 
@@ -51,9 +51,9 @@ void test_set_cond() {
 void test_dest_register_parse() {
     char buf[512] = "MOVNE R0, R1";
     char tokens[16][8];
-    tokenizeInstruction(buf, tokens);
+    int n = tokenizeInstruction(buf, tokens);
     uint32_t actual;
-    encodeALUInstruction(tokens, &actual);
+    encodeALUInstruction(tokens, n, &actual);
 
     CU_ASSERT_EQUAL(actual, 0x1 << 28)
 
