@@ -19,10 +19,10 @@ int encodeInstruction(char * line, uint32_t *instruction);
 // Value Parsing
 // register
 int isRegister(char * r);
-int readRegisterValue(char * r);
+int parseRegisterValue(char * r);
 // immediate
 int isImmediate(char * i);
-int readImmediateValue(char * r);
+int parseImmediateValue(char * r, uint32_t *imm);
 
 // ALU instructions
 int encodeALUInstruction(char tokens[16][8], int n, uint32_t *encodedInstruction);

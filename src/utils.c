@@ -22,7 +22,10 @@ int toUpper(char * s){
 }
 
 int ishexadecimal(char * h){
-    if ( strlen(h) <= 2 || strncmp(h, "0x",2)) return 0;
+    char s[64];
+    strcpy(s, h);
+    toUpper(s);
+    if ( strlen(s) <= 2 || strncmp(s, "0X",2)) return 0;
 
     for(int i = 2; i<strlen(h); ++i){
         if (!isdigit(h[i]) && (toupper(h[i]) < 'A' || toupper(h[i]) >'F')) return 0;
@@ -32,6 +35,9 @@ int ishexadecimal(char * h){
 
 int readhexadecimal(char * h, uint32_t *value){
     if (!strncmp(h, "0x",2)) h+=2;
-    int result = sscanf(h, "%x", value);
+    uint32_t v;
+    int result = sscanf(h, "%x", &v);
+    printf("%x", v);
+    *value = v;
     return result;
 }

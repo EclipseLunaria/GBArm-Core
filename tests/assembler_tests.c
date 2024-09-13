@@ -59,6 +59,69 @@ void test_dest_register_parse() {
 
 }
 
+void test_encode_immediate_decimal_low(){
+    char instruction[64] = "ADDS R1, R3, #100";
+    uint32_t encoded;
+    encodeInstruction(instruction, &encoded);
+    CU_ASSERT_EQUAL(encoded & 0xFFF, 100)
+}
+
+void test_encode_immediate_hex_low(){
+    char instruction[64] = "ADDS R1, R3, #0x44";
+    uint32_t encoded;
+    encodeInstruction(instruction, &encoded);
+    CU_ASSERT_EQUAL(encoded & 0xFFF, 0x44)
+}
+
+void test_encode_add_operation_register_shift(){
+    char instruction[64] = "ADDS R1, R3, R4, LSL r5";
+    uint32_t encoded;
+    encodeInstruction(instruction, &encoded);
+    CU_ASSERT_EQUAL(encoded & 0xFFF, 0x514)
+
+}
+
+void test_encode_add_operation_register_immediate_shift(){
+    char instruction[64] = "ADDS R1, R3, R4, LSL #0x2";
+    uint32_t encoded;
+    encodeInstruction(instruction, &encoded);
+    CU_ASSERT_EQUAL(encoded & 0xFFF, 0x104)
+
+}
+
+
+void test_encode_alu_missing_reg_shift_operand(){
+    char instruction[64] = "ADDS R1, R3, r4, LSL";
+    uint32_t encoded;
+    CU_ASSERT_EQUAL(encodeInstruction(instruction, &encoded), -1)
+}
+void test_encode_alu_invalid_reg_imm_shift(){
+    char instruction[64] = "ADDS R1, R3, r4, LSL #200";
+    uint32_t encoded;
+    CU_ASSERT_EQUAL(encodeInstruction(instruction, &encoded), -1)
+}
+
+void test_encode_alu_invalid_shift_op(){
+    char instruction[64] = "ADDS R1, R3, r4, LSA r5";
+    uint32_t encoded;
+    CU_ASSERT_EQUAL(encodeInstruction(instruction, &encoded), -1)
+
+}
+void test_encode_alu_invalid_invalid_parameter_value(){
+    char instruction[64] = "ADDS R1, R3, r4, LSL d5";
+    uint32_t encoded;
+    CU_ASSERT_EQUAL(encodeInstruction(instruction, &encoded), -1)
+
+}
+
+void test_encode_alu_invalid_shift_rm_as_op(){
+    char instruction[64] = "ADDS R1, R3, r4, LSA r55";
+    uint32_t encoded;
+    CU_ASSERT_EQUAL(encodeInstruction(instruction, &encoded), -1)
+
+}
+
+
 int add_assembler_tests(){
     CU_pSuite suite = CU_add_suite("Assembler Tests",0,0);
 
@@ -66,7 +129,16 @@ int add_assembler_tests(){
     ADD_TEST(test_simple_tokenize_instruction);
     ADD_TEST(test_immediate_alu_mov);
     ADD_TEST(test_EOR_opcode);
-    
+    ADD_TEST(test_encode_immediate_decimal_low)
+    ADD_TEST(test_encode_immediate_hex_low)
+    ADD_TEST(test_encode_alu_missing_reg_shift_operand)
+    ADD_TEST(test_encode_alu_invalid_shift_op)
+    ADD_TEST(test_encode_alu_invalid_shift_rm_as_op)
+    ADD_TEST(test_encode_add_operation_register_shift)
+    ADD_TEST(test_encode_alu_invalid_reg_imm_shift)
+    ADD_TEST(test_encode_add_operation_register_immediate_shift)
+    ADD_TEST(test_encode_alu_invalid_invalid_parameter_value)
+
     // Register specified shift amount tests 
     return CUE_SUCCESS;
 }

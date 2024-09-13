@@ -25,7 +25,7 @@ int isImmediate(char * i){
     return i[0] == '#';
 }
 
-int readRegisterValue(char * r){
+int parseRegisterValue(char * r){
     if (!strcmp("PC", r)) return 0xE;
     if (!strcmp("LR", r)) return 0xD;
 
@@ -49,12 +49,23 @@ int readRegisterValue(char * r){
     printf("\nreg value: %d\n", reg);
     return reg;
 }
-int readImmediateValue(char * r){
+int parseImmediateValue(char * r, uint32_t *imm){
     if (r[0] != '#'){
         printf("invalid immediate value missing #");
         return -1;
     }
     // TODO: Add hex support
+    if (ishexadecimal(r+1)){
+        int hv = readhexadecimal(r+1, imm);
+        if (hv == 0){
+            printf("\nfailed to read hex value %s\n", r);
+            return -1;
+        }
+        
+        return 0;
+    }
+
+    // Check value is decimal
     for (int i = 1; i < strlen(r); ++i){
         if (!isdigit(r[i])){
             printf("\ninvalid register value\n");
@@ -62,8 +73,10 @@ int readImmediateValue(char * r){
         }
     }
     
-    int val = atoi(r+1);
-    return val;
+    //convert to decimal
+    *imm = atoi(r+1);
+    printf("\nVAL %d\n", *imm);
+    return 0;
 }
 
 char * COND_TYPES[] = {
@@ -115,6 +128,10 @@ char * ALU_PREFIXES[] = {
     "MVN"    // Move Not
 };
 
+int isALUInstruction(char * token) {
+    return findALUOpcode(token) != -1;
+}
+
 int findALUOpcode(char * token){
     char prefix[4];
     strncpy(prefix, token, 3);
@@ -125,8 +142,22 @@ int findALUOpcode(char * token){
     return -1;
 }
 
-int isALUInstruction(char * token) {
-    return findALUOpcode(token) != -1;
+char * shiftOperators[4] = {
+    "LSL",
+    "LSR",
+    "ASR",
+    "ROR"
+};
+
+int getShiftCode(char * op, uint32_t *shiftCode) {
+    for (int i = 0; i < 4; ++i){
+        if (!strcmp(shiftOperators[i], op)) {
+            *shiftCode = i;
+            return 0;
+        }
+    }
+    printf("invalid shift value %s\n", op);
+    return -1;
 }
 
 int encodeALUInstruction(char tokens[16][8], int n, uint32_t *encodedInstruction){
@@ -143,7 +174,7 @@ int encodeALUInstruction(char tokens[16][8], int n, uint32_t *encodedInstruction
     printf("\n%x h\n", *encodedInstruction);
 
     // read dest register
-    int rd = readRegisterValue(tokens[1]);
+    int rd = parseRegisterValue(tokens[1]);
     printf("RD: %d, %s", rd, tokens[1]);
     if (rd == -1){
         printf("Invalid register value");
@@ -164,8 +195,7 @@ int encodeALUInstruction(char tokens[16][8], int n, uint32_t *encodedInstruction
     }
 
     // read rn
-    printf("REG VAL: %s", tokens[2]);
-    int rn = readRegisterValue(tokens[2]);
+    int rn = parseRegisterValue(tokens[2]);
     if (rn == -1){
         printf("Invalid register value");
         return -1;
@@ -179,11 +209,52 @@ int encodeALUInstruction(char tokens[16][8], int n, uint32_t *encodedInstruction
     }
 
     if (isRegister(tokens[3])){
-        int rm = readRegisterValue(tokens[3]);
+        int rm = parseRegisterValue(tokens[3]);
         if (rm == -1) {
             return -1;
         }
         *encodedInstruction |= rm;
+        // there is a shift operation performed
+        if (n > 4){
+            if (n == 5) {
+                printf("missing shift operand");
+                return -1;
+            }
+            
+            uint32_t shiftCode; 
+            if (getShiftCode(tokens[4], &shiftCode) == -1) {
+                printf("invalid shift op");
+                return -1;
+            }
+            // set shift code
+            *encodedInstruction |= shiftCode << 5;
+
+            if (isRegister(tokens[5])){
+                *encodedInstruction |= 1 << 4;
+                int rs = parseRegisterValue(tokens[5]);
+                if (rs == -1) {
+                    printf("invalid register value\n");
+                    return -1;
+                }
+                *encodedInstruction |= rs << 8;
+            }
+            else if (isImmediate(tokens[5])){
+                uint32_t immShift;
+                if(parseImmediateValue(tokens[5], &immShift) == -1){
+                    return -1;
+                }
+                if (immShift > 31 || immShift < 0){
+                    printf("invalid immediate value %d: must be 0-31", immShift);
+                    return -1;
+                }
+                *encodedInstruction |= immShift << 7;
+            }
+            else {
+                printf("invalid parameter value: %s\n", tokens[5]);
+                return -1;
+            }
+        }
+        
     }
     else if (isImmediate(tokens[3])){
         // set I bit
@@ -197,7 +268,13 @@ int encodeALUInstruction(char tokens[16][8], int n, uint32_t *encodedInstruction
             MOV R0, #0x12340000
             ORR R0, R0, #0x5678
         */
-       uint32_t imm = readImmediateValue(tokens[3]);
+       uint32_t imm = 0; 
+       if (parseImmediateValue(tokens[3], &imm) == -1){
+        return -1;
+       }
+
+       printf("imm: %x\n", imm);
+       
        *encodedInstruction |= imm;
 
     } 

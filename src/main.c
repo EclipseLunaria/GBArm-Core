@@ -15,6 +15,7 @@ int main(){
         printf("%s", buf);
         encodeInstruction(buf, &encodedValue);
         printf("ASM COMMAND: %s, Instruction: %x\n", buf, encodedValue);
+        char * line = "ADDS R1 r2 #100";
 
     }
 
