@@ -1,29 +1,23 @@
+#include "core.h"
 #include "cpu.h"
-
-int execInstruction(CPU * cpu){
-    printf("\nHello World\n");
-    return 0;
-}
-
-typedef struct Instruction {
-    char mnemonic[6];
-    int (*execute)(CPU *);
-
-} Instruction;
+#include "assembler.h"
+#include <stdio.h>
 
 int main(){
     CPU cpu;
     initCpu(&cpu);
 
-    Instruction i;
-    i.execute = &execInstruction;
-    i.execute(&cpu);
+    while (1) {
+        uint32_t encodedValue;
+        char buf[128];
+        printf("Enter ASM Command: ");
+        fgets(buf, sizeof(buf), stdin);
+        printf("%s", buf);
+        encodeInstruction(buf, &encodedValue);
+        printf("ASM COMMAND: %s, Instruction: %x\n", buf, encodedValue);
 
+    }
 
-
-    // Invoking fun() using fun_ptr
-
-    return 0;
 
     return 0;
 

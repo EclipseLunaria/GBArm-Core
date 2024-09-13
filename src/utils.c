@@ -9,11 +9,11 @@ uint32_t sLen(char * s){
     return i;
 }
 
-int toLower(char * s){
+int toUpper(char * s){
     char * c = s;
     for (int i = 0; i < strlen(s); ++i){
-        if (*c >= 'A' && *c <= 'Z') {
-            *c = *c - 'A' + 'a';
+        if (*c >= 'a' && *c <= 'z') {
+            *c = *c - 'a' + 'A';
         }
         c++;
     }

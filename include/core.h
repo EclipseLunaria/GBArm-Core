@@ -1,8 +1,9 @@
 #ifndef CORE_H
 #define CORE_H
 #include <memory.h>
+#include <stdlib.h>
+#include <ctype.h>
 #include "types.h"
-
 // define helper method macro for allowing for allowing for testing
 
 #define PRINTX(x) printf("\n #x: %x\n", x)

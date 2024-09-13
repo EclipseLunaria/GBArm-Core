@@ -21,7 +21,8 @@
     "barrel_shifter.h": "c",
     "type_traits": "c",
     "assembler.h": "c",
-    "memory.h": "c"
+    "memory.h": "c",
+    "functional": "c"
   },
   "editor.formatOnSave": true,
   "C_Cpp.codeAnalysis.clangTidy.checks.disabled": [
