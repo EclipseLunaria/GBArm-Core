@@ -5,6 +5,8 @@
 
 // define helper method macro for allowing for allowing for testing
 
+#define PRINTX(x) printf("\n #x: %x\n", x)
+
 #define AVAILABLE_REGISTERS 16
 
 #define KB 1024

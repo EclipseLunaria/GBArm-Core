@@ -184,10 +184,10 @@ uint32_t ALU_ROR(uint32_t value, uint8_t shiftAmt, CPU* cpu){
 int evalRegisterOperand(uint32_t operandBits, BS_FLAGS *flags, CPU *cpu, uint32_t *result){
     uint32_t shiftAmt;
     uint32_t rm = operandBits & 0xF;
-    uint32_t rmValue;
-    
     uint8_t isRegShift = (operandBits >> 4 & 1);
     uint8_t rs = (operandBits >> 8) & 0xF;
+    
+    uint32_t rmValue;
     
     readRegister(rm, &(cpu->registers), &rmValue);
 
@@ -236,10 +236,12 @@ int ALUExecute(uint32_t instruction, CPU *cpu) {
     uint8_t opcode = (instruction >> 21) & 0xF;
     // operation register numbers
     uint8_t rn = (instruction >> 16) & 0xF;
+    uint32_t rnVal;
+    readRegister(rn, &cpu->registers,&rnVal);
     uint8_t rd = (instruction >> 12) & 0xF;    
-    aluOp[opcode](rn, op2,&flags,&regOut);
+    aluOp[opcode](rnVal, op2,&flags,&regOut);
     
-    uint8_t writableOperation = (opcode >> 2) != 0x3;
+    uint8_t writableOperation = (opcode >> 2) != 0b10;
     if (writableOperation){
         writeRegister(rd, regOut, &cpu->registers);
     }

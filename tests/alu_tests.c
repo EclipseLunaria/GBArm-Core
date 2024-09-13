@@ -258,7 +258,80 @@ void test_eval_operand2_get_least_sig_byte(){
 }
 
 // test PC as operand
+void test_eval_operand_with_pc_with_rm(){
+    CPU cpu;
+    initCpu(&cpu);
+    BS_FLAGS flags;
+    uint32_t opBits = 0xF0F;
+    uint32_t actual;
+    uint32_t expected = 0x17;
+    *cpu.registers.PC = 0xF;
+    evalRegisterOperand(opBits, &flags, &cpu, &actual);
+    CU_ASSERT_EQUAL(actual, expected)
 
+}
+void test_eval_operand_with_rs_as_pc(){
+    CPU cpu;
+    initCpu(&cpu);
+    BS_FLAGS flags;
+
+    uint32_t opBits = 0xF11;
+    writeRegister(1, 1, &cpu.registers);
+    uint32_t actual;
+    uint32_t expected = 0x10000;
+    *cpu.registers.PC = 0x4;
+    
+    evalRegisterOperand(opBits, &flags, &cpu, &actual);
+
+    CU_ASSERT_EQUAL(actual, expected)
+
+}
+
+// test executeALU
+void test_execute_alu_immediate_no_rotate(){
+    CPU cpu;
+    initCpu(&cpu);
+    uint32_t cond = 0xE;
+    flag_t I = 1;
+    uint8_t opCode = 0;
+    flag_t S = 0;
+    reg_t rn = 0;
+    reg_t rd = 1;
+    // init register values
+    uint32_t rnVal = 0xFF;
+    uint32_t rdVal;
+    writeRegister(rn, rnVal, &cpu.registers);
+    // op2
+    uint8_t rotate = 0x0;
+    uint8_t imm = 0xF;
+    uint32_t immOp = (rotate << 8) | imm;
+
+    uint32_t instruction = 
+      (cond << 28)
+    | (I << 25)
+    | (opCode << 21)
+    | (S << 20)
+    | (rn << 16)
+    | (rd << 12)
+    | (immOp); 
+    ALUExecute(instruction, &cpu);
+    readRegister(rd, &cpu.registers, &rdVal);
+    CU_ASSERT_EQUAL(rdVal, 0xF)
+}
+
+// void test_immediate_shift_operand_0_rotate() {
+//     CPU cpu;
+//     initCpu(&cpu);
+//     BS_FLAGS flags;
+//     flag_t rm = 0;
+//     uint32_t rmVal = 0xF;
+//     uint32_t shift = 0x0;
+//     uint32_t opBits = rm | (shift << 4);
+//     uint32_t expected = 0xF;
+//     writeRegister(rm, rmVal, &cpu.registers);
+    
+
+// }
 // test PC as shift operand
 
 int add_alu_tests(){
@@ -284,6 +357,9 @@ int add_alu_tests(){
     // test evalRegisterOperand
     ADD_TEST(test_eval_operand2)
     ADD_TEST(test_eval_operand2_get_least_sig_byte)
+    ADD_TEST(test_eval_operand_with_pc_with_rm)
+    ADD_TEST(test_eval_operand_with_rs_as_pc)
+    ADD_TEST(test_execute_alu_immediate_no_rotate)
     // Register specified shift amount tests 
     return CUE_SUCCESS;
 }

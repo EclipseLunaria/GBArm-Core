@@ -19,6 +19,12 @@
     "instruction.h": "c",
     "core.h": "c",
     "barrel_shifter.h": "c",
-    "type_traits": "c"
-  }
+    "type_traits": "c",
+    "assembler.h": "c",
+    "memory.h": "c"
+  },
+  "editor.formatOnSave": true,
+  "C_Cpp.codeAnalysis.clangTidy.checks.disabled": [
+    "clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling"
+  ]
 }

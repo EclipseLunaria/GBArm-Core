@@ -6,6 +6,8 @@ extern int add_cond_tests();
 extern int add_register_tests();
 extern int add_instruction_tests();
 extern int add_alu_tests();
+extern int add_utils_tests();
+extern int add_assembler_tests();
 
 int main() {
     if (CUE_SUCCESS != CU_initialize_registry()){
@@ -18,6 +20,8 @@ int main() {
     add_register_tests();
     add_instruction_tests();
     add_alu_tests();
+    add_utils_tests();
+    add_assembler_tests(); 
     
     CU_basic_set_mode(CU_BRM_VERBOSE);
     CU_basic_run_tests();
