@@ -6,34 +6,34 @@
 
 void test_cpu_init(){
     CPU cpu;
-    initCpu(&cpu);
+    init_cpu(&cpu);
     // check system memory.
-    CU_ASSERT_PTR_NOT_NULL(cpu.registers.curRegSet)
-    CU_ASSERT_PTR_EQUAL(cpu.registers.curRegSet->pRegisters[0], &cpu.registers.registerData.registers[0])
-    CU_ASSERT_EQUAL(cpu.clockCycle, 0)
-    CU_ASSERT_EQUAL(cpu.loadedInstruction, 0)
-    CU_ASSERT_EQUAL(cpu.sleepCycles, 0)
+    CU_ASSERT_PTR_NOT_NULL(cpu.registers.current_registers)
+    CU_ASSERT_PTR_EQUAL(cpu.registers.current_registers->p_registers[0], &cpu.registers.register_data.registers[0])
+    CU_ASSERT_EQUAL(cpu.clock_cycles, 0)
+    CU_ASSERT_EQUAL(cpu.loaded_instruction, 0)
+    CU_ASSERT_EQUAL(cpu.sleep_cycles, 0)
 }
 
 
 void test_clock_cpu_iteration(){
     CPU cpu;
-    initCpu(&cpu);
-    CU_ASSERT_EQUAL(cpu.clockCycle, 0);
+    init_cpu(&cpu);
+    CU_ASSERT_EQUAL(cpu.clock_cycles, 0);
     CU_ASSERT_EQUAL(*cpu.registers.PC, 0);
-    clockCpu(&cpu);
+    clock_cpu(&cpu);
     CU_ASSERT_EQUAL(*cpu.registers.PC, 4);
 }   
 
 
 void test_clock_cpu_load_instruction(){
     CPU cpu;
-    initCpu(&cpu);
+    init_cpu(&cpu);
     word_t testVal = 5555;
-    writeWord(0,&testVal);
-    CU_ASSERT_EQUAL(cpu.loadedInstruction, 0);
-    clockCpu(&cpu);
-    CU_ASSERT_EQUAL(cpu.loadedInstruction, testVal)
+    write_word(0,&testVal);
+    CU_ASSERT_EQUAL(cpu.loaded_instruction, 0);
+    clock_cpu(&cpu);
+    CU_ASSERT_EQUAL(cpu.loaded_instruction, testVal)
     CU_ASSERT_EQUAL(*cpu.registers.PC, 4);
 }   
 

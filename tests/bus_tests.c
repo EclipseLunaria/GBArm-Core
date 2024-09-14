@@ -5,70 +5,70 @@
 // #include "../src/bus.c"
 
 // Forward Declares
-byte_t* getSector(address_t address);
+byte_t* get_sector(address_t address);
 address_t getSectorOffset(byte_t * sectorPtr);
 
 //Tests
 void test_clear_bus_data(void){
     DATA_BUS.bios[0] = 123;
     DATA_BUS.bios[5] = 222;
-    DATA_BUS.chipWRAM[3] = (uint8_t)333;
+    DATA_BUS.chip_wram[3] = (uint8_t)333;
     CU_ASSERT_EQUAL(123, DATA_BUS.bios[0]);
     CU_ASSERT_EQUAL(222, DATA_BUS.bios[5]);
-    CU_ASSERT_EQUAL((uint8_t)333, DATA_BUS.chipWRAM[3]);
-    clearDataBus();
+    CU_ASSERT_EQUAL((uint8_t)333, DATA_BUS.chip_wram[3]);
+    clear_data_bus();
     CU_ASSERT_EQUAL(0, DATA_BUS.bios[0]);
     CU_ASSERT_EQUAL(0, DATA_BUS.bios[5]);
-    CU_ASSERT_EQUAL(0, DATA_BUS.chipWRAM[3]);
+    CU_ASSERT_EQUAL(0, DATA_BUS.chip_wram[3]);
 }
 
 // TEST READ/WRITE BYTE
 void test_write_byte_to_bios(){
     byte_t byte = 211;
-    writeByte(3,&byte);
+    write_byte(3,&byte);
     CU_ASSERT_EQUAL(211, DATA_BUS.bios[3]);
 }
 
 void test_write_byte_to_board_wram(){
     uint8_t byte = 232;
-    writeByte(BOARD_WRAM_START+52, &byte);
-    CU_ASSERT_EQUAL(232, DATA_BUS.boardWRAM[52]);
+    write_byte(BOARD_WRAM_START+52, &byte);
+    CU_ASSERT_EQUAL(232, DATA_BUS.board_wram[52]);
 }
 
 void test_write_byte_to_vram(){
     uint8_t byte = 232;
-    writeByte(0x06000000+52, &byte);
-    CU_ASSERT_EQUAL(232, DATA_BUS.boardWRAM[52]);
+    write_byte(0x06000000+52, &byte);
+    CU_ASSERT_EQUAL(232, DATA_BUS.board_wram[52]);
     
 }
 
 void test_read_byte_to_bios(){
     byte_t byte = 111;
     DATA_BUS.bios[8] = byte;
-    readByte(8, &byte);
+    read_byte(8, &byte);
     CU_ASSERT_EQUAL(111, byte);
 }
 void test_read_byte_to_board_wram(){
     byte_t byte = 44;
-    DATA_BUS.boardWRAM[8] = byte;
-    readByte(BOARD_WRAM_START+8, &byte);
+    DATA_BUS.board_wram[8] = byte;
+    read_byte(BOARD_WRAM_START+8, &byte);
     CU_ASSERT_EQUAL(44, byte);
 }
 
 void test_read_write_half_word_to_bios(){
     half_word_t input = 444;
-    writeHalfWord(10, &input);
+    write_half_word(10, &input);
     half_word_t output;
-    readHalfWord(10, &output);
+    read_half_word(10, &output);
     CU_ASSERT_EQUAL(output, input)
 
 }
 
 void test_read_write_word_to_bios(){
     word_t input = 4445755;
-    writeWord(10, &input);
+    write_word(10, &input);
     word_t output;
-    readWord(10, &output);
+    read_word(10, &output);
     CU_ASSERT_EQUAL(output, input)
 }
 
@@ -82,13 +82,13 @@ void test_get_valid_sector_impl(){
     const address_t bg_palette_location = 0x05000020;
     const address_t vram_location = 0x06000300;
     const address_t oam_location = 0x07000200;
-    CU_ASSERT_PTR_EQUAL(&DATA_BUS.bios, getSector(bios_sector_location))
-    CU_ASSERT_PTR_EQUAL(&DATA_BUS.boardWRAM, getSector(board_sector_location))
-    CU_ASSERT_PTR_EQUAL(&DATA_BUS.chipWRAM, getSector(chip_sector_location))
-    CU_ASSERT_PTR_EQUAL(&DATA_BUS.ioRegisters, getSector(io_register_location))
-    CU_ASSERT_PTR_EQUAL(&DATA_BUS.bgPalette, getSector(bg_palette_location))
-    CU_ASSERT_PTR_EQUAL(&DATA_BUS.vram, getSector(vram_location))
-    CU_ASSERT_PTR_EQUAL(&DATA_BUS.oam, getSector(oam_location))
+    CU_ASSERT_PTR_EQUAL(&DATA_BUS.bios, get_sector(bios_sector_location))
+    CU_ASSERT_PTR_EQUAL(&DATA_BUS.board_wram, get_sector(board_sector_location))
+    CU_ASSERT_PTR_EQUAL(&DATA_BUS.chip_wram, get_sector(chip_sector_location))
+    CU_ASSERT_PTR_EQUAL(&DATA_BUS.io_registers, get_sector(io_register_location))
+    CU_ASSERT_PTR_EQUAL(&DATA_BUS.bg_palette, get_sector(bg_palette_location))
+    CU_ASSERT_PTR_EQUAL(&DATA_BUS.vram, get_sector(vram_location))
+    CU_ASSERT_PTR_EQUAL(&DATA_BUS.oam, get_sector(oam_location))
 
 }
 
@@ -98,22 +98,22 @@ void test_get_invalid_sector_impl() {
     const address_t bad_chip_sector_location = 0x03FEFFFF;
     const address_t bad_io_register_location = 0x04FFEFFF;
 
-    CU_ASSERT_PTR_NULL(getSector(bad_bios_sector_location));
-    CU_ASSERT_PTR_NULL(getSector(bad_board_sector_location));
-    CU_ASSERT_PTR_NULL(getSector(bad_chip_sector_location));
-    CU_ASSERT_PTR_NULL(getSector(bad_io_register_location));
+    CU_ASSERT_PTR_NULL(get_sector(bad_bios_sector_location));
+    CU_ASSERT_PTR_NULL(get_sector(bad_board_sector_location));
+    CU_ASSERT_PTR_NULL(get_sector(bad_chip_sector_location));
+    CU_ASSERT_PTR_NULL(get_sector(bad_io_register_location));
 }
 
 //Setup Teardown
 int setup(void) {
-    clearDataBus();
+    clear_data_bus();
     return 0;
 }
 
 // Teardown function (runs after each test)
 int teardown(void) {
 
-    clearDataBus();
+    clear_data_bus();
     return 0;
 }
 

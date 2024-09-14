@@ -24,7 +24,7 @@ void test_AND_no_shift(){
     CU_ASSERT_FALSE(flags.N)
     CU_ASSERT_FALSE(flags.V)
     CU_ASSERT_FALSE(flags.Z)
-    CU_ASSERT_FALSE(flags.IsArithmetic)
+    CU_ASSERT_FALSE(flags.Is_arithmetic)
 }
 void test_AND_negative(){
     BS_FLAGS flags;
@@ -40,7 +40,7 @@ void test_AND_negative(){
     CU_ASSERT_TRUE(flags.N)
     CU_ASSERT_FALSE(flags.V)
     CU_ASSERT_FALSE(flags.Z)
-    CU_ASSERT_FALSE(flags.IsArithmetic)
+    CU_ASSERT_FALSE(flags.Is_arithmetic)
 }
 void test_AND_start_non_zero_to_zero(){
     BS_FLAGS flags;
@@ -56,7 +56,7 @@ void test_AND_start_non_zero_to_zero(){
     CU_ASSERT_FALSE(flags.N)
     CU_ASSERT_FALSE(flags.V)
     CU_ASSERT_TRUE(flags.Z)
-    CU_ASSERT_FALSE(flags.IsArithmetic)
+    CU_ASSERT_FALSE(flags.Is_arithmetic)
 }
 void test_AND_pass_c_flag(){
     BS_FLAGS flags;
@@ -74,7 +74,7 @@ void test_AND_pass_c_flag(){
     CU_ASSERT_FALSE(flags.N)
     CU_ASSERT_FALSE(flags.V)
     CU_ASSERT_TRUE(flags.Z)
-    CU_ASSERT_FALSE(flags.IsArithmetic)
+    CU_ASSERT_FALSE(flags.Is_arithmetic)
 }
 
 void test_EOR_no_shift(){
@@ -91,7 +91,7 @@ void test_EOR_no_shift(){
     CU_ASSERT_FALSE(flags.N)
     CU_ASSERT_FALSE(flags.V)
     CU_ASSERT_FALSE(flags.Z)
-    CU_ASSERT_FALSE(flags.IsArithmetic)
+    CU_ASSERT_FALSE(flags.Is_arithmetic)
 }
 void test_EOR_negative(){
     BS_FLAGS flags;
@@ -107,7 +107,7 @@ void test_EOR_negative(){
     CU_ASSERT_TRUE(flags.N)
     CU_ASSERT_FALSE(flags.V)
     CU_ASSERT_FALSE(flags.Z)
-    CU_ASSERT_FALSE(flags.IsArithmetic)
+    CU_ASSERT_FALSE(flags.Is_arithmetic)
 }
 void test_EOR_start_non_zero_to_zero(){
     BS_FLAGS flags;
@@ -123,7 +123,7 @@ void test_EOR_start_non_zero_to_zero(){
     CU_ASSERT_FALSE(flags.N)
     CU_ASSERT_FALSE(flags.V)
     CU_ASSERT_TRUE(flags.Z)
-    CU_ASSERT_FALSE(flags.IsArithmetic)
+    CU_ASSERT_FALSE(flags.Is_arithmetic)
 }
 void test_EOR_pass_c_flag(){
     BS_FLAGS flags;
@@ -141,7 +141,7 @@ void test_EOR_pass_c_flag(){
     CU_ASSERT_FALSE(flags.N)
     CU_ASSERT_FALSE(flags.V)
     CU_ASSERT_FALSE(flags.Z)
-    CU_ASSERT_FALSE(flags.IsArithmetic)
+    CU_ASSERT_FALSE(flags.Is_arithmetic)
 }
 
 void test_SUB_basic(){
@@ -225,34 +225,34 @@ void test_SUB_no_overflow(){
 // Only the least significant byte of the contents of Rs is used to determine the shift
 // amount. Rs can be any general register other than R15. 
 void test_eval_operand2(){
-    // int evalRegisterOperand(uint32_t operandBits, BS_FLAGS *flags, CpuRegister *reg, uint32_t *result)
+    // int eval_register_operand(uint32_t operandBits, BS_FLAGS *flags, CpuRegister *reg, uint32_t *result)
     CPU cpu;
-    initCpu(&cpu);
+    init_cpu(&cpu);
     BS_FLAGS flags;
     //set register to 
     uint32_t result;
     uint32_t expected = 4;
     uint32_t operandBits = 0x214;
-    writeRegister(2, 1,&cpu.registers);
-    writeRegister(4, 0x2, &cpu.registers);
+    write_register(2, 1,&cpu.registers);
+    write_register(4, 0x2, &cpu.registers);
 
-    evalRegisterOperand(operandBits, &flags, &cpu, &result);
+    eval_register_operand(operandBits, &flags, &cpu, &result);
     CU_ASSERT_EQUAL(result, expected)
     
 }
 void test_eval_operand2_get_least_sig_byte(){
-    // int evalRegisterOperand(uint32_t operandBits, BS_FLAGS *flags, CpuRegister *reg, uint32_t *result)
+    // int eval_register_operand(uint32_t operandBits, BS_FLAGS *flags, CpuRegister *reg, uint32_t *result)
     CPU cpu;
-    initCpu(&cpu);
+    init_cpu(&cpu);
     BS_FLAGS flags;
     //set register to 
     uint32_t result;
     uint32_t expected = 4;
     uint32_t operandBits = 0x214;
-    writeRegister(2, 0xE01,&cpu.registers); // only read least significant 
-    writeRegister(4, 0x2, &cpu.registers);
+    write_register(2, 0xE01,&cpu.registers); // only read least significant 
+    write_register(4, 0x2, &cpu.registers);
 
-    evalRegisterOperand(operandBits, &flags, &cpu, &result);
+    eval_register_operand(operandBits, &flags, &cpu, &result);
     CU_ASSERT_EQUAL(result, expected)
     
 }
@@ -260,28 +260,28 @@ void test_eval_operand2_get_least_sig_byte(){
 // test PC as operand
 void test_eval_operand_with_pc_with_rm(){
     CPU cpu;
-    initCpu(&cpu);
+    init_cpu(&cpu);
     BS_FLAGS flags;
     uint32_t opBits = 0xF0F;
     uint32_t actual;
     uint32_t expected = 0x17;
     *cpu.registers.PC = 0xF;
-    evalRegisterOperand(opBits, &flags, &cpu, &actual);
+    eval_register_operand(opBits, &flags, &cpu, &actual);
     CU_ASSERT_EQUAL(actual, expected)
 
 }
 void test_eval_operand_with_rs_as_pc(){
     CPU cpu;
-    initCpu(&cpu);
+    init_cpu(&cpu);
     BS_FLAGS flags;
 
     uint32_t opBits = 0xF11;
-    writeRegister(1, 1, &cpu.registers);
+    write_register(1, 1, &cpu.registers);
     uint32_t actual;
     uint32_t expected = 0x10000;
     *cpu.registers.PC = 0x4;
     
-    evalRegisterOperand(opBits, &flags, &cpu, &actual);
+    eval_register_operand(opBits, &flags, &cpu, &actual);
 
     CU_ASSERT_EQUAL(actual, expected)
 
@@ -290,7 +290,7 @@ void test_eval_operand_with_rs_as_pc(){
 // test executeALU
 void test_execute_alu_immediate_no_rotate(){
     CPU cpu;
-    initCpu(&cpu);
+    init_cpu(&cpu);
     uint32_t cond = 0xE;
     flag_t I = 1;
     uint8_t opCode = 0;
@@ -300,7 +300,7 @@ void test_execute_alu_immediate_no_rotate(){
     // init register values
     uint32_t rnVal = 0xFF;
     uint32_t rdVal;
-    writeRegister(rn, rnVal, &cpu.registers);
+    write_register(rn, rnVal, &cpu.registers);
     // op2
     uint8_t rotate = 0x0;
     uint8_t imm = 0xF;
@@ -314,8 +314,8 @@ void test_execute_alu_immediate_no_rotate(){
     | (rn << 16)
     | (rd << 12)
     | (immOp); 
-    ALUExecute(instruction, &cpu);
-    readRegister(rd, &cpu.registers, &rdVal);
+    alu_execute(instruction, &cpu);
+    read_register(rd, &cpu.registers, &rdVal);
     CU_ASSERT_EQUAL(rdVal, 0xF)
 }
 
@@ -340,7 +340,7 @@ int add_alu_tests(){
     ADD_TEST(test_SUB_signed_overflow);
     ADD_TEST(test_SUB_no_overflow);
 
-    // test evalRegisterOperand
+    // test eval_register_operand
     ADD_TEST(test_eval_operand2)
     ADD_TEST(test_eval_operand2_get_least_sig_byte)
     ADD_TEST(test_eval_operand_with_pc_with_rm)

@@ -1,11 +1,11 @@
 #include "instruction_stream.h"
-int initIStream(InstructionStream * iStream){
+int init_istream(InstructionStream * iStream){
     memset(iStream,0, sizeof(InstructionStream));
 
     return 0;
 }
 
-int writeIStream(InstructionStream * iStream, uint32_t instruction){
+int write_istream(InstructionStream * iStream, uint32_t instruction){
     if (iStream->length == STREAM_SIZE) {
         printf("Stream is full");
         return -1;

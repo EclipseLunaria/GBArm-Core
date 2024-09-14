@@ -176,47 +176,47 @@ int (*aluOp[16])(uint32_t, uint32_t, BS_FLAGS*, uint32_t*) = {
 };
 
 
-uint32_t ALU_ROR(uint32_t value, uint8_t shiftAmt, CPU* cpu){
-    shiftAmt %= 32;
-    return (value >> shiftAmt) | (value << (32 - shiftAmt));
+uint32_t ALU_ROR(uint32_t value, uint8_t shift_amount, CPU* cpu){
+    shift_amount %= 32;
+    return (value >> shift_amount) | (value << (32 - shift_amount));
 }
 
-int evalRegisterOperand(uint32_t operandBits, BS_FLAGS *flags, CPU *cpu, uint32_t *result){
-    // printf("OP BITS %x", operandBits);
-    uint32_t shiftAmt;
-    uint32_t rm = operandBits & 0xF;
-    uint8_t isRegShift = (operandBits >> 4 & 1);
-    uint8_t rs = (operandBits >> 8) & 0xF;
+int eval_register_operand(uint32_t operand_bits, BS_FLAGS *flags, CPU *cpu, uint32_t *result){
+    // printf("OP BITS %x", operand_bits);
+    uint32_t shift_amount;
+    uint32_t rm = operand_bits & 0xF;
+    uint8_t is_reg_shift = (operand_bits >> 4 & 1);
+    uint8_t rs = (operand_bits >> 8) & 0xF;
     
-    uint32_t rmValue;
+    uint32_t rm_value;
     
-    readRegister(rm, &(cpu->registers), &rmValue);
-    // printf(" REG VAL: %x", rmValue);
+    read_register(rm, &(cpu->registers), &rm_value);
+    // printf(" REG VAL: %x", rm_value);
     if (rm == 15) {
-        *result = rmValue + 8;
+        *result = rm_value + 8;
         return 0;
     }
 
-    if (isRegShift){
+    if (is_reg_shift){
         //Shift by register at bit 8-11
-        readRegister(rs, &cpu->registers, &shiftAmt);
-        shiftAmt &= 0xFF;
-        if (rs == 15) shiftAmt += 12;
-        if (!shiftAmt) flags->C = cpu->CPSR->C;
+        read_register(rs, &cpu->registers, &shift_amount);
+        shift_amount &= 0xFF;
+        if (rs == 15) shift_amount += 12;
+        if (!shift_amount) flags->C = cpu->CPSR->C;
 
     }
     else {
         //immediate values
-        uint32_t immediateShift = (operandBits >> 7) & 0x1F;
-        shiftAmt = immediateShift; 
+        uint32_t immediate_shift = (operand_bits >> 7) & 0x1F;
+        shift_amount = immediate_shift; 
     }
     
-    shiftOp[(operandBits >> 5) & 0b11](rmValue, shiftAmt, flags, result);
+    shiftOp[(operand_bits >> 5) & 0b11](rm_value, shift_amount, flags, result);
     return 0;
 }
 
 // REFERENCE (4-12): https://iitd-plos.github.io/col718/ref/arm-instructionset.pdf
-int ALUExecute(uint32_t instruction, CPU *cpu) {
+int alu_execute(uint32_t instruction, CPU *cpu) {
     BS_FLAGS flags;
     
     // handle evaluating op2
@@ -229,25 +229,25 @@ int ALUExecute(uint32_t instruction, CPU *cpu) {
         BS_ROR(imm, 2*rotate, &flags, &op2);
     }
     else {
-        evalRegisterOperand(instruction & 0xFFF, &flags, cpu, &op2);
+        eval_register_operand(instruction & 0xFFF, &flags, cpu, &op2);
     }
 
     //evaluate value for output.
-    uint32_t regOut;
+    uint32_t reg_output;
     uint8_t opcode = (instruction >> 21) & 0xF;
     // operation register numbers
     uint8_t rn = (instruction >> 16) & 0xF;
-    uint32_t rnVal;
-    readRegister(rn, &cpu->registers,&rnVal);
-    // printf("RN: %d, RNVAL: %x, OP2: %x", rn, rnVal, op2);
-    aluOp[opcode](rnVal, op2,&flags,&regOut);
+    uint32_t rn_value;
+    read_register(rn, &cpu->registers,&rn_value);
+    // printf("RN: %d, RNVAL: %x, OP2: %x", rn, rn_value, op2);
+    aluOp[opcode](rn_value, op2,&flags,&reg_output);
     
-    uint8_t writableOperation = (opcode >> 2) != 0b10;
-    // printf("WRITABLE: %d, REGV: %x", writableOperation, regOut);
+    uint8_t writable_operation = (opcode >> 2) != 0b10;
+    // printf("WRITABLE: %d, REGV: %x", writable_operation, reg_output);
     
     uint8_t rd = (instruction >> 12) & 0xF;    
-    if (writableOperation){
-        writeRegister(rd, regOut, &cpu->registers);
+    if (writable_operation){
+        write_register(rd, reg_output, &cpu->registers);
     }
 
     // handle writing flags to register
@@ -256,8 +256,8 @@ int ALUExecute(uint32_t instruction, CPU *cpu) {
         cpu->CPSR->C = flags.C;
         cpu->CPSR->N = flags.N;
         cpu->CPSR->Z = flags.Z;
-        if (flags.IsArithmetic) cpu->CPSR->V = flags.V;
-        if (rd == 15) setMode(0, &cpu->registers);
+        if (flags.Is_arithmetic) cpu->CPSR->V = flags.V;
+        if (rd == 15) set_mode(0, &cpu->registers);
     }
 
     return 0;

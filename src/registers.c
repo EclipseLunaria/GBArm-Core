@@ -4,60 +4,66 @@
 
 
 
-int initCpuRegisters(CpuRegister * cpuRegister){
+int init_registers(CpuRegister * cpuRegister){
     const int size[] = {7,2,2,2,2};
-    uint32_t *pRegBank[] = {
-        cpuRegister->registerData.fiqRegisters,
-        cpuRegister->registerData.svcRegisters,
-        cpuRegister->registerData.abtRegisters,
-        cpuRegister->registerData.irqRegisters,
-        cpuRegister->registerData.undRegisters
+    uint32_t *p_reg_bank[] = {
+        cpuRegister->register_data.fiq_registers,
+        cpuRegister->register_data.svc_registers,
+        cpuRegister->register_data.abt_registers,
+        cpuRegister->register_data.irq_registers,
+        cpuRegister->register_data.und_registers
     };
     //ensure struct memory is cleared
     memset(cpuRegister, 0, sizeof(*cpuRegister));
-    // set program counter
-    cpuRegister->PC = &cpuRegister->registerData.registers[15];
-    cpuRegister->LR = &cpuRegister->registerData.registers[14];
-    for(uint8_t i = 0; i < 6; ++i) cpuRegister->regSets[i].pRegisters[15] = &cpuRegister->registerData.registers[15];
-    
+    // set program counter and link register
+    cpuRegister->PC = &cpuRegister->register_data.registers[15];
+    cpuRegister->LR = &cpuRegister->register_data.registers[14];
+
+    // set PC pointers
     for(uint8_t i = 0; i < 6; ++i) {
-        for (uint8_t j = 0; j < 8; ++j) cpuRegister->regSets[i].pRegisters[j] = &cpuRegister->registerData.registers[j];
+        cpuRegister->register_sets[i].p_registers[15] = &cpuRegister->register_data.registers[15];
+    }
+    
+    // set lower register pointers
+    for(uint8_t i = 0; i < 6; ++i) {
+        for (uint8_t j = 0; j < 8; ++j) {
+            cpuRegister->register_sets[i].p_registers[j] = &cpuRegister->register_data.registers[j];
+        }
     }
 
-    // set register pointers
-    for(uint8_t i = 0; i < 16; ++i) cpuRegister->regSets[0].pRegisters[i] = &cpuRegister->registerData.registers[i];
+    // set user mode register pointers
+    for(uint8_t i = 0; i < 16; ++i) {
+        cpuRegister->register_sets[0].p_registers[i] = &cpuRegister->register_data.registers[i];
+    }
+
+    // set banked registers
     for (uint8_t i = 0; i<5;i++){
-        for (uint8_t j = 0; j<size[i]; ++j) cpuRegister->regSets[i+1].pRegisters[15-size[i]+j] = &pRegBank[i][j];
+        for (uint8_t j = 0; j<size[i]; ++j) {
+            cpuRegister->register_sets[i+1].p_registers[15-size[i]+j] = &p_reg_bank[i][j];
+        }
     }
     // init curReg pointer
-    cpuRegister->curRegSet = &cpuRegister->regSets[0];
+    cpuRegister->current_registers = &cpuRegister->register_sets[0];
 
     return 0;
 
 }
 
-void dumpRegisterSet(RegisterSet regSet){
-    printf("register dump: \n");
-    for (uint8_t i = 0; i < 16; ++i){
-        printf("%d\n", i);
-        printf("register %d: %p -> %d\n", i, regSet.pRegisters[i],*regSet.pRegisters[i]);
-    }
-}
 
 
-int setMode(uint8_t mode, CpuRegister * cpuReg){
+int set_mode(uint8_t mode, CpuRegister * cpu_reg){
     if (mode >= 6) return -1;
-    cpuReg->currentMode = mode;
-    (*cpuReg).curRegSet = &cpuReg->regSets[mode];
+    cpu_reg->current_mode = mode;
+    (*cpu_reg).current_registers = &cpu_reg->register_sets[mode];
     return 0;
 }
-int readRegister(uint8_t regNum, CpuRegister * cpuReg, uint32_t *buf) {
-    if (regNum >= 16) return -1;
-    *buf = *cpuReg->curRegSet->pRegisters[regNum];
+int read_register(uint8_t reg_number, CpuRegister * cpu_reg, uint32_t *buf) {
+    if (reg_number >= 16) return -1;
+    *buf = *cpu_reg->current_registers->p_registers[reg_number];
     return 0;
 }
-int writeRegister(uint8_t regNum, uint32_t value, CpuRegister * cpuReg){
-    if (regNum >= 16) return -1;
-    *cpuReg->curRegSet->pRegisters[regNum] = value;
+int write_register(uint8_t reg_number, uint32_t value, CpuRegister * cpu_reg){
+    if (reg_number >= 16) return -1;
+    *cpu_reg->current_registers->p_registers[reg_number] = value;
     return 0;
 }

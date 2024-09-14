@@ -5,9 +5,8 @@
 int toUpper(char * s);
 
 
-int ishexadecimal(char *);
-int readhexadecimal(char * h, uint32_t *value);
+int is_hex(char *);
+int read_hex(char * h, uint32_t *value);
 
 
-int dumpRegisters(CPU* cpu);
 #endif

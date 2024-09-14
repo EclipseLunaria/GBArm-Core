@@ -1,6 +1,6 @@
 #include "constants.h"
 
-char * COND_TYPES[] = {
+char * COND_TYPE_STRS[] = {
     "EQ",
     "NE",
     "CS",
@@ -19,7 +19,7 @@ char * COND_TYPES[] = {
 };
 
 
-char * ALU_PREFIXES[] = {
+char * ALU_OPCODE_STRS[] = {
     "AND",   // Bitwise AND
     "EOR",   // Bitwise Exclusive OR
     "SUB",   // Subtract
@@ -39,7 +39,7 @@ char * ALU_PREFIXES[] = {
 };
 
 
-char * shiftOperators[4] = {
+char * SHIFT_OP_STRS[4] = {
     "LSL",
     "LSR",
     "ASR",

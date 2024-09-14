@@ -3,14 +3,14 @@
 #include <regex.h>
 
 
-int isRegister(char * r){
+int is_register(char * r){
     return r[0] == 'R';
 }
-int isImmediate(char * i){
+int is_immediate(char * i){
     return i[0] == '#';
 }
 
-int parseRegisterValue(char * r){
+int parse_register_value(char * r){
     if (!strcmp("PC", r)) return 0xE;
     if (!strcmp("LR", r)) return 0xD;
 
@@ -32,13 +32,13 @@ int parseRegisterValue(char * r){
     }
     return reg;
 }
-int parseImmediateValue(char * r, uint32_t *imm){
+int parse_immediate_value(char * r, uint32_t *imm){
     if (r[0] != '#'){
         // printf("invalid immediate value missing #");
         return -1;
     }
-    if (ishexadecimal(r+1)){
-        int hv = readhexadecimal(r+1, imm);
+    if (is_hex(r+1)){
+        int hv = read_hex(r+1, imm);
         if (hv == 0){
             // printf("\nfailed to read hex value %s\n", r);
             return -1;
@@ -62,36 +62,36 @@ int parseImmediateValue(char * r, uint32_t *imm){
 }
 
 
-uint32_t findCond(char * p){
+uint32_t find_cond(char * p){
     // printf("\nSTR: %s\n", p);
     if (strlen(p) == 0) return 0xE;
     char buf[32];
     strncpy(buf, p, 2);
     for (int i = 0; i < 15; ++i){
-        if(!strcmp(COND_TYPES[i], buf)) return i;
+        if(!strcmp(COND_TYPE_STRS[i], buf)) return i;
     }
     // printf("unable to find cond match defaulting to always");
     return 0xE;
 }
 
-int isALUInstruction(char * token) {
-    return findALUOpcode(token) != -1;
+int is_alu_instruction(char * token) {
+    return find_alu_opcode(token) != -1;
 }
 
-int findALUOpcode(char * token){
+int find_alu_opcode(char * token){
     char prefix[4];
     strncpy(prefix, token, 3);
     prefix[3] = '\0';
     for (int i = 0; i < 0xF; i++){
-        if (!strcmp(ALU_PREFIXES[i], prefix)) return i;
+        if (!strcmp(ALU_OPCODE_STRS[i], prefix)) return i;
     }
     return -1;
 }
 
-int getShiftCode(char * op, uint32_t *shiftCode) {
+int get_shift_code(char * op, uint32_t *shift_code) {
     for (int i = 0; i < 4; ++i){
-        if (!strcmp(shiftOperators[i], op)) {
-            *shiftCode = i;
+        if (!strcmp(SHIFT_OP_STRS[i], op)) {
+            *shift_code = i;
             return 0;
         }
     }
@@ -99,21 +99,21 @@ int getShiftCode(char * op, uint32_t *shiftCode) {
     return -1;
 }
 
-int encodeALUInstruction(char tokens[16][8], int n, uint32_t *encodedInstruction){
+int encode_alu_instruction(char tokens[16][8], int n, uint32_t *encodedInstruction){
     *encodedInstruction = 0;
 
     //get opcode
-    uint32_t opCode = findALUOpcode(tokens[0]);
+    uint32_t opCode = find_alu_opcode(tokens[0]);
     *encodedInstruction |= opCode << 21;
 
     // eval cond
-    uint32_t cond = findCond(tokens[0]);
+    uint32_t cond = find_cond(tokens[0]);
     // printf("COND: %x\n", cond);
     *encodedInstruction |= cond << 28;
     // printf("\n%x h\n", *encodedInstruction);
     
     // read dest register
-    int rd = parseRegisterValue(tokens[2]);
+    int rd = parse_register_value(tokens[2]);
     if (rd == -1){
         // printf("Invalid register value");
         return -1;
@@ -121,7 +121,7 @@ int encodeALUInstruction(char tokens[16][8], int n, uint32_t *encodedInstruction
     *encodedInstruction |= rd << 12;
 
     // read rn
-    int rn = parseRegisterValue(tokens[1]);
+    int rn = parse_register_value(tokens[1]);
     // printf("RD: %d, %s", rn, tokens[1]);
     if (rn == -1){
         // printf("Invalid register value");
@@ -149,8 +149,8 @@ int encodeALUInstruction(char tokens[16][8], int n, uint32_t *encodedInstruction
         return 0;
     }
 
-    if (isRegister(tokens[3])){
-        int rm = parseRegisterValue(tokens[3]);
+    if (is_register(tokens[3])){
+        int rm = parse_register_value(tokens[3]);
         if (rm == -1) {
             return -1;
         }
@@ -162,26 +162,26 @@ int encodeALUInstruction(char tokens[16][8], int n, uint32_t *encodedInstruction
                 return -1;
             }
             
-            uint32_t shiftCode; 
-            if (getShiftCode(tokens[4], &shiftCode) == -1) {
+            uint32_t shift_code; 
+            if (get_shift_code(tokens[4], &shift_code) == -1) {
                 // printf("invalid shift op");
                 return -1;
             }
             // set shift code
-            *encodedInstruction |= shiftCode << 5;
+            *encodedInstruction |= shift_code << 5;
 
-            if (isRegister(tokens[5])){
+            if (is_register(tokens[5])){
                 *encodedInstruction |= 1 << 4;
-                int rs = parseRegisterValue(tokens[5]);
+                int rs = parse_register_value(tokens[5]);
                 if (rs == -1) {
                     // printf("invalid register value\n");
                     return -1;
                 }
                 *encodedInstruction |= rs << 8;
             }
-            else if (isImmediate(tokens[5])){
+            else if (is_immediate(tokens[5])){
                 uint32_t immShift;
-                if(parseImmediateValue(tokens[5], &immShift) == -1){
+                if(parse_immediate_value(tokens[5], &immShift) == -1){
                     return -1;
                 }
                 if (immShift > 31 || immShift < 0){
@@ -197,7 +197,7 @@ int encodeALUInstruction(char tokens[16][8], int n, uint32_t *encodedInstruction
         }
         
     }
-    else if (isImmediate(tokens[3])){
+    else if (is_immediate(tokens[3])){
         // set I bit
         *encodedInstruction |= 1 << 25;
 
@@ -210,7 +210,7 @@ int encodeALUInstruction(char tokens[16][8], int n, uint32_t *encodedInstruction
             ORR R0, R0, #0x5678
         */
        uint32_t imm = 0; 
-       if (parseImmediateValue(tokens[3], &imm) == -1){
+       if (parse_immediate_value(tokens[3], &imm) == -1){
         return -1;
        }
 
@@ -226,20 +226,20 @@ int encodeALUInstruction(char tokens[16][8], int n, uint32_t *encodedInstruction
     return 0;
 }
 
-int executeALUInstructions(char ** instructions, int n, CPU * cpu){
+int execute_alu_instructions(char ** instructions, int n, CPU * cpu){
     char buf[64];
     for (int i = 0; i < n; ++i){
-        CPU cpuState = *cpu;
+        // CPU cpuState = *cpu;
         uint32_t encoded; 
         strcpy(buf, instructions[i]);
-        encodeInstruction(buf, &encoded);
-        ALUExecute(encoded, cpu);
+        encode_instruction(buf, &encoded);
+        alu_execute(encoded, cpu);
     }
 
     return 0;
 }
 
-int tokenizeInstruction(char * buffer, char tokens[16][8]) {
+int tokenize_instruction(char * buffer, char tokens[16][8]) {
     int i = 0;
     char * pch;
     pch = strtok(buffer, " ,;\n");
@@ -263,18 +263,18 @@ int tokenizeInstruction(char * buffer, char tokens[16][8]) {
     return i;
 }
 
-int encodeInstruction(char * line, uint32_t *instruction){
+int encode_instruction(char * line, uint32_t *instruction){
     char buf[512];
     char tokens[16][8];
     strcpy(buf, line);
     toUpper(buf);
     // printf("%s", buf);
-    int n = tokenizeInstruction(buf, tokens);
+    int n = tokenize_instruction(buf, tokens);
     // printf("\nTokens Found: %d\n", n);
     // select
-    if (isALUInstruction(tokens[0])){
+    if (is_alu_instruction(tokens[0])){
         // printf("is ALU Instruction");
-        int v = encodeALUInstruction(tokens, n, instruction);
+        int v = encode_alu_instruction(tokens, n, instruction);
         if (v == -1){
             // printf("failed to parse ALU instruction\n");
             return -1;

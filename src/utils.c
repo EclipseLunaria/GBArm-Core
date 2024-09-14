@@ -21,7 +21,7 @@ int toUpper(char * s){
     return 0;
 }
 
-int ishexadecimal(char * h){
+int is_hex(char * h){
     char s[64];
     strcpy(s, h);
     toUpper(s);
@@ -33,7 +33,7 @@ int ishexadecimal(char * h){
     return 1;
 }
 
-int readhexadecimal(char * h, uint32_t *value){
+int read_hex(char * h, uint32_t *value){
     if (!strncmp(h, "0x",2)) h+=2;
     uint32_t v;
     int result = sscanf(h, "%x", &v);
@@ -43,10 +43,10 @@ int readhexadecimal(char * h, uint32_t *value){
 }
 
 
-int dumpRegisters(CPU* cpu){
+int dump_registers(CPU* cpu){
     printf("\nREGISTERS:\n\n");
     for(int i = 0; i < 16; i++){
-        printf("R%d: %x\t", i, *cpu->registers.curRegSet->pRegisters[i]);
+        printf("R%d: %x\t", i, *cpu->registers.current_registers->p_registers[i]);
     }
     printf("\nCPSR: %x\n", cpu->registers.cpsr);
     return 0;

@@ -36,14 +36,14 @@
 
 extern SystemMemoryMap DATA_BUS;
 
-int writeByte (address_t address, byte_t *data);
-int writeHalfWord (address_t address, half_word_t *data);
-int writeWord (address_t address, word_t *data);
+int write_byte (address_t address, byte_t *data);
+int write_half_word (address_t address, half_word_t *data);
+int write_word (address_t address, word_t *data);
 
-int readByte (address_t address, byte_t * data);
-int readHalfWord (address_t address, half_word_t *data);
-int readWord (address_t address, word_t *data);
+int read_byte (address_t address, byte_t * data);
+int read_half_word (address_t address, half_word_t *data);
+int read_word (address_t address, word_t *data);
 
-int clearDataBus();
+int clear_data_bus();
 
 #endif

@@ -5,20 +5,20 @@ void run_repl_terminal(){
     printf("Initializing CPU\n");
 
     CPU cpu;
-    initCpu(&cpu);
+    init_cpu(&cpu);
 
     while (1) {
-        dumpRegisters(&cpu);
-        uint32_t encodedValue;
+        dump_registers(&cpu);
+        uint32_t encoded_value;
         char buf[128];
         printf("\nEnter ASM Command: ");
         fgets(buf, sizeof(buf), stdin);
         printf("%s", buf);
-        encodeInstruction(buf, &encodedValue);
-        printf("Instruction: %x\n", encodedValue);
-        ALUExecute(encodedValue, &cpu);
+        encode_instruction(buf, &encoded_value);
+        printf("Instruction: %x\n", encoded_value);
+        alu_execute(encoded_value, &cpu);
         
     }
-    dumpRegisters(&cpu);
+    dump_registers(&cpu);
 
 }

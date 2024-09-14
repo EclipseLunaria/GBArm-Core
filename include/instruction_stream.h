@@ -17,8 +17,8 @@ typedef struct InstructionStream {
     uint32_t length;
 } InstructionStream;
 
-int initIStream(InstructionStream * iStream);
-int writeIStream(InstructionStream * iStream, uint32_t instruction );
+int init_istream(InstructionStream * iStream);
+int write_istream(InstructionStream * iStream, uint32_t instruction );
 
 
 #endif

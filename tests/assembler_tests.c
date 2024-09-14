@@ -8,7 +8,7 @@ void test_simple_tokenize_instruction(){
     char buf[] = "MOV R0, R1";
     char tokens[16][8];
 
-    tokenizeInstruction(buf, tokens);
+    tokenize_instruction(buf, tokens);
     printf("TOKEN 0: %s\n", tokens[0]);
     
     for (int i = 0; i < 16 && strlen(tokens[i]) > 0; i++) {
@@ -24,7 +24,7 @@ void test_immediate_alu_mov(){
     strcpy(buf, "MOV R0, #0;");
     uint32_t actual;
     uint32_t expected = 0xE3A00000; 
-    encodeInstruction(buf, &actual);
+    encode_instruction(buf, &actual);
     PRINTX(expected);
 }
 
@@ -32,18 +32,18 @@ void test_EOR_opcode(){
     char buf[512];
     char tokens[16][8];
     strcpy(buf, "EOR R0, R1;");
-    int n = tokenizeInstruction(buf, tokens);
+    int n = tokenize_instruction(buf, tokens);
     uint32_t actual;
-    encodeALUInstruction(tokens, n, &actual);
+    encode_alu_instruction(tokens, n, &actual);
     CU_ASSERT_EQUAL((actual >> 21) & 0xF, 1)
 }
 
 void test_set_cond() {
     char buf[512] = "MOVNE R0, R1";
     char tokens[16][8];
-    int n = tokenizeInstruction(buf, tokens);
+    int n = tokenize_instruction(buf, tokens);
     uint32_t actual;
-    encodeALUInstruction(tokens, n, &actual);
+    encode_alu_instruction(tokens, n, &actual);
 
     CU_ASSERT_EQUAL(actual, 0x1 << 28)
 
@@ -51,9 +51,9 @@ void test_set_cond() {
 void test_dest_register_parse() {
     char buf[512] = "MOVNE R0, R1";
     char tokens[16][8];
-    int n = tokenizeInstruction(buf, tokens);
+    int n = tokenize_instruction(buf, tokens);
     uint32_t actual;
-    encodeALUInstruction(tokens, n, &actual);
+    encode_alu_instruction(tokens, n, &actual);
 
     CU_ASSERT_EQUAL(actual, 0x1 << 28)
 
@@ -62,21 +62,21 @@ void test_dest_register_parse() {
 void test_encode_immediate_decimal_low(){
     char instruction[64] = "ADDS R1, R3, #100";
     uint32_t encoded;
-    encodeInstruction(instruction, &encoded);
+    encode_instruction(instruction, &encoded);
     CU_ASSERT_EQUAL(encoded & 0xFFF, 100)
 }
 
 void test_encode_immediate_hex_low(){
     char instruction[64] = "ADDS R1, R3, #0x44";
     uint32_t encoded;
-    encodeInstruction(instruction, &encoded);
+    encode_instruction(instruction, &encoded);
     CU_ASSERT_EQUAL(encoded & 0xFFF, 0x44)
 }
 
 void test_encode_add_operation_register_shift(){
     char instruction[64] = "ADDS R1, R3, R4, LSL r5";
     uint32_t encoded;
-    encodeInstruction(instruction, &encoded);
+    encode_instruction(instruction, &encoded);
     CU_ASSERT_EQUAL(encoded & 0xFFF, 0x514)
 
 }
@@ -84,7 +84,7 @@ void test_encode_add_operation_register_shift(){
 void test_encode_add_operation_register_immediate_shift(){
     char instruction[64] = "ADDS R1, R3, R4, LSL #0x2";
     uint32_t encoded;
-    encodeInstruction(instruction, &encoded);
+    encode_instruction(instruction, &encoded);
     CU_ASSERT_EQUAL(encoded & 0xFFF, 0x104)
 
 }
@@ -93,38 +93,38 @@ void test_encode_add_operation_register_immediate_shift(){
 void test_encode_alu_missing_reg_shift_operand(){
     char instruction[64] = "ADDS R1, R3, r4, LSL";
     uint32_t encoded;
-    CU_ASSERT_EQUAL(encodeInstruction(instruction, &encoded), -1)
+    CU_ASSERT_EQUAL(encode_instruction(instruction, &encoded), -1)
 }
 void test_encode_alu_invalid_reg_imm_shift(){
     char instruction[64] = "ADDS R1, R3, r4, LSL #200";
     uint32_t encoded;
-    CU_ASSERT_EQUAL(encodeInstruction(instruction, &encoded), -1)
+    CU_ASSERT_EQUAL(encode_instruction(instruction, &encoded), -1)
 }
 
 void test_encode_alu_invalid_shift_op(){
     char instruction[64] = "ADDS R1, R3, r4, LSA r5";
     uint32_t encoded;
-    CU_ASSERT_EQUAL(encodeInstruction(instruction, &encoded), -1)
+    CU_ASSERT_EQUAL(encode_instruction(instruction, &encoded), -1)
 
 }
 void test_encode_alu_invalid_invalid_parameter_value(){
     char instruction[64] = "ADDS R1, R3, r4, LSL d5";
     uint32_t encoded;
-    CU_ASSERT_EQUAL(encodeInstruction(instruction, &encoded), -1)
+    CU_ASSERT_EQUAL(encode_instruction(instruction, &encoded), -1)
 
 }
 
 void test_encode_alu_invalid_shift_rm_as_op(){
     char instruction[64] = "ADDS R1, R3, r4, LSA r55";
     uint32_t encoded;
-    CU_ASSERT_EQUAL(encodeInstruction(instruction, &encoded), -1)
+    CU_ASSERT_EQUAL(encode_instruction(instruction, &encoded), -1)
 
 }
 
 void test_mov_with_encode_two_register(){
     char instruction[64] = "MOV r1 r2";
     uint32_t encoded;
-    CU_ASSERT_FALSE(encodeInstruction(instruction, &encoded))
+    CU_ASSERT_FALSE(encode_instruction(instruction, &encoded))
     CU_ASSERT_EQUAL((encoded >> 16) & 0xF, 0)
     CU_ASSERT_EQUAL((encoded >> 12) & 0xF, 1)
     CU_ASSERT_EQUAL(encoded & 0xF, 2)
@@ -133,7 +133,7 @@ void test_mov_with_encode_two_register(){
 void test_mov_with_two_values_one_immediate(){
     char instruction[64] = "MOV r1 #10";
     uint32_t encoded;
-    CU_ASSERT_FALSE(encodeInstruction(instruction, &encoded))
+    CU_ASSERT_FALSE(encode_instruction(instruction, &encoded))
     CU_ASSERT_EQUAL((encoded >> 16) & 0xF, 0)
     CU_ASSERT_EQUAL((encoded >> 12) & 0xF, 1)
     CU_ASSERT_EQUAL(encoded & 0xF, 10)

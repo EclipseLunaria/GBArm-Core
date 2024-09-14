@@ -4,20 +4,20 @@
 #include "alu.h"
 #include "utils.h"
 
-int tokenizeInstruction(char * buffer, char tokens[16][8]);
-int encodeInstruction(char * line, uint32_t *instruction);
+int tokenize_instruction(char * buffer, char tokens[16][8]);
+int encode_instruction(char * line, uint32_t *instruction);
 
 // Value Parsing
 // register
-int isRegister(char * r);
-int parseRegisterValue(char * r);
+int is_register(char * r);
+int parse_register_value(char * r);
 // immediate
-int isImmediate(char * i);
-int parseImmediateValue(char * r, uint32_t *imm);
+int is_immediate(char * i);
+int parse_immediate_value(char * r, uint32_t *imm);
 
 // ALU instructions
-int executeALUInstructions(char ** instructions, int n, CPU * cpu);
-int encodeALUInstruction(char tokens[16][8], int n, uint32_t *encodedInstruction);
-int findALUOpcode(char * token);
-int isALUInstruction(char * token);
+int execute_alu_instructions(char ** instructions, int n, CPU * cpu);
+int encode_alu_instruction(char tokens[16][8], int n, uint32_t *encodedInstruction);
+int find_alu_opcode(char * token);
+int is_alu_instruction(char * token);
 #endif

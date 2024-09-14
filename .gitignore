@@ -1,1 +1,3 @@
 *.o
+Main
+run_tests

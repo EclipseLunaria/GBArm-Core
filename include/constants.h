@@ -1,8 +1,9 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
-extern char * COND_TYPES[];
-extern char * ALU_PREFIXES[];
-extern char * shiftOperators[4];
+// String mappings
+extern char * COND_TYPE_STRS[];
+extern char * ALU_OPCODE_STRS[];
+extern char * SHIFT_OP_STRS[4];
 
 #endif

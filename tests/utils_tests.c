@@ -4,19 +4,19 @@
 #include "core.h"
 #include "utils.h"
 
-void test_ishexadecimal() {
+void test_is_hex() {
     char * h1 = "0xFF";
     char * h2 = "0xGG";
     char * h3 = "abc";
     char * h4 = "FF";
 
-    CU_ASSERT_TRUE(ishexadecimal(h1))
-    CU_ASSERT_FALSE(ishexadecimal(h2))
-    CU_ASSERT_FALSE(ishexadecimal(h3))
-    CU_ASSERT_FALSE(ishexadecimal(h4))
+    CU_ASSERT_TRUE(is_hex(h1))
+    CU_ASSERT_FALSE(is_hex(h2))
+    CU_ASSERT_FALSE(is_hex(h3))
+    CU_ASSERT_FALSE(is_hex(h4))
 }
 
-void test_read_hexadecimal(){
+void test_read_hex(){
     char * h1 = "0xFF";
     char * h2 = "0xGG";
     char * h3 = "abc";
@@ -26,10 +26,10 @@ void test_read_hexadecimal(){
     uint32_t v2;
     uint32_t v3;
     uint32_t v4;
-    int s1 = readhexadecimal(h1, &v1);
-    int s2 = readhexadecimal(h2, &v2);
-    int s3 = readhexadecimal(h3, &v3);
-    int s4 = readhexadecimal(h4, &v4);
+    int s1 = read_hex(h1, &v1);
+    int s2 = read_hex(h2, &v2);
+    int s3 = read_hex(h3, &v3);
+    int s4 = read_hex(h4, &v4);
 
     CU_ASSERT_EQUAL(s1, 1)
     CU_ASSERT_EQUAL(v1, 0xFF)
@@ -48,8 +48,8 @@ int add_utils_tests(){
     CU_pSuite suite = CU_add_suite("Utils Tests",0,0);
 
     if (suite == NULL) return CU_get_error();
-    ADD_TEST(test_ishexadecimal)
-    ADD_TEST(test_read_hexadecimal)
+    ADD_TEST(test_read_hex)
+    ADD_TEST(test_read_hex)
     // Register specified shift amount tests 
     return CUE_SUCCESS;
 }

@@ -1,25 +1,25 @@
 #include "cpu.h"
 #include "core.h"
 
-int initCpu(CPU *cpu){
+int init_cpu(CPU *cpu){
     memset(cpu, 0, sizeof(CPU));
-    initCpuRegisters(&cpu->registers);
+    init_registers(&cpu->registers);
     cpu->CPSR = (CPSR *)&cpu->registers.cpsr;
     return 0;
 }
 
 int fetchInstruction(CPU * cpu) {
-    readWord(*cpu->registers.PC,&cpu->loadedInstruction);
+    read_word(*cpu->registers.PC,&cpu->loaded_instruction);
     *cpu->registers.PC += 4;
     return 0;
 }
 
-int clockCpu(CPU *cpu){
-    cpu->clockCycle += 1;
+int clock_cpu(CPU *cpu){
+    cpu->clock_cycles += 1;
 
     // if no sleep cycles -> wait
-    if (cpu->sleepCycles){
-        --cpu->sleepCycles;
+    if (cpu->sleep_cycles){
+        --cpu->sleep_cycles;
         return 0;
     }
 
