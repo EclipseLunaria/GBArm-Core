@@ -319,20 +319,6 @@ void test_execute_alu_immediate_no_rotate(){
     CU_ASSERT_EQUAL(rdVal, 0xF)
 }
 
-// void test_immediate_shift_operand_0_rotate() {
-//     CPU cpu;
-//     initCpu(&cpu);
-//     BS_FLAGS flags;
-//     flag_t rm = 0;
-//     uint32_t rmVal = 0xF;
-//     uint32_t shift = 0x0;
-//     uint32_t opBits = rm | (shift << 4);
-//     uint32_t expected = 0xF;
-//     writeRegister(rm, rmVal, &cpu.registers);
-    
-
-// }
-// test PC as shift operand
 
 int add_alu_tests(){
     CU_pSuite suite = CU_add_suite("ALU Tests",0,0);

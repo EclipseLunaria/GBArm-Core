@@ -1,0 +1,47 @@
+#include "constants.h"
+
+char * COND_TYPES[] = {
+    "EQ",
+    "NE",
+    "CS",
+    "CC",
+    "MI",
+    "PL",
+    "VS",
+    "VC",
+    "HI",
+    "LS",
+    "GE",
+    "LT",
+    "GT",
+    "LE",
+    "AL",
+};
+
+
+char * ALU_PREFIXES[] = {
+    "AND",   // Bitwise AND
+    "EOR",   // Bitwise Exclusive OR
+    "SUB",   // Subtract
+    "RSB",   // Reverse Subtract
+    "ADD",   // Addition
+    "ADC",   // Add with Carry
+    "SBC",   // Subtract with Carry
+    "RSC",   // Reverse Subtract with Carry
+    "TST",   // Test (AND)
+    "TEQ",   // Test Equivalence (EOR)
+    "CMP",   // Compare
+    "CMN",   // Compare Negated
+    "ORR",   // Bitwise OR
+    "MOV",   // Move
+    "BIC",   // Bitwise Clear (AND NOT)
+    "MVN"    // Move Not
+};
+
+
+char * shiftOperators[4] = {
+    "LSL",
+    "LSR",
+    "ASR",
+    "ROR"
+};

@@ -41,3 +41,13 @@ int readhexadecimal(char * h, uint32_t *value){
     *value = v;
     return result;
 }
+
+
+int dumpRegisters(CPU* cpu){
+    printf("\nREGISTERS:\n\n");
+    for(int i = 0; i < 16; i++){
+        printf("R%d: %x\t", i, *cpu->registers.curRegSet->pRegisters[i]);
+    }
+    printf("\nCPSR: %x\n", cpu->registers.cpsr);
+    return 0;
+}

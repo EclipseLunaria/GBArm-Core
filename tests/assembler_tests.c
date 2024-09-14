@@ -121,6 +121,25 @@ void test_encode_alu_invalid_shift_rm_as_op(){
 
 }
 
+void test_mov_with_encode_two_register(){
+    char instruction[64] = "MOV r1 r2";
+    uint32_t encoded;
+    CU_ASSERT_FALSE(encodeInstruction(instruction, &encoded))
+    CU_ASSERT_EQUAL((encoded >> 16) & 0xF, 0)
+    CU_ASSERT_EQUAL((encoded >> 12) & 0xF, 1)
+    CU_ASSERT_EQUAL(encoded & 0xF, 2)
+
+}
+void test_mov_with_two_values_one_immediate(){
+    char instruction[64] = "MOV r1 #10";
+    uint32_t encoded;
+    CU_ASSERT_FALSE(encodeInstruction(instruction, &encoded))
+    CU_ASSERT_EQUAL((encoded >> 16) & 0xF, 0)
+    CU_ASSERT_EQUAL((encoded >> 12) & 0xF, 1)
+    CU_ASSERT_EQUAL(encoded & 0xF, 10)
+
+}
+
 
 int add_assembler_tests(){
     CU_pSuite suite = CU_add_suite("Assembler Tests",0,0);
@@ -138,6 +157,8 @@ int add_assembler_tests(){
     ADD_TEST(test_encode_alu_invalid_reg_imm_shift)
     ADD_TEST(test_encode_add_operation_register_immediate_shift)
     ADD_TEST(test_encode_alu_invalid_invalid_parameter_value)
+    ADD_TEST(test_mov_with_encode_two_register)
+    ADD_TEST(test_mov_with_two_values_one_immediate)
 
     // Register specified shift amount tests 
     return CUE_SUCCESS;

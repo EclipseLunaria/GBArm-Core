@@ -23,7 +23,11 @@
     "assembler.h": "c",
     "memory.h": "c",
     "ctype.h": "c",
-    "random": "c"
+    "random": "c",
+    "regex.h": "c",
+    "repl.h": "c",
+    "stdlib.h": "c",
+    "alu.h": "c"
   },
   "editor.formatOnSave": true,
   "C_Cpp.codeAnalysis.clangTidy.checks.disabled": [
