@@ -59,6 +59,24 @@ void test_dest_register_parse() {
 
 }
 
+int mk_throws_invalid_opcode(char * s){
+    CHECK_ERROR(find_alu_opcode(s),"Invalid ALU Opcode: %s", s)
+    return 0;
+}
+
+int mk_double_throw(char * s){
+    CHECK_ERROR(mk_throws_invalid_opcode(s), "Invalid ALU Opcode double: %s",s)
+    return 0;
+}
+void test_find_invalid_alu_opcode(){
+    
+    CU_ASSERT_EQUAL(mk_throws_invalid_opcode("MAV"), -3)
+}
+void test_find_invalid_alu_opcode_double(){
+    
+    CU_ASSERT_EQUAL(mk_double_throw("MAV"), -4)
+}
+
 void test_encode_immediate_decimal_low(){
     char instruction[64] = "ADDS R1, R3, #100";
     uint32_t encoded;
@@ -159,6 +177,8 @@ int add_assembler_tests(){
     ADD_TEST(test_encode_alu_invalid_invalid_parameter_value)
     ADD_TEST(test_mov_with_encode_two_register)
     ADD_TEST(test_mov_with_two_values_one_immediate)
+    ADD_TEST(test_find_invalid_alu_opcode)
+    ADD_TEST(test_find_invalid_alu_opcode_double)
 
     // Register specified shift amount tests 
     return CUE_SUCCESS;

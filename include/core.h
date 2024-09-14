@@ -9,7 +9,7 @@
 #include <stdio.h>
 
 #include "types.h"
-
+#include "error.h"
 
 #define PRINTX(x) printf("\n #x: %x\n", x)
 

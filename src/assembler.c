@@ -85,7 +85,7 @@ int find_alu_opcode(char * token){
     for (int i = 0; i < 0xF; i++){
         if (!strcmp(ALU_OPCODE_STRS[i], prefix)) return i;
     }
-    return -1;
+    THROW_ERROR("Invald ALU OP Token: %s", token);
 }
 
 int get_shift_code(char * op, uint32_t *shift_code) {
@@ -185,7 +185,7 @@ int encode_alu_instruction(char tokens[16][8], int n, uint32_t *encodedInstructi
                     return -1;
                 }
                 if (immShift > 31 || immShift < 0){
-                    // printf("invalid immediate value %d: must be 0-31", immShift);
+                    printf("invalid immediate value %d: must be 0-31", immShift);
                     return -1;
                 }
                 *encodedInstruction |= immShift << 7;
