@@ -288,9 +288,16 @@ int tokenizeInstruction(char * buffer, char tokens[16][8]) {
     int i = 0;
     char * pch;
     pch = strtok(buffer, " ,;\n");
+    if (!strncmp("MOV", pch,3)){
+        i++;
+    }
     while (pch != NULL && i < 16) {
         strcpy(tokens[i], pch);  // Copy the token into the array
         i++;
+        if (i == 1 && !strncmp("MOV", pch,3)) {
+            tokens[i][0] = '\0';
+            i++;
+        }
         printf("\nTOKEN %d: %s\n", i, pch);
         pch = strtok(NULL, " ,;\n");
     }
