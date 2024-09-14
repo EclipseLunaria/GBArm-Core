@@ -27,7 +27,9 @@
     "regex.h": "c",
     "repl.h": "c",
     "stdlib.h": "c",
-    "alu.h": "c"
+    "alu.h": "c",
+    "constants.h": "c",
+    "error.h": "c"
   },
   "editor.formatOnSave": true,
   "C_Cpp.codeAnalysis.clangTidy.checks.disabled": [

@@ -16,7 +16,6 @@ int is_immediate(char * i);
 int parse_immediate_value(char * r, uint32_t *imm);
 
 // ALU instructions
-int execute_alu_instructions(char ** instructions, int n, CPU * cpu);
 int encode_alu_instruction(char tokens[16][8], int n, uint32_t *encodedInstruction);
 int find_alu_opcode(char * token);
 int is_alu_instruction(char * token);

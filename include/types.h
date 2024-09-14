@@ -9,6 +9,7 @@ typedef uint32_t word_t;
 typedef uint32_t address_t;
 typedef uint8_t flag_t;
 typedef uint8_t reg_t;
+typedef uint32_t instruction_t;
 //Current Program Status Register 
 
 

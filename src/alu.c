@@ -229,7 +229,8 @@ int alu_execute(uint32_t instruction, CPU *cpu) {
         BS_ROR(imm, 2*rotate, &flags, &op2);
     }
     else {
-        eval_register_operand(instruction & 0xFFF, &flags, cpu, &op2);
+        CHECK_ERROR(eval_register_operand(instruction & 0xFFF, &flags, cpu, &op2), "Failed to evaluate register operand for %x",instruction & 0xFFF)
+        
     }
 
     //evaluate value for output.
@@ -250,6 +251,7 @@ int alu_execute(uint32_t instruction, CPU *cpu) {
         write_register(rd, reg_output, &cpu->registers);
     }
 
+        printf("n OP2: %x, Rn: %x, Rd: %x output %x", op2, rn_value, rd, reg_output);
     // handle writing flags to register
     uint8_t S = (instruction >> 20) & 1;
     if (S) {

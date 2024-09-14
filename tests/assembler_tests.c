@@ -3,6 +3,7 @@
 #include "test_macros.h"
 #include "core.h"
 #include "assembler.h"
+#include "test_helpers.h"
 
 void test_simple_tokenize_instruction(){
     char buf[] = "MOV R0, R1";
@@ -10,7 +11,7 @@ void test_simple_tokenize_instruction(){
 
     tokenize_instruction(buf, tokens);
     printf("TOKEN 0: %s\n", tokens[0]);
-    
+
     for (int i = 0; i < 16 && strlen(tokens[i]) > 0; i++) {
         printf("buf: %s\n", tokens[i]);
     }
@@ -23,7 +24,7 @@ void test_immediate_alu_mov(){
     char buf[512];
     strcpy(buf, "MOV R0, #0;");
     uint32_t actual;
-    uint32_t expected = 0xE3A00000; 
+    uint32_t expected = 0xE3A00000;
     encode_instruction(buf, &actual);
     PRINTX(expected);
 }
@@ -69,11 +70,11 @@ int mk_double_throw(char * s){
     return 0;
 }
 void test_find_invalid_alu_opcode(){
-    
+
     CU_ASSERT_EQUAL(mk_throws_invalid_opcode("MAV"), -3)
 }
 void test_find_invalid_alu_opcode_double(){
-    
+
     CU_ASSERT_EQUAL(mk_double_throw("MAV"), -4)
 }
 
@@ -107,35 +108,64 @@ void test_encode_add_operation_register_immediate_shift(){
 
 }
 
+void test_ADD_two_registers_into_third_register(){
+    uint32_t r0v, r1v;
+    CPU cpu;
+    init_cpu(&cpu);
+
+    char * instructions[] = {
+        "MOV r0 #10",
+        "MOV r1 #10"
+    };
+    int r = execute_alu_instructions(instructions, 2, &cpu);
+    read_register(0, &cpu.registers, &r0v);
+    read_register(1, &cpu.registers, &r1v);
+    CU_ASSERT_EQUAL(r0v, 10)
+    CU_ASSERT_EQUAL(r1v, 10)
+    CU_ASSERT_EQUAL(r, 2);
+
+    char i[64] = "ADD r2 r0 r1";
+    uint32_t actual;
+    uint32_t expected =  0xE0802001;
+
+    encode_instruction(i, &actual);
+    CU_ASSERT_EQUAL(actual, expected)
+    alu_execute(actual,&cpu);
+
+    uint32_t r2v;
+    read_register(2, &cpu.registers, &r2v);
+    CU_ASSERT_EQUAL(r2v, 20)
+
+}
 
 void test_encode_alu_missing_reg_shift_operand(){
     char instruction[64] = "ADDS R1, R3, r4, LSL";
     uint32_t encoded;
-    CU_ASSERT_EQUAL(encode_instruction(instruction, &encoded), -1)
+    CU_ASSERT_TRUE(encode_instruction(instruction, &encoded) < 0)
 }
 void test_encode_alu_invalid_reg_imm_shift(){
     char instruction[64] = "ADDS R1, R3, r4, LSL #200";
     uint32_t encoded;
-    CU_ASSERT_EQUAL(encode_instruction(instruction, &encoded), -1)
+    CU_ASSERT_TRUE(encode_instruction(instruction, &encoded) < 0)
 }
 
 void test_encode_alu_invalid_shift_op(){
     char instruction[64] = "ADDS R1, R3, r4, LSA r5";
     uint32_t encoded;
-    CU_ASSERT_EQUAL(encode_instruction(instruction, &encoded), -1)
+    CU_ASSERT_TRUE(encode_instruction(instruction, &encoded) < 0)
 
 }
 void test_encode_alu_invalid_invalid_parameter_value(){
     char instruction[64] = "ADDS R1, R3, r4, LSL d5";
     uint32_t encoded;
-    CU_ASSERT_EQUAL(encode_instruction(instruction, &encoded), -1)
+    CU_ASSERT_TRUE(encode_instruction(instruction, &encoded) < 0)
 
 }
 
 void test_encode_alu_invalid_shift_rm_as_op(){
     char instruction[64] = "ADDS R1, R3, r4, LSA r55";
     uint32_t encoded;
-    CU_ASSERT_EQUAL(encode_instruction(instruction, &encoded), -1)
+    CU_ASSERT_TRUE(encode_instruction(instruction, &encoded)<0)
 
 }
 
@@ -143,7 +173,7 @@ void test_mov_with_encode_two_register(){
     char instruction[64] = "MOV r1 r2";
     uint32_t encoded;
     CU_ASSERT_FALSE(encode_instruction(instruction, &encoded))
-    CU_ASSERT_EQUAL((encoded >> 16) & 0xF, 0)
+    CU_ASSERT_EQUAL((encoded >> 16) & 0xF, 1)
     CU_ASSERT_EQUAL((encoded >> 12) & 0xF, 1)
     CU_ASSERT_EQUAL(encoded & 0xF, 2)
 
@@ -152,7 +182,7 @@ void test_mov_with_two_values_one_immediate(){
     char instruction[64] = "MOV r1 #10";
     uint32_t encoded;
     CU_ASSERT_FALSE(encode_instruction(instruction, &encoded))
-    CU_ASSERT_EQUAL((encoded >> 16) & 0xF, 0)
+    CU_ASSERT_EQUAL((encoded >> 16) & 0xF, 1)
     CU_ASSERT_EQUAL((encoded >> 12) & 0xF, 1)
     CU_ASSERT_EQUAL(encoded & 0xF, 10)
 
@@ -179,7 +209,8 @@ int add_assembler_tests(){
     ADD_TEST(test_mov_with_two_values_one_immediate)
     ADD_TEST(test_find_invalid_alu_opcode)
     ADD_TEST(test_find_invalid_alu_opcode_double)
+    ADD_TEST(test_ADD_two_registers_into_third_register)
 
-    // Register specified shift amount tests 
+    // Register specified shift amount tests
     return CUE_SUCCESS;
 }
