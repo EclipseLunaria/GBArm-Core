@@ -148,7 +148,7 @@ int encode_alu_instruction(char tokens[16][8], int n, uint32_t *encodedInstructi
     // handle two register params
     if (n == 3){
         
-        *encodedInstruction |= rn;
+        *encodedInstruction |= rd;
         return 0;
     }
 
@@ -246,9 +246,9 @@ int tokenize_instruction(char * buffer, char tokens[16][8]) {
     while (pch != NULL && i < 16) {
         strcpy(tokens[i], pch);  // Copy the token into the array
         i++;
-        // printf("\nTOKEN %d: %s\n", i, pch);
+        printf("\nTOKEN %d: %s\n", i, pch);
         pch = strtok(NULL, " ,;\n");
-        if (i == 1 && !strncmp("MOV", tokens[0],3)) {
+        if (i == 1 && (!strncmp("MOV", tokens[0],3))) {
             strcpy(tokens[i], pch);
             i++;
         }

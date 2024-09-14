@@ -138,6 +138,25 @@ void test_ADD_two_registers_into_third_register(){
 
 }
 
+void test_ADD_two_registers_given_two_registers(){
+    uint32_t r0v;
+    uint32_t r1v;
+    CPU cpu;
+    init_cpu(&cpu);
+
+    char * instructions[] = {
+        "MOV r1 #10",
+        "ADD r0 r1",
+    };
+    int r = execute_alu_instructions(instructions, 2, &cpu);
+    read_register(1, &cpu.registers, &r1v);
+    CU_ASSERT_EQUAL(r1v, 10)
+    CU_ASSERT_EQUAL(r, 2);
+    read_register(0, &cpu.registers, &r0v);
+    CU_ASSERT_EQUAL(r0v, 10)
+
+}
+
 void test_encode_alu_missing_reg_shift_operand(){
     char instruction[64] = "ADDS R1, R3, r4, LSL";
     uint32_t encoded;
@@ -210,6 +229,7 @@ int add_assembler_tests(){
     ADD_TEST(test_find_invalid_alu_opcode)
     ADD_TEST(test_find_invalid_alu_opcode_double)
     ADD_TEST(test_ADD_two_registers_into_third_register)
+    ADD_TEST(test_ADD_two_registers_given_two_registers)
 
     // Register specified shift amount tests
     return CUE_SUCCESS;
