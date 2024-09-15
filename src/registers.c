@@ -64,7 +64,6 @@ int set_mode(uint8_t mode, CpuRegister * cpu_reg){
     mode &= 0xF;
     if (mode >= 6) return -1;
     if (mode == 0 && cpu_reg->current_mode != 0) cpu_reg->cpsr = *cpu_reg->current_registers->p_spsr;
-
     cpu_reg->current_mode = mode;
     // cpu_reg->current_registers = &cpu_reg->register_sets[mode];
     (*cpu_reg).current_registers = &cpu_reg->register_sets[mode];

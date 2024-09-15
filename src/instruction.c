@@ -28,14 +28,16 @@ int is_mrs(uint32_t instruction){
 }
 
 int MRS(instruction_t instruction, CPU* cpu){
-    uint8_t ps = (1 << 22) & instruction;
+    uint8_t ps = (instruction >> 22) & 1;
     uint8_t is_privilaged = cpu->registers.current_mode != 0;
     reg_t rd = (instruction >> 12) & 0xF;
-
+    printf("\nCURRENT MODE: %d, PS: %d, RD: %d\n", cpu->registers.current_mode, ps, rd);
     if (ps && is_privilaged){
         write_register(rd, *cpu->registers.current_registers->p_spsr, &cpu->registers);
+        printf("\n\nSUPER USER MODE");
     }
     else {
+        printf("\n\n\nUSERMODE");
         write_register(rd, cpu->registers.cpsr, &cpu->registers);
     }
     return 0;
