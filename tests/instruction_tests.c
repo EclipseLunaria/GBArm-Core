@@ -3,6 +3,7 @@
 #include "instruction.h"
 #include "alu.h"
 #include "cpu.h"
+#include "test_macros.h"
 
 
 void test_direct_branch_call(){
@@ -32,17 +33,56 @@ void test_double_branch_and_load(){
 
 }
 
-// void test_eval_register_operand_no_shift(){
-//     CPU cpu;
-//     init_cpu(&cpu);
-//     uint16_t op2Code = 0x005;
-//     uint32_t expected = 420710;
-//     write_register(0x5, expected, &cpu.registers);
-//     uint32_t actual;
-//     evaluateRegOperand(op2Code, &cpu, &actual);
-//     CU_ASSERT_EQUAL(actual, expected)
-// }
+void test_is_mrs_detection(){
+    instruction_t mrs_instr = 0xE10F0000;
+    instruction_t other_instr = 0xE3A00000;
 
+    CU_ASSERT_TRUE(is_mrs(mrs_instr))
+    CU_ASSERT_FALSE(is_mrs(other_instr))
+}
+
+void test_MRS_for_CPSR_target_in_user_mode(){
+    CPU cpu;
+    init_cpu(&cpu);
+    //set test flags
+    cpu.CPSR->A = 1;
+    cpu.CPSR->C = 1;
+    cpu.CPSR->Q = 1;
+    uint32_t cpsr = cpu.registers.cpsr;
+    // MRS R0, CPSR
+    MRS(0XE10F0000, &cpu);
+    uint32_t rv;
+    read_register(0, &cpu.registers, &rv);
+    CU_ASSERT_EQUAL(rv, cpsr)
+
+}
+
+void test_MRS_for_CPSR_target_in_privilage_mode(){
+    CPU cpu;
+    init_cpu(&cpu);
+    //set test flags
+    cpu.CPSR->A = 1;
+    cpu.CPSR->C = 1;
+    cpu.CPSR->Q = 1;
+    set_mode(1, &cpu.registers);
+
+    uint32_t cpsr = cpu.registers.cpsr;
+    // MRS R0, CPSR
+    MRS(0XE10F0000, &cpu);
+    
+    // CU_ASSERT_EQUAL(*cpu.registers.current_registers->p_spsr, cpsr)
+    uint32_t rv;
+    read_register(0, &cpu.registers, &rv);
+    CU_ASSERT_EQUAL(rv, cpsr)
+}
+
+void test_MRS_for_SPSR_target_in_privilage_mode(){
+
+}
+
+void test_MRS_for_SPSR_target_in_user_mode(){
+
+}
 
 
 int add_instruction_tests(){
@@ -50,6 +90,9 @@ int add_instruction_tests(){
 
     if (suite == NULL) return CU_get_error();
 
+    ADD_TEST(test_is_mrs_detection)
+    ADD_TEST(test_MRS_for_CPSR_target_in_user_mode)
+    ADD_TEST(test_MRS_for_CPSR_target_in_privilage_mode)
     // if (NULL == CU_add_test(suite, "test direct branch call", test_direct_branch_call)) {
     //     CU_cleanup_registry();
     //     return CU_get_error();

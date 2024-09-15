@@ -1,6 +1,7 @@
 #include <CUnit/CUnit.h>
 #include <CUnit/Basic.h>
 #include "cpu.h"
+#include "test_macros.h"
 
 
 
@@ -37,11 +38,21 @@ void test_clock_cpu_load_instruction(){
     CU_ASSERT_EQUAL(*cpu.registers.PC, 4);
 }   
 
+void test_spsr_cpu_init(){
+    CPU cpu;
+    init_cpu(&cpu);
+    for (int i = 0; i < 5; ++i){
+        CU_ASSERT_PTR_NOT_NULL(cpu.registers.current_registers->p_spsr)
+    }
+}
+
 int add_cpu_tests(){
     CU_pSuite suite = CU_add_suite("CPU Tests",0,0);
 
     if (suite == NULL) return CU_get_error();
 
+
+    ADD_TEST(test_spsr_cpu_init)
 
     if (NULL == CU_add_test(suite, "test init cpu", test_cpu_init)) {
         CU_cleanup_registry();
@@ -57,11 +68,6 @@ int add_cpu_tests(){
         CU_cleanup_registry();
         return CU_get_error();
     }
-
-
-
-
-
 
     return CUE_SUCCESS;
 }

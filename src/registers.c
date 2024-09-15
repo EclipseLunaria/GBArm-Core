@@ -36,6 +36,15 @@ int init_registers(CpuRegister * cpuRegister){
         cpuRegister->register_sets[0].p_registers[i] = &cpuRegister->register_data.registers[i];
     }
 
+    // set SPSR pointers
+    for (int i = 0; i < 6; ++i){
+        if (i==0) {
+            cpuRegister->register_sets[0].p_spsr = &cpuRegister->cpsr;
+            continue;
+        }
+        cpuRegister->register_sets[i].p_spsr = &cpuRegister->register_data.spsr_registers[i-1];
+    }
+
     // set banked registers
     for (uint8_t i = 0; i<5;i++){
         for (uint8_t j = 0; j<size[i]; ++j) {
@@ -52,9 +61,16 @@ int init_registers(CpuRegister * cpuRegister){
 
 
 int set_mode(uint8_t mode, CpuRegister * cpu_reg){
+    mode &= 0xF;
     if (mode >= 6) return -1;
+    if (mode == 0 && cpu_reg->current_mode != 0) cpu_reg->cpsr = *cpu_reg->current_registers->p_spsr;
+
     cpu_reg->current_mode = mode;
+    // cpu_reg->current_registers = &cpu_reg->register_sets[mode];
     (*cpu_reg).current_registers = &cpu_reg->register_sets[mode];
+    assert(cpu_reg->current_mode != 0 && cpu_reg->current_registers->p_spsr != NULL);
+    if (mode != 0) *cpu_reg->current_registers->p_spsr = cpu_reg->cpsr;
+    
     return 0;
 }
 int read_register(uint8_t reg_number, CpuRegister * cpu_reg, uint32_t *buf) {

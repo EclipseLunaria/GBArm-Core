@@ -101,17 +101,16 @@ int get_shift_code(char * op, uint32_t *shift_code) {
 
 int encode_alu_instruction(char tokens[16][8], int n, uint32_t *encodedInstruction){
     *encodedInstruction = 0;
-    printf("TOKEN VAL: %s", tokens[0]);
     //get opcode
     uint32_t opCode = find_alu_opcode(tokens[0]);
     *encodedInstruction |= opCode << 21;
-    printf("\nENCODED INSTRUCTION %x LINE %d\n", *encodedInstruction, __LINE__);
+    // printf("\nENCODED INSTRUCTION %x LINE %d\n", *encodedInstruction, __LINE__);
     // eval cond
     uint32_t cond = find_cond(tokens[0]);
     // printf("COND: %x\n", cond);
     *encodedInstruction |= cond << 28;
     // printf("\n%x h\n", *encodedInstruction);
-    printf("\nENCODED INSTRUCTION %x LINE %d\n", *encodedInstruction, __LINE__);
+    // printf("\nENCODED INSTRUCTION %x LINE %d\n", *encodedInstruction, __LINE__);
     
     // read dest register
     int rd = parse_register_value(tokens[1]);
@@ -129,7 +128,7 @@ int encode_alu_instruction(char tokens[16][8], int n, uint32_t *encodedInstructi
         return -1;
     }
     *encodedInstruction |= rn << 16;
-    printf("\nENCODED INSTRUCTION %x LINE %d\n", *encodedInstruction, __LINE__);
+    // printf("\nENCODED INSTRUCTION %x LINE %d\n", *encodedInstruction, __LINE__);
 
     // set S bit
     char * coffset = tokens[0] + 3;
@@ -143,7 +142,7 @@ int encode_alu_instruction(char tokens[16][8], int n, uint32_t *encodedInstructi
         *encodedInstruction |= (coffset[0] == 'S') << 20;
     }
 
-    printf("\nENCODED INSTRUCTION %x LINE %d\n", *encodedInstruction, __LINE__);
+    // printf("\nENCODED INSTRUCTION %x LINE %d\n", *encodedInstruction, __LINE__);
 
     // handle two register params
     if (n == 3){
@@ -155,13 +154,13 @@ int encode_alu_instruction(char tokens[16][8], int n, uint32_t *encodedInstructi
     
 
     if (is_register(tokens[3])){
-    printf("\nENCODED INSTRUCTION %x LINE %d\n", *encodedInstruction, __LINE__);
+    // printf("\nENCODED INSTRUCTION %x LINE %d\n", *encodedInstruction, __LINE__);
         int rm = parse_register_value(tokens[3]);
         if (rm == -1) {
             return -1;
         }
         *encodedInstruction |= rm;
-        printf("\nENCODED INSTRUCTION %x LINE %d\n", *encodedInstruction, __LINE__);
+        // printf("\nENCODED INSTRUCTION %x LINE %d\n", *encodedInstruction, __LINE__);
         // there is a shift operation performed
         if (n > 4){
             if (n == 5) {
@@ -203,11 +202,11 @@ int encode_alu_instruction(char tokens[16][8], int n, uint32_t *encodedInstructi
             }
         }
         
-        printf("\nENCODED INSTRUCTION %x LINE %d\n", *encodedInstruction, __LINE__);
+        // printf("\nENCODED INSTRUCTION %x LINE %d\n", *encodedInstruction, __LINE__);
         
     }
     else if (is_immediate(tokens[3])){
-        printf("\nENCODED INSTRUCTION %x LINE %d\n", *encodedInstruction, __LINE__);
+        // printf("\nENCODED INSTRUCTION %x LINE %d\n", *encodedInstruction, __LINE__);
         // set I bit
         *encodedInstruction |= 1 << 25;
 
@@ -246,7 +245,7 @@ int tokenize_instruction(char * buffer, char tokens[16][8]) {
     while (pch != NULL && i < 16) {
         strcpy(tokens[i], pch);  // Copy the token into the array
         i++;
-        printf("\nTOKEN %d: %s\n", i, pch);
+        // printf("\nTOKEN %d: %s\n", i, pch);
         pch = strtok(NULL, " ,;\n");
         if (i == 1 && (!strncmp("MOV", tokens[0],3))) {
             strcpy(tokens[i], pch);
