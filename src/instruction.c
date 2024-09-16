@@ -1,6 +1,8 @@
 #include "instruction.h"
 #include "cpu.h"
 #include "registers.h"
+#include "constants.h"
+
 #define MRS_INSTR_MASK  0x0FB0FFFF
 #define MRS_INSTR_VALUE 0x01000000
 
@@ -31,14 +33,40 @@ int MRS(instruction_t instruction, CPU* cpu){
     uint8_t ps = (instruction >> 22) & 1;
     uint8_t is_privilaged = cpu->registers.current_mode != 0;
     reg_t rd = (instruction >> 12) & 0xF;
-    printf("\nCURRENT MODE: %d, PS: %d, RD: %d\n", cpu->registers.current_mode, ps, rd);
     if (ps && is_privilaged){
         write_register(rd, *cpu->registers.current_registers->p_spsr, &cpu->registers);
-        printf("\n\nSUPER USER MODE");
     }
     else {
-        printf("\n\n\nUSERMODE");
         write_register(rd, cpu->registers.cpsr, &cpu->registers);
     }
     return 0;
+}
+
+#define MSR_REG_MASK_VALUE 0x0FC00000  // Mask for bits [27:22]
+#define MSR_REG_VALUE      0x01000000  // Value for bits [27:22] = '000100'
+
+int is_msr_reg(instruction_t instruction) {
+    return (instruction & MSR_REG_MASK_VALUE) == MSR_REG_VALUE;
+}
+
+int MSR_REG(instruction_t instruction, CPU * cpu){
+    flag_t f = (instruction >> 19) & 1;
+    flag_t c = (instruction >> 16) & 1;
+    reg_t rm = instruction & 0xF;
+    uint32_t rm_value;
+    read_register(rm, cpu, &rm_value);
+
+    if (cpu->registers.current_mode != USER_MODE && f){
+        
+    }
+
+
+
+}
+
+#define MSR_IMM_MASK_VALUE 0x0FB00000  // Mask for MSR (immediate)
+#define MSR_IMM_VALUE      0x03200000  // Value for MSR (immediate)
+
+int is_msr_imm(instruction_t instruction){
+    return (instruction & MSR_IMM_MASK_VALUE) == MSR_IMM_VALUE;
 }

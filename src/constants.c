@@ -1,4 +1,8 @@
 #include "constants.h"
+// execution modes
+#define USER_MODE 0
+#define SUPERVISOR_MODE 1
+
 
 char * COND_TYPE_STRS[] = {
     "EQ",
