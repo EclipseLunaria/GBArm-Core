@@ -2,6 +2,7 @@
 #include "cpu.h"
 #include "registers.h"
 #include "constants.h"
+#include "barrel_shifter.h"
 
 #define MRS_INSTR_MASK  0x0FB0FFFF
 #define MRS_INSTR_VALUE 0x01000000
@@ -49,6 +50,7 @@ int is_msr_reg(instruction_t instruction) {
     return (instruction & MSR_REG_MASK_VALUE) == MSR_REG_VALUE;
 }
 
+// TODO: Combine MSR functions.
 int MSR_REG(instruction_t instruction, CPU * cpu){
     flag_t f = (instruction >> 19) & 1;
     flag_t c = (instruction >> 16) & 1;
@@ -56,8 +58,15 @@ int MSR_REG(instruction_t instruction, CPU * cpu){
     uint32_t rm_value;
     read_register(rm, cpu, &rm_value);
 
-    if (cpu->registers.current_mode != USER_MODE && f){
-        
+    if (cpu->registers.current_mode != USER_MODE && c){
+        //clear flags
+        cpu->registers.cpsr &= 0xFFFFFFF0;
+        cpu->registers.cpsr |= rm_value & 0xF;
+    }
+    if (f) {
+        cpu->registers.cpsr = 0x0FFFFFFFF;
+        cpu->registers.cpsr |= rm_value & 0xF0000000;
+
     }
 
 
@@ -69,4 +78,24 @@ int MSR_REG(instruction_t instruction, CPU * cpu){
 
 int is_msr_imm(instruction_t instruction){
     return (instruction & MSR_IMM_MASK_VALUE) == MSR_IMM_VALUE;
+}
+
+int MSR_IMM(instruction_t instruction, CPU*cpu){
+    flag_t f = (instruction >> 19) & 1;
+    flag_t c = (instruction >> 16) & 1;
+    uint32_t imm = instruction & 0x0000000F;
+    uint32_t shift = instruction & 0x00000400;
+    BS_FLAGS flags;
+    uint32_t result;
+
+    BS_ROR(imm, shift, &flags, &result);
+        if (cpu->registers.current_mode != USER_MODE && c){
+        //clear flags
+        cpu->registers.cpsr &= 0xFFFFFFF0;
+        cpu->registers.cpsr |= result & 0xF;
+    }
+    if (f) {
+        cpu->registers.cpsr = 0x0FFFFFFFF;
+        cpu->registers.cpsr |= result & 0xF0000000;
+    }
 }
