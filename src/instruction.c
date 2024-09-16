@@ -69,7 +69,7 @@ int MSR_REG(instruction_t instruction, CPU * cpu){
 
     }
 
-
+    return 0;
 
 }
 
@@ -98,4 +98,96 @@ int MSR_IMM(instruction_t instruction, CPU*cpu){
         cpu->registers.cpsr = 0x0FFFFFFFF;
         cpu->registers.cpsr |= result & 0xF0000000;
     }
+    return 0;
+}
+
+// Single data transfer
+int SDT(instruction_t instruction, CPU *cpu){
+    address_t address;
+    BS_FLAGS flags;
+    flag_t I = (instruction >> 25) & 1; // Immediate Offset Flag (0=Immediate, 1=Shifted Register)
+    flag_t P = (instruction >> 24) & 1; // Pre/Post (0=post; add offset after transfer, 1=pre; before trans.)
+    flag_t U = (instruction >> 24) & 1; // Up/Down Bit (0=down; subtract offset from base, 1=up; add to base)
+    flag_t B = (instruction >> 22) & 1; // Byte/Word bit (0=transfer 32bit/word, 1=transfer 8bit/byte)
+    flag_t TW = (instruction >> 21) & 1;// 
+    flag_t L = (instruction >> 20) & 1; // Load/Store bit (0=Store to memory, 1=Load from memory)
+    reg_t rn = (instruction >> 16) & 0xF;
+    reg_t rd = (instruction >> 12) & 0xF;
+    uint32_t rn_value;
+    uint32_t rd_value;
+    read_register(rn, cpu, &rn_value);
+    read_register(rd, cpu, &rd_value);
+    if (rn == 15) rn_value += 8;
+    if (rd == 15) rd_value += 12;
+
+    // calculate offset
+    int offset;
+    if (I) offset = instruction & 0xFFF;
+    else {
+        uint8_t imm_shift = (instruction >> 7) & 0x4;
+        uint8_t shift_type = (instruction >> 5) & 0b11;
+        reg_t rm = instruction & 0xF;
+        uint32_t rm_value;
+        read_register(rm, &cpu->registers, rm_value);
+        offset = shiftOp[shift_type](imm_shift, rm_value,&flags,&offset);
+    }
+    address_t offset_address = U ? rn_value + offset : rn_value - offset;
+    //set to offset if preindexed
+    if (P) address = offset_address;
+    if(TW) write_register(rn, address,&cpu->registers);
+
+    if (L){
+        uint32_t value;
+        // load from memory
+        B ? read_byte(address, &value) : read_word(address, &value);
+    }
+    else {
+        //store to memory
+        if (B) rd_value &= 0xFF;
+        B ? write_byte(address, rd_value): write_word(address, &rd_value);
+    }
+    // set address to post index if not already set
+    address = offset_address;
+    return 0;
+
+}
+
+int store_half_word(address_t address, reg_t rd, word_t word, CPU* cpu){
+    write_half_word(address, (uint16_t)word);
+}
+
+int load_double_word(address_t address, reg_t rd, word_t word, CPU *cpu){
+
+}
+
+
+int STDT(instruction_t instruction, CPU *cpu){
+    address_t address;
+    BS_FLAGS flags;
+    flag_t P = (instruction >> 24) & 1; // Pre/Post (0=post; add offset after transfer, 1=pre; before trans.)
+    flag_t U = (instruction >> 24) & 1; // Up/Down Bit (0=down; subtract offset from base, 1=up; add to base)
+    flag_t I = (instruction >> 22) & 1; // Immediate Offset Flag (0=Immediate, 1=Shifted Register)
+    flag_t TW = (instruction >> 21) & 1;// 
+    flag_t L = (instruction >> 20) & 1; // Load/Store bit (0=Store to memory, 1=Load from memory)
+    reg_t rn = (instruction >> 16) & 0xF;
+    reg_t rd = (instruction >> 12) & 0xF;
+    uint8_t opcode = (instruction >> 5) & 0b11;
+    uint32_t rn_value;
+    uint32_t rd_value;
+    read_register(rn, cpu, &rn_value);
+    read_register(rd, cpu, &rd_value);
+    if (rn == 15) rn_value += 8;
+    if (rd == 15) rd_value += 12;
+
+    uint32_t offset;
+    if (I) {
+        offset = (((instruction >> 8) & 0xF ) << 4) | (instruction  & 0xF);
+    }
+    else {
+        read_register(instruction & 0xF, &cpu->registers, &offset);
+    }
+    address = rn_value;
+    address_t offset_address = U ? address + offset : address - offset;
+
+
 }
