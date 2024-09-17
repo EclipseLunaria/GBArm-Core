@@ -4,8 +4,36 @@
 #include "constants.h"
 #include "barrel_shifter.h"
 
-#define MRS_INSTR_MASK  0x0FB0FFFF
-#define MRS_INSTR_VALUE 0x01000000
+
+
+int execute_instruction(instruction_t instruction, CPU *cpu){
+    
+    int execution_state;
+    // is branch exchange
+
+
+    if (((instruction >> 26) & 0b11) == 0){
+        // is swap
+        if ()
+        SWP(instruction, cpu);
+        
+        // is multiply
+        if (((instruction >> 24) & 0xF && (instruction >> 4 == 0x9)) == 0){
+        execution_state = ((instruction >> 23) & 1) 
+        ? handle_long_multiply(instruction, cpu)
+        : handle_multiply(instruction, cpu);
+        }
+
+        // is PSR
+        MRS(instruction, cpu);
+        MSR_IMM(instruction, cpu);
+        MSR_REG(instruction, cpu);
+
+        // is ALU
+        alu_execute(instruction, cpu);
+    }
+}
+
 
 // Handles logic for B BL B{cond}
 int B(CPU * cpu){
@@ -25,6 +53,8 @@ int B(CPU * cpu){
     return 0;
 }
 
+#define MRS_INSTR_MASK  0x0FB0FFFF
+#define MRS_INSTR_VALUE 0x01000000
 
 int is_mrs(uint32_t instruction){
     return (instruction & MRS_INSTR_MASK) == MRS_INSTR_VALUE;
