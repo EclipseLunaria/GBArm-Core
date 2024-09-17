@@ -19,10 +19,13 @@ int MSR_IMM(instruction_t instruction, CPU *cpu);
 //Single Data Transfer: LDR, STR, PLD
 int SDT(instruction_t instruction, CPU *cpu);
 
-// store methods
-int store_half_word(address_t address, uint64_t lword, CPU* cpu);
-int load_double_word(address_t address, uint64_t lword, CPU *cpu);
-
-
 int STDT(instruction_t instruction, CPU *cpu);
+//Block Data Transfer
+int BDT(instruction_t instruction, CPU *cpu);
+
+// Single data swap
+int SWP(instruction_t instruction, CPU *cpu);
+
+// Software Interrupt
+int SWI(instruction_t instruction, CPU *cpu);
 #endif

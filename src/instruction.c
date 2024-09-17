@@ -160,6 +160,8 @@ int load_double_word(address_t address, reg_t rd, word_t word, CPU *cpu){
 
 }
 
+int store_double_word(address_t address, reg_t rd, word_t word, CPU *cpu);
+
 
 int STDT(instruction_t instruction, CPU *cpu){
     address_t address;
@@ -186,8 +188,121 @@ int STDT(instruction_t instruction, CPU *cpu){
     else {
         read_register(instruction & 0xF, &cpu->registers, &offset);
     }
+
     address = rn_value;
     address_t offset_address = U ? address + offset : address - offset;
+    if (P) address = offset_address;
+    if(TW) write_register(rn, address,&cpu->registers);
 
+    // Handle operation flow
+    if (L) {
+        switch (opcode)
+        {
+        case 1:
+            //load unsigned half word.
+            read_half_word(address, &rd_value);
+            
+            write_register(rd, rd_value, &cpu->registers);
+            break;
 
+        case 2:
+                //load signed byte.
+                read_half_word(address,&rd_value);
+                if (rd_value & 0x8000) {  // Check if the 16th bit is set (indicating a negative value)
+                    rd_value |= 0xFFFF0000;  // Set the upper 16 bits to 1 for sign extension
+                } else {
+                    rd_value &= 0x0000FFFF;  // Clear the upper 16 bits (no sign extension needed)
+                }
+
+                write_register(rd_value, &rd_value, &cpu->registers);
+                break;
+
+        case 3:
+                //load signed half word.
+                read_half_word(address,&rd_value);
+                if (rd_value & 0x80) {  // Check if the 16th bit is set (indicating a negative value)
+                    rd_value |= 0xFFFFFF00;  // Set the upper 16 bits to 1 for sign extension
+                } else {
+                    rd_value &= 0x000000FF;  // Clear the upper 16 bits (no sign extension needed)
+                }
+                write_register(rd_value, &rd_value, &cpu->registers);
+                break;
+        
+        default:
+            break;
+        }
+    }
+    else {
+        switch (opcode){
+            case 1:
+                write_half_word(address, &rd_value);
+                break;
+
+            case 2:
+                uint32_t second_register_value; // rd + 1
+                read_word(address, &rd_value);
+                read_word(address + 4, &second_register_value);
+                write_register(rd, rd_value, &cpu->registers);
+                write_register(rd+1, &second_register_value, &cpu->registers);
+                break;
+            
+            case 3:
+                uint32_t top_register_value; // rd + 1
+                read_register(rd + 1, &cpu->registers, &top_register_value);
+                write_word(address, &rd_value);
+                write_word(address + 4, &top_register_value);
+                break;
+            }
+    }
+    address = offset_address;
+    return 0;
+
+}
+// Block Data Transfer (LDM, STM)
+int BDT(instruction_t instruction, CPU *cpu) {
+    flag_t P = (instruction >> 24) & 1;
+    flag_t U = (instruction >> 23) & 1;
+    flag_t S = (instruction >> 22) & 1;
+    flag_t W = (instruction >> 21) & 1;
+    flag_t L = (instruction >> 20) & 1;
+    reg_t rn = (instruction >> 16) & 1;
+    uint32_t address;
+    read_register(rn, &cpu->registers, &address);
+    for (int i = 0; i < 16; ++i){
+        if(!((instruction >> i) & 1)) continue;
+        uint32_t register_value;
+        S ? read_user_register(i, &cpu->registers, &register_value) : read_register(i, &cpu->registers, &register_value);
+        if (P) address += U ? 4 : -4;
+        write_word(address, &register_value);
+        if (!P) address += U ? 4 : -4;
+    }
+    return 0;
+}
+
+int SWP(instruction_t instruction, CPU *cpu){
+    flag_t B = (instruction >> 22) & 1;
+    reg_t rn = (instruction >> 16) & 0xF;
+    reg_t rd = (instruction >> 12) & 0xF;
+    reg_t rm = instruction & 1;
+    assert(rn != 15);
+    assert(rd != 15);
+    assert(rm != 15);
+
+    uint32_t rm_value;
+    read_register(rm, &cpu->registers, rm_value);
+    address_t address;
+    uint32_t memory_value;
+    read_register(rn, &cpu->registers, &address);
+    B ? read_byte(address, &memory_value) : read_word(address, &memory_value);
+    B ? write_byte(address, &rm_value) : write_word(address, &rm_value);
+    write_register(rd, &memory_value, &cpu->registers);
+    return 0;
+}
+
+// Software Interrupt
+int SWI(instruction_t instruction, CPU *cpu) {
+    set_mode(1, &cpu->registers);
+    write_register(14, *cpu->registers.PC, &cpu->registers);
+    write_register(15, 0x08, &cpu->registers);
+    return 0;
 }

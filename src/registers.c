@@ -77,6 +77,13 @@ int read_register(uint8_t reg_number, CpuRegister * cpu_reg, uint32_t *buf) {
     *buf = *cpu_reg->current_registers->p_registers[reg_number];
     return 0;
 }
+
+int read_user_register(uint8_t reg_number, CpuRegister * cpu_reg, uint32_t *buf) {
+    if (reg_number >= 16) return -1;
+    *buf = cpu_reg->register_data.registers[reg_number];
+    return 0;
+}
+
 int write_register(uint8_t reg_number, uint32_t value, CpuRegister * cpu_reg){
     if (reg_number >= 16) return -1;
     *cpu_reg->current_registers->p_registers[reg_number] = value;

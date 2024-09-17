@@ -273,11 +273,6 @@ int encode_instruction(char * line, uint32_t *instruction){
     if (is_alu_instruction(tokens[0])){
         printf("is ALU Instruction");
         CHECK_ERROR(encode_alu_instruction(tokens, n, instruction), "failed to parse ALU instruction\n")
-        // int v = encode_alu_instruction(tokens, n, instruction);
-        // if (v == -1){
-        //     // printf("failed to parse ALU instruction\n");
-        //     return -1;
-        // } 
     }
 
     return 0;
