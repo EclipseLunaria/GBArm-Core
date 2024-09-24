@@ -1,7 +1,12 @@
 #include "multiply.h"
 
 // Multiply and Multiply-Accumulate (MUL, MLA)
-int handle_multiply(uint32_t instruction, CPU* cpu){
+int handle_multiply(uint32_t instruction, CPU* cpu) {
+    // check set bits
+    if ((instruction & 0x0FC00090) != (0x9 << 4)) {
+        THROW_ERROR("Invalid Set Bits for Multiply Instruction")
+    }
+
     uint8_t A = (instruction >> 21) & 1;
     uint8_t S = (instruction >> 20) & 1;
     uint8_t rd = (instruction >> 16) & 0xF;
@@ -17,7 +22,6 @@ int handle_multiply(uint32_t instruction, CPU* cpu){
     read_register(rs, &cpu->registers, &rsValue);
     read_register(rn, &cpu->registers, &rnValue);
 
-    
     uint32_t rdValue = rmValue * rsValue;
     if (A) rdValue += rnValue;
 
@@ -29,8 +33,12 @@ int handle_multiply(uint32_t instruction, CPU* cpu){
 
     return 0;
 }
-
-int handle_long_multiply(uint32_t instruction, CPU* cpu){
+#define LONG_MUL_MASK (0b11111 << 23 | 0xF << 4)
+#define LONG_MUL_SET_BITS (1 << 23 | 0b1001 << 4)
+int handle_long_multiply(uint32_t instruction, CPU* cpu) {
+    if ((instruction & LONG_MUL_MASK) != LONG_MUL_SET_BITS) {
+        THROW_ERROR("invalid set bits for long multiply")
+    }
     // extract flags
     flag_t U = (instruction >> 22) & 1;
     flag_t A = (instruction >> 21) & 1;
@@ -53,7 +61,9 @@ int handle_long_multiply(uint32_t instruction, CPU* cpu){
     read_register(rm, &cpu->registers, &rmValue);
 
     // handle unsigned vs signed
-    uint64_t product = U ? (uint64_t)rsValue * (uint64_t)rmValue : (int64_t)(int32_t)rsValue * (int64_t)(int32_t)rmValue;
+    uint64_t product =
+        U ? (uint64_t)rsValue * (uint64_t)rmValue
+          : (int64_t)(int32_t)rsValue * (int64_t)(int32_t)rmValue;
 
     uint64_t result = product;
 
@@ -64,9 +74,9 @@ int handle_long_multiply(uint32_t instruction, CPU* cpu){
 
     uint32_t newRdlValue = (uint32_t)(result & 0xFFFFFFFF);
     uint32_t newRdhValue = (uint32_t)((result >> 32) & 0xFFFFFFFF);
-    write_register(rdl, &cpu->registers, newRdlValue);
-    write_register(rdh, &cpu->registers, newRdhValue);
-    
+    write_register(rdl, newRdlValue, &cpu->registers);
+    write_register(rdh, newRdhValue, &cpu->registers);
+
     // if flag bit set
     if (S) {
         cpu->CPSR->N = (newRdhValue >> 31) & 1;
