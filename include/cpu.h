@@ -1,13 +1,12 @@
 #ifndef CPU_H
 #define CPU_H
 
-#include "core.h"
-#include "types.h"
-
-#include "bus.h"
-#include "registers.h"
 #include <stdio.h>
 
+#include "bus.h"
+#include "core.h"
+#include "registers.h"
+#include "types.h"
 
 int init_cpu(CPU *cpu);
 int clock_cpu(CPU *cpu);

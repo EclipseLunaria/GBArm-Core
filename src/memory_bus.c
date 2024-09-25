@@ -1,8 +1,14 @@
 #include "memory_bus.h"
 
+MemorySector GBA_SECTORS[] = {
+    {.start_address = 0x0, .sector_size = 16 * 1024},        {.start_address = 0x02000000, .sector_size = 256 * 1024},
+    {.start_address = 0x03000000, .sector_size = 32 * 1024}, {.start_address = 0x04000000, .sector_size = 0x03FE},
+    {.start_address = 0x05000000, .sector_size = 0x03FF},    {.start_address = 0x06000000, .sector_size = 0x017FFF},
+    {.start_address = 0x07000000, .sector_size = 0x03FF}};
+
 int init_memory_bus(MemorySector sectors[], uint8_t n, MemoryBus* memory_bus) {
     if (n > MAX_SECTORS) {
-        THROW_ERROR("Invalid number of sectors: %d, exceeds %d sectors", n, MAX_SECTORS)
+        THROW_ERROR("Invalid number of sectors: %d, exceeds %d sectors", n, MAX_SECTORS);
     }
     memset(memory_bus, 0, sizeof(MemoryBus));
     size_t current_size = 0;
@@ -10,11 +16,11 @@ int init_memory_bus(MemorySector sectors[], uint8_t n, MemoryBus* memory_bus) {
     // validate sectors in order and do not overlap
     for (int i = 0; i < n; ++i) {
         if (sectors[i].start_address < last_address) {
-            THROW_ERROR("Sectors Must Be in order")
+            THROW_ERROR("Sectors Must Be in order");
         }
 
         if (sectors[i].start_address > sectors[i].start_address + sectors[i].sector_size) {
-            THROW_ERROR("Sector Does not fit in 32 bit address bounds")
+            THROW_ERROR("Sector Does not fit in 32 bit address bounds");
         }
         current_size += sectors[i].sector_size;
         last_address = sectors[i].start_address + sectors[i].sector_size;
@@ -60,7 +66,7 @@ int memory_write_halfword(address_t address, halfword_t halfword, MemoryBus* mem
     }
     printf("\nVALUE: %x %x %x\n", address, psector->start_address, psector->sector_size);
     if (address - psector->start_address > psector->sector_size - 2) {
-        THROW_ERROR("Insufficient addressings space for halfword")
+        THROW_ERROR("Insufficient addressings space for halfword");
     }
 
     *(halfword_t*)&psector->sector_buffer[address - psector->start_address] = halfword;
@@ -72,7 +78,7 @@ int memory_write_word(address_t address, word_t word, MemoryBus* memory_bus) {
         THROW_ERROR("Attempting to write to inaccessable memory location: $%x, check the allocated sectors", address);
     }
     if (address - psector->start_address > psector->sector_size - 4) {
-        THROW_ERROR("Insufficient addressings space for word")
+        THROW_ERROR("Insufficient addressings space for word");
     }
 
     *(word_t*)&psector->sector_buffer[address - psector->start_address] = word;
