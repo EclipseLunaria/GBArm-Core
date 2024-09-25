@@ -15,9 +15,8 @@ int execute_instruction(instruction_t instruction, CPU *cpu) {
 
         // is multiply
         if (((instruction >> 24) & 0xF && (instruction >> 4 == 0x9)) == 0) {
-            execution_state = ((instruction >> 23) & 1)
-                                  ? handle_long_multiply(instruction, cpu)
-                                  : handle_multiply(instruction, cpu);
+            execution_state =
+                ((instruction >> 23) & 1) ? handle_long_multiply(instruction, cpu) : handle_multiply(instruction, cpu);
         }
 
         // is PSR
@@ -33,9 +32,7 @@ int execute_instruction(instruction_t instruction, CPU *cpu) {
 
 // Handles logic for B BL B{cond}
 int B(CPU *cpu) {
-    if (!evaluate_cond((uint8_t)(cpu->loaded_instruction >> 28),
-                       cpu->registers.cpsr))
-        return 0;
+    if (!evaluate_cond((uint8_t)(cpu->loaded_instruction >> 28), cpu->registers.cpsr)) return 0;
     if (cpu->loaded_instruction & (1 << 26)) {
         cpu->registers.LR = cpu->registers.PC + 4;
     }
@@ -54,17 +51,14 @@ int B(CPU *cpu) {
 #define MRS_INSTR_MASK 0x0FB0FFFF
 #define MRS_INSTR_VALUE 0x01000000
 
-int is_mrs(uint32_t instruction) {
-    return (instruction & MRS_INSTR_MASK) == MRS_INSTR_VALUE;
-}
+int is_mrs(uint32_t instruction) { return (instruction & MRS_INSTR_MASK) == MRS_INSTR_VALUE; }
 
 int MRS(instruction_t instruction, CPU *cpu) {
     uint8_t ps = (instruction >> 22) & 1;
     uint8_t is_privilaged = cpu->registers.current_mode != 0;
     reg_t rd = (instruction >> 12) & 0xF;
     if (ps && is_privilaged) {
-        write_register(rd, *cpu->registers.current_registers->p_spsr,
-                       &cpu->registers);
+        write_register(rd, *cpu->registers.current_registers->p_spsr, &cpu->registers);
     } else {
         write_register(rd, cpu->registers.cpsr, &cpu->registers);
     }
@@ -74,9 +68,7 @@ int MRS(instruction_t instruction, CPU *cpu) {
 #define MSR_REG_MASK_VALUE 0x0FC00000  // Mask for bits [27:22]
 #define MSR_REG_VALUE 0x01000000       // Value for bits [27:22] = '000100'
 
-int is_msr_reg(instruction_t instruction) {
-    return (instruction & MSR_REG_MASK_VALUE) == MSR_REG_VALUE;
-}
+int is_msr_reg(instruction_t instruction) { return (instruction & MSR_REG_MASK_VALUE) == MSR_REG_VALUE; }
 
 // TODO: Combine MSR functions.
 int MSR_REG(instruction_t instruction, CPU *cpu) {
@@ -102,9 +94,7 @@ int MSR_REG(instruction_t instruction, CPU *cpu) {
 #define MSR_IMM_MASK_VALUE 0x0FB00000  // Mask for MSR (immediate)
 #define MSR_IMM_VALUE 0x03200000       // Value for MSR (immediate)
 
-int is_msr_imm(instruction_t instruction) {
-    return (instruction & MSR_IMM_MASK_VALUE) == MSR_IMM_VALUE;
-}
+int is_msr_imm(instruction_t instruction) { return (instruction & MSR_IMM_MASK_VALUE) == MSR_IMM_VALUE; }
 
 int MSR_IMM(instruction_t instruction, CPU *cpu) {
     flag_t f = (instruction >> 19) & 1;
@@ -131,18 +121,14 @@ int MSR_IMM(instruction_t instruction, CPU *cpu) {
 int SDT(instruction_t instruction, CPU *cpu) {
     address_t address;
     BS_FLAGS flags;
-    flag_t I = (instruction >> 25) &
-               1;  // Immediate Offset Flag (0=Immediate, 1=Shifted Register)
-    flag_t P = (instruction >> 24) & 1;  // Pre/Post (0=post; add offset after
-                                         // transfer, 1=pre; before trans.)
-    flag_t U = (instruction >> 24) & 1;  // Up/Down Bit (0=down; subtract offset
-                                         // from base, 1=up; add to base)
-    flag_t B =
-        (instruction >> 22) &
-        1;  // Byte/Word bit (0=transfer 32bit/word, 1=transfer 8bit/byte)
+    flag_t I = (instruction >> 25) & 1;   // Immediate Offset Flag (0=Immediate, 1=Shifted Register)
+    flag_t P = (instruction >> 24) & 1;   // Pre/Post (0=post; add offset after
+                                          // transfer, 1=pre; before trans.)
+    flag_t U = (instruction >> 24) & 1;   // Up/Down Bit (0=down; subtract offset
+                                          // from base, 1=up; add to base)
+    flag_t B = (instruction >> 22) & 1;   // Byte/Word bit (0=transfer 32bit/word, 1=transfer 8bit/byte)
     flag_t TW = (instruction >> 21) & 1;  //
-    flag_t L = (instruction >> 20) &
-               1;  // Load/Store bit (0=Store to memory, 1=Load from memory)
+    flag_t L = (instruction >> 20) & 1;   // Load/Store bit (0=Store to memory, 1=Load from memory)
     reg_t rn = (instruction >> 16) & 0xF;
     reg_t rd = (instruction >> 12) & 0xF;
     uint32_t rn_value;
@@ -172,12 +158,12 @@ int SDT(instruction_t instruction, CPU *cpu) {
     if (L) {
         uint32_t value;
         // load from memory
-        B ? read_byte(address, (byte_t *)&value) : read_word(address, &value);
+        B ? memory_read_byte(address, &cpu->memory, (byte_t *)&value) : memory_read_word(address, &cpu->memory, &value);
     } else {
         // store to memory
         if (B) rd_value &= 0xFF;
-        B ? write_byte(address, (byte_t *)&rd_value)
-          : write_word(address, &rd_value);
+        B ? memory_write_byte(address, (byte_t)rd_value, &cpu->memory)
+          : memory_write_word(address, rd_value, &cpu->memory);
     }
     // set address to post index if not already set
     address = offset_address;
@@ -186,15 +172,13 @@ int SDT(instruction_t instruction, CPU *cpu) {
 
 int STDT(instruction_t instruction, CPU *cpu) {
     address_t address;
-    flag_t P = (instruction >> 24) & 1;  // Pre/Post (0=post; add offset after
-                                         // transfer, 1=pre; before trans.)
-    flag_t U = (instruction >> 24) & 1;  // Up/Down Bit (0=down; subtract offset
-                                         // from base, 1=up; add to base)
-    flag_t I = (instruction >> 22) &
-               1;  // Immediate Offset Flag (0=Immediate, 1=Shifted Register)
+    flag_t P = (instruction >> 24) & 1;   // Pre/Post (0=post; add offset after
+                                          // transfer, 1=pre; before trans.)
+    flag_t U = (instruction >> 24) & 1;   // Up/Down Bit (0=down; subtract offset
+                                          // from base, 1=up; add to base)
+    flag_t I = (instruction >> 22) & 1;   // Immediate Offset Flag (0=Immediate, 1=Shifted Register)
     flag_t TW = (instruction >> 21) & 1;  //
-    flag_t L = (instruction >> 20) &
-               1;  // Load/Store bit (0=Store to memory, 1=Load from memory)
+    flag_t L = (instruction >> 20) & 1;   // Load/Store bit (0=Store to memory, 1=Load from memory)
     reg_t rn = (instruction >> 16) & 0xF;
     reg_t rd = (instruction >> 12) & 0xF;
     uint8_t opcode = (instruction >> 5) & 0b11;
@@ -320,10 +304,9 @@ int SWP(instruction_t instruction, CPU *cpu) {
     address_t address;
     uint32_t memory_value;
     read_register(rn, &cpu->registers, &address);
-    B ? read_byte(address, (byte_t *)&memory_value)
-      : read_word(address, &memory_value);
-    B ? write_byte(address, (byte_t *)&rm_value)
-      : write_word(address, &rm_value);
+    B ? memory_read_byte(address, &cpu->memory, (byte_t *)&memory_value + 3)
+      : memory_read_word(address, &cpu->memory, &memory_value);
+    B ? memory_write_byte(address, (byte_t)rm_value, &cpu->memory) : memory_write_word(address, rm_value, &cpu->memory);
     write_register(rd, memory_value, &cpu->registers);
     return 0;
 }
