@@ -119,22 +119,26 @@ int MSR_IMM(instruction_t instruction, CPU *cpu) {
 
 // Single data transfer
 int SDT(instruction_t instruction, CPU *cpu) {
-    address_t address;
+    address_t address = 0;
     BS_FLAGS flags;
     flag_t I = (instruction >> 25) & 1;   // Immediate Offset Flag (0=Immediate, 1=Shifted Register)
     flag_t P = (instruction >> 24) & 1;   // Pre/Post (0=post; add offset after
                                           // transfer, 1=pre; before trans.)
-    flag_t U = (instruction >> 24) & 1;   // Up/Down Bit (0=down; subtract offset
+    flag_t U = (instruction >> 23) & 1;   // Up/Down Bit (0=down; subtract offset
                                           // from base, 1=up; add to base)
     flag_t B = (instruction >> 22) & 1;   // Byte/Word bit (0=transfer 32bit/word, 1=transfer 8bit/byte)
     flag_t TW = (instruction >> 21) & 1;  //
     flag_t L = (instruction >> 20) & 1;   // Load/Store bit (0=Store to memory, 1=Load from memory)
     reg_t rn = (instruction >> 16) & 0xF;
-    reg_t rd = (instruction >> 12) & 0xF;
+    reg_t rd = (instruction >> 12) & 0xF;  // value stored or loaded
+
+    // read register values
     uint32_t rn_value;
     uint32_t rd_value;
     read_register(rn, &cpu->registers, &rn_value);
     read_register(rd, &cpu->registers, &rd_value);
+
+    // handle case of rn or rd == PC
     if (rn == 15) rn_value += 8;
     if (rd == 15) rd_value += 12;
 
@@ -148,7 +152,7 @@ int SDT(instruction_t instruction, CPU *cpu) {
         reg_t rm = instruction & 0xF;
         uint32_t rm_value;
         read_register(rm, &cpu->registers, &rm_value);
-        offset = shiftOp[shift_type](imm_shift, rm_value, &flags, &offset);
+        offset = imm_shift ? shiftOp[shift_type](imm_shift, rm_value, &flags, &offset) : rm_value;
     }
     address_t offset_address = U ? rn_value + offset : rn_value - offset;
     // set to offset if preindexed
@@ -167,6 +171,7 @@ int SDT(instruction_t instruction, CPU *cpu) {
     }
     // set address to post index if not already set
     address = offset_address;
+    write_register(rn, address, &cpu->registers);
     return 0;
 }
 

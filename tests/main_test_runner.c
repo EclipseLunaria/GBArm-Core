@@ -11,6 +11,7 @@ extern int add_assembler_tests();
 extern int add_multiply_tests();
 extern int add_multiply_long_tests();
 extern int add_memory_bus_tests();
+extern int add_data_transfer_tests();
 
 int main() {
     if (CUE_SUCCESS != CU_initialize_registry()) {
@@ -28,6 +29,8 @@ int main() {
     add_multiply_tests();
     add_multiply_long_tests();
     add_memory_bus_tests();
+    add_data_transfer_tests();
+
     CU_basic_set_mode(CU_BRM_VERBOSE);
     CU_basic_run_tests();
 

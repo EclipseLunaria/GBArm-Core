@@ -16,23 +16,6 @@ void test_direct_branch_call(){
     CU_ASSERT_EQUAL(*cpu.registers.PC, 0xF)
 }
 
-void test_double_branch_and_load(){
-    uint32_t jump1 = 0xEA000007;
-    uint32_t jump2 = 0xEA000004;
-    write_word(0, &jump1);
-    write_word(0xF, &jump2);
-    CPU cpu;
-    init_cpu(&cpu);
-    cpu.ram.bios[0] = jump1;
-    clock_cpu(&cpu);
-    B(&cpu);
-    CU_ASSERT_EQUAL(*cpu.registers.PC, 0xF)
-    clock_cpu(&cpu);
-    B(&cpu);
-    CU_ASSERT_EQUAL(*cpu.registers.PC, 0xC)
-
-}
-
 void test_is_mrs_detection(){
     instruction_t mrs_instr = 0xE10F0000;
     instruction_t other_instr = 0xE3A00000;

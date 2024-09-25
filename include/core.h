@@ -79,7 +79,6 @@ typedef struct CpuRegister {
 } CpuRegister;
 
 typedef struct CPU {
-    SystemMemoryMap ram;
     MemoryBus memory;
     CpuRegister registers;
     uint32_t loaded_instruction;
