@@ -222,14 +222,14 @@ int STDT(instruction_t instruction, CPU *cpu) {
         switch (opcode) {
             case 1:
                 // load unsigned half word.
-                read_half_word(address, (half_word_t *)&rd_value);
+                read_half_word(address, (halfword_t *)&rd_value);
 
                 write_register(rd, rd_value, &cpu->registers);
                 break;
 
             case 2:
                 // load signed byte.
-                read_half_word(address, (half_word_t *)&rd_value);
+                read_half_word(address, (halfword_t *)&rd_value);
                 if (rd_value & 0x8000) {     // Check if the 16th bit is set
                                              // (indicating a negative value)
                     rd_value |= 0xFFFF0000;  // Set the upper 16 bits to 1 for
@@ -244,7 +244,7 @@ int STDT(instruction_t instruction, CPU *cpu) {
 
             case 3:
                 // load signed half word.
-                read_half_word(address, (half_word_t *)&rd_value);
+                read_half_word(address, (halfword_t *)&rd_value);
                 if (rd_value & 0x80) {       // Check if the 16th bit is set
                                              // (indicating a negative value)
                     rd_value |= 0xFFFFFF00;  // Set the upper 16 bits to 1 for
@@ -262,7 +262,7 @@ int STDT(instruction_t instruction, CPU *cpu) {
     } else {
         switch (opcode) {
             case 1:
-                write_half_word(address, (half_word_t *)&rd_value);
+                write_half_word(address, (halfword_t *)&rd_value);
                 break;
 
             case 2:
