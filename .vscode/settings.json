@@ -29,10 +29,14 @@
     "stdlib.h": "c",
     "alu.h": "c",
     "constants.h": "c",
-    "error.h": "c"
+    "error.h": "c",
+    "memory_bus.h": "c"
   },
   "editor.formatOnSave": true,
   "C_Cpp.codeAnalysis.clangTidy.checks.disabled": [
     "clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling"
-  ]
+  ],
+  "[c]": {
+    "editor.defaultFormatter": "xaver.clang-format"
+  }
 }
