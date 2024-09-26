@@ -144,8 +144,9 @@ int SDT(instruction_t instruction, CPU *cpu) {
 
     // calculate offset
     uint32_t offset;
-    if (I)
+    if (I){
         offset = instruction & 0xFFF;
+        }
     else {
         uint8_t imm_shift = (instruction >> 7) & 0x4;
         uint8_t shift_type = (instruction >> 5) & 0b11;
@@ -205,36 +206,24 @@ int STDT(instruction_t instruction, CPU *cpu) {
     address_t offset_address = U ? address + offset : address - offset;
     if (P) address = offset_address;
     if (TW) write_register(rn, address, &cpu->registers);
-
+    printf("addr: %x", address);
     // Handle operation flow
     if (L) {
         switch (opcode) {
             case 1:
                 // load unsigned half word.
-                read_half_word(address, (halfword_t *)&rd_value);
-
-                write_register(rd, rd_value, &cpu->registers);
+                halfword_t value;
+                memory_read_halfword(address, &cpu->memory, &value);
+                printf("\nvalue: %x addr: %x\n", value, address);
+                write_register(rd, value, &cpu->registers);
                 break;
 
             case 2:
                 // load signed byte.
-                read_half_word(address, (halfword_t *)&rd_value);
-                if (rd_value & 0x8000) {     // Check if the 16th bit is set
-                                             // (indicating a negative value)
-                    rd_value |= 0xFFFF0000;  // Set the upper 16 bits to 1 for
-                                             // sign extension
-                } else {
-                    rd_value &= 0x0000FFFF;  // Clear the upper 16 bits (no sign
-                                             // extension needed)
-                }
-
-                write_register(rd_value, rd_value, &cpu->registers);
-                break;
-
-            case 3:
-                // load signed half word.
-                read_half_word(address, (halfword_t *)&rd_value);
-                if (rd_value & 0x80) {       // Check if the 16th bit is set
+                byte_t mem_value;
+                memory_read_byte(address, &cpu->memory, &mem_value);
+                rd_value = (uint32_t)mem_value;
+                if (mem_value & 0x80) {     // Check if the 16th bit is set
                                              // (indicating a negative value)
                     rd_value |= 0xFFFFFF00;  // Set the upper 16 bits to 1 for
                                              // sign extension
@@ -242,7 +231,22 @@ int STDT(instruction_t instruction, CPU *cpu) {
                     rd_value &= 0x000000FF;  // Clear the upper 16 bits (no sign
                                              // extension needed)
                 }
-                write_register(rd_value, rd_value, &cpu->registers);
+
+                write_register(rd, rd_value, &cpu->registers);
+                break;
+
+            case 3:
+                // load signed half word.
+                halfword_t halfword_value;
+                memory_read_halfword(address, &cpu->memory, &halfword_value);
+                rd_value = (uint32_t)halfword_value;
+                printf("\nrd value: %x\n", rd_value);
+                if (rd_value & 0x8000) {       
+                    rd_value |= 0xFFFF0000;  
+                } else {
+                    rd_value &= 0x0000FFFF; 
+                }
+                write_register(rd, rd_value, &cpu->registers);
                 break;
 
             default:
@@ -251,13 +255,15 @@ int STDT(instruction_t instruction, CPU *cpu) {
     } else {
         switch (opcode) {
             case 1:
-                write_half_word(address, (halfword_t *)&rd_value);
+                memory_write_halfword(address, rd_value, &cpu->memory);
                 break;
 
             case 2:
-                uint32_t second_register_value;  // rd + 1
-                read_word(address, &rd_value);
-                read_word(address + 4, &second_register_value);
+                word_t second_register_value;  // rd + 1
+                memory_read_word(address, &cpu->memory, &rd_value);
+                memory_read_word(address + 4, &cpu->memory, &second_register_value);
+    printf("\nregister values hi, lo: %d, %d\n", rd_value, second_register_value);
+                
                 write_register(rd, rd_value, &cpu->registers);
                 write_register(rd + 1, second_register_value, &cpu->registers);
                 break;
@@ -265,8 +271,8 @@ int STDT(instruction_t instruction, CPU *cpu) {
             case 3:
                 uint32_t top_register_value;  // rd + 1
                 read_register(rd + 1, &cpu->registers, &top_register_value);
-                write_word(address, &rd_value);
-                write_word(address + 4, &top_register_value);
+                memory_write_word(address, rd_value, &cpu->memory);
+                memory_write_word(address + 4, top_register_value, &cpu->memory);
                 break;
         }
     }
