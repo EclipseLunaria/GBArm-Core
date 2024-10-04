@@ -31,7 +31,8 @@
     "constants.h": "c",
     "error.h": "c",
     "memory_bus.h": "c",
-    "assert.h": "c"
+    "assert.h": "c",
+    "test_macros.h": "c"
   },
   "editor.formatOnSave": true,
   "C_Cpp.codeAnalysis.clangTidy.checks.disabled": [

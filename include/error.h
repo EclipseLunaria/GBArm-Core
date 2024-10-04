@@ -1,20 +1,20 @@
 #ifndef ERROR_H
 #define ERROR_H
 
-#define CHECK_ERROR(func, msg, ...) \
-    int ERROR_VALUE = func;\
-    if (ERROR_VALUE < 0){ \
-        printf("ERROR: trace level: %d\n\tFile: %s:%d\n\tfunction: %s\n\t",ERROR_VALUE , __FILE__, __LINE__, #func); \
-        printf(msg, ##__VA_ARGS__); \
-        printf("\n"); \
-        return ERROR_VALUE - 1; \
+
+#define CHECK_ERROR(func, msg, ...)                                                                                  \
+    int ERROR_VALUE = func;                                                                                          \
+    if (ERROR_VALUE < 0) {                                                                                           \
+        printf("ERROR: trace level: %d\n\tFile: %s:%d\n\tfunction: %s\n\t", ERROR_VALUE, __FILE__, __LINE__, #func); \
+        printf(msg, ##__VA_ARGS__);                                                                                  \
+        printf("\n");                                                                                                \
+        return ERROR_VALUE - 1;                                                                                      \
     }
 
-#define THROW_ERROR(msg, ...) \
+#define THROW_ERROR(msg, ...)                        \
     printf("\nTraceback (most recent call last)\n"); \
-    CHECK_ERROR(-1, msg, ##__VA_ARGS__) \
+    CHECK_ERROR(-1, msg, ##__VA_ARGS__)              \
     return 0;
-    
 
 #define CONCAT(a, b) a##b
 #define CONCAT2(a, b) CONCAT(a, b)

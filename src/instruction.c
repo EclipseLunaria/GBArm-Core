@@ -144,10 +144,9 @@ int SDT(instruction_t instruction, CPU *cpu) {
 
     // calculate offset
     uint32_t offset;
-    if (I){
+    if (I) {
         offset = instruction & 0xFFF;
-        }
-    else {
+    } else {
         uint8_t imm_shift = (instruction >> 7) & 0x4;
         uint8_t shift_type = (instruction >> 5) & 0b11;
         reg_t rm = instruction & 0xF;
@@ -223,7 +222,7 @@ int STDT(instruction_t instruction, CPU *cpu) {
                 byte_t mem_value;
                 memory_read_byte(address, &cpu->memory, &mem_value);
                 rd_value = (uint32_t)mem_value;
-                if (mem_value & 0x80) {     // Check if the 16th bit is set
+                if (mem_value & 0x80) {      // Check if the 16th bit is set
                                              // (indicating a negative value)
                     rd_value |= 0xFFFFFF00;  // Set the upper 16 bits to 1 for
                                              // sign extension
@@ -241,10 +240,10 @@ int STDT(instruction_t instruction, CPU *cpu) {
                 memory_read_halfword(address, &cpu->memory, &halfword_value);
                 rd_value = (uint32_t)halfword_value;
                 printf("\nrd value: %x\n", rd_value);
-                if (rd_value & 0x8000) {       
-                    rd_value |= 0xFFFF0000;  
+                if (rd_value & 0x8000) {
+                    rd_value |= 0xFFFF0000;
                 } else {
-                    rd_value &= 0x0000FFFF; 
+                    rd_value &= 0x0000FFFF;
                 }
                 write_register(rd, rd_value, &cpu->registers);
                 break;
@@ -262,8 +261,8 @@ int STDT(instruction_t instruction, CPU *cpu) {
                 word_t second_register_value;  // rd + 1
                 memory_read_word(address, &cpu->memory, &rd_value);
                 memory_read_word(address + 4, &cpu->memory, &second_register_value);
-    printf("\nregister values hi, lo: %d, %d\n", rd_value, second_register_value);
-                
+                printf("\nregister values hi, lo: %d, %d\n", rd_value, second_register_value);
+
                 write_register(rd, rd_value, &cpu->registers);
                 write_register(rd + 1, second_register_value, &cpu->registers);
                 break;
@@ -284,20 +283,38 @@ int BDT(instruction_t instruction, CPU *cpu) {
     flag_t P = (instruction >> 24) & 1;
     flag_t U = (instruction >> 23) & 1;
     flag_t S = (instruction >> 22) & 1;
-    // flag_t W = (instruction >> 21) & 1;
-    // flag_t L = (instruction >> 20) & 1;
-    reg_t rn = (instruction >> 16) & 1;
+    flag_t W = (instruction >> 21) & 1;
+    flag_t L = (instruction >> 20) & 1;
+    reg_t rn = (instruction >> 16) & 0xF;
+
     uint32_t address;
     read_register(rn, &cpu->registers, &address);
+    // printf("\n Register: %x\n", address);
     for (int i = 0; i < 16; ++i) {
         if (!((instruction >> i) & 1)) continue;
-        uint32_t register_value;
-        S ? read_user_register(i, &cpu->registers, &register_value)
-          : read_register(i, &cpu->registers, &register_value);
+
         if (P) address += U ? 4 : -4;
-        write_word(address, &register_value);
+        uint32_t value;
+        if (L) {
+            memory_read_word(address, &cpu->memory, &value);
+            IS_PRIVILAGED(cpu->registers.current_mode) && S ? write_user_register(i, value, &cpu->registers)
+                                                            : write_register(i, value, &cpu->registers);
+
+        } else {
+            IS_PRIVILAGED(cpu->registers.current_mode) && S ? read_user_register(i, &cpu->registers, &value)
+                                                            : read_register(i, &cpu->registers, &value);
+            memory_write_word(address, value, &cpu->memory);
+        }
         if (!P) address += U ? 4 : -4;
     }
+    if (S && cpu->registers.current_mode != 0) {
+        if (L && (instruction >> 15) & 1)
+            cpu->registers.cpsr = *cpu->registers.current_registers->p_spsr;
+        else if (!L && (instruction >> 15) & 1) {
+            *cpu->registers.current_registers->p_spsr = cpu->registers.cpsr;
+        }
+    }
+    if (W) write_register(rn, address, &cpu->registers);
     return 0;
 }
 
