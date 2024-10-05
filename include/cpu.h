@@ -3,7 +3,6 @@
 
 #include <stdio.h>
 
-#include "bus.h"
 #include "core.h"
 #include "registers.h"
 #include "types.h"

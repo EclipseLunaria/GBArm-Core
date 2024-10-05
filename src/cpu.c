@@ -10,12 +10,6 @@ int init_cpu(CPU *cpu) {
     return 0;
 }
 
-int fetchInstruction(CPU *cpu) {
-    read_word(*cpu->registers.PC, &cpu->loaded_instruction);
-    *cpu->registers.PC += 4;
-    return 0;
-}
-
 int clock_cpu(CPU *cpu) {
     cpu->clock_cycles += 1;
 
@@ -26,7 +20,6 @@ int clock_cpu(CPU *cpu) {
     }
 
     // load instruction to cpu
-    fetchInstruction(cpu);
 
     return 0;
 }

@@ -1,3 +1,4 @@
 *.o
 Main
 run_tests
+build

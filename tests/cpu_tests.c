@@ -1,11 +1,10 @@
-#include <CUnit/CUnit.h>
 #include <CUnit/Basic.h>
+#include <CUnit/CUnit.h>
+
 #include "cpu.h"
 #include "test_macros.h"
 
-
-
-void test_cpu_init(){
+void test_cpu_init() {
     CPU cpu;
     init_cpu(&cpu);
     // check system memory.
@@ -17,40 +16,19 @@ void test_cpu_init(){
 }
 
 
-void test_clock_cpu_iteration(){
+
+void test_spsr_cpu_init() {
     CPU cpu;
     init_cpu(&cpu);
-    CU_ASSERT_EQUAL(cpu.clock_cycles, 0);
-    CU_ASSERT_EQUAL(*cpu.registers.PC, 0);
-    clock_cpu(&cpu);
-    CU_ASSERT_EQUAL(*cpu.registers.PC, 4);
-}   
-
-
-void test_clock_cpu_load_instruction(){
-    CPU cpu;
-    init_cpu(&cpu);
-    word_t testVal = 5555;
-    write_word(0,&testVal);
-    CU_ASSERT_EQUAL(cpu.loaded_instruction, 0);
-    clock_cpu(&cpu);
-    CU_ASSERT_EQUAL(cpu.loaded_instruction, testVal)
-    CU_ASSERT_EQUAL(*cpu.registers.PC, 4);
-}   
-
-void test_spsr_cpu_init(){
-    CPU cpu;
-    init_cpu(&cpu);
-    for (int i = 0; i < 5; ++i){
+    for (int i = 0; i < 5; ++i) {
         CU_ASSERT_PTR_NOT_NULL(cpu.registers.current_registers->p_spsr)
     }
 }
 
-int add_cpu_tests(){
-    CU_pSuite suite = CU_add_suite("CPU Tests",0,0);
+int add_cpu_tests() {
+    CU_pSuite suite = CU_add_suite("CPU Tests", 0, 0);
 
     if (suite == NULL) return CU_get_error();
-
 
     ADD_TEST(test_spsr_cpu_init)
 
@@ -59,15 +37,6 @@ int add_cpu_tests(){
         return CU_get_error();
     }
 
-    if (NULL == CU_add_test(suite, "test clock cpu iteration", test_clock_cpu_iteration)) {
-        CU_cleanup_registry();
-        return CU_get_error();
-    }
-
-    if (NULL == CU_add_test(suite, "test clock cpu load instruction", test_clock_cpu_load_instruction)) {
-        CU_cleanup_registry();
-        return CU_get_error();
-    }
 
     return CUE_SUCCESS;
 }

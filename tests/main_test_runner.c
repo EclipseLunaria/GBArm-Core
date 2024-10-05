@@ -1,6 +1,6 @@
 #include <CUnit/Basic.h>
 #include <CUnit/CUnit.h>
-extern int add_bus_tests();
+
 extern int add_cpu_tests();
 extern int add_cond_tests();
 extern int add_register_tests();
@@ -18,7 +18,6 @@ int main() {
         return CU_get_error();
     }
 
-    add_bus_tests();
     add_cpu_tests();
     add_cond_tests();
     add_register_tests();
