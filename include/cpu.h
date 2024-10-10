@@ -10,6 +10,8 @@
 int init_cpu(CPU *cpu);
 int clock_cpu(CPU *cpu);
 
-uint8_t evaluate_cond(uint8_t opcode, const uint32_t CPSR_state);
+uint8_t evaluate_cond(uint8_t opcode, uint32_t CPSR_state);
+
+int dump_cpu_state(CPU *cpu);
 
 #endif

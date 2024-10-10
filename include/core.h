@@ -19,20 +19,20 @@
 #define KB 1024
 
 typedef struct CPSR {
-    unsigned N : 1,      // Sign Flag      (0=Not Signed, 1=Signed)
-        Z : 1,           // Zero Flag       (0=Not Zero, 1=Zero)
-        C : 1,           // Carry Flag      (0=Borrow/No Carry, 1=Carry/No Borrow)
-        V : 1,           // Overflow Flag   (0=No Overflow, 1=Overflow)
-        Q : 1,           // Sticky Overflow (1=Sticky Overflow, ARMv5TE and up only)
-        reserved1 : 2,   // Reserved        (For future use) - Do not change manually!
-        J : 1,           // Jazelle Mode    (1=Jazelle Bytecode instructions) (if supported)
-        reserved2 : 14,  // Reserved        (For future use) - Do not change manually!
-        E : 1,           // Endian          (... Big endian)
-        A : 1,           // Abort disable   (1=Disable Imprecise Data Aborts) (ARM11 only)
-        I : 1,           // IRQ disable     (0=Enable, 1=Disable)
-        F : 1,           // FIQ disable     (0=Enable, 1=Disable)
-        T : 1,           // State Bit       (0=ARM, 1=THUMB) - Do not change manually!
-        mode_bits : 5;   // Mode Bits
+    unsigned mode_bits : 5;   // Mode Bits
+    unsigned T : 1;           // State Bit       (0=ARM, 1=THUMB) - Do not change manually!
+    unsigned F : 1;           // FIQ disable     (0=Enable, 1=Disable)
+    unsigned I : 1;           // IRQ disable     (0=Enable, 1=Disable)
+    unsigned A : 1;           // Abort disable   (1=Disable Imprecise Data Aborts) (ARM11 only)
+    unsigned E : 1;           // Endian          (... Big endian)
+    unsigned reserved2 : 14;  // Reserved        (For future use) - Do not change manually!
+    unsigned J : 1;           // Jazelle Mode    (1=Jazelle Bytecode instructions) (if supported)
+    unsigned reserved1 : 2;   // Reserved        (For future use) - Do not change manually!
+    unsigned Q : 1;           // Sticky Overflow (1=Sticky Overflow, ARMv5TE and up only)
+    unsigned V : 1;           // Overflow Flag   (0=No Overflow, 1=Overflow)
+    unsigned C : 1;           // Carry Flag      (0=Borrow/No Carry, 1=Carry/No Borrow)
+    unsigned Z : 1;           // Zero Flag       (0=Not Zero, 1=Zero)
+    unsigned N : 1;           // Sign Flag       (0=Not Signed, 1=Signed)
 } CPSR;
 
 typedef struct BS_FLAGS {

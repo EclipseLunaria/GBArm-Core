@@ -8,7 +8,7 @@
 
 int execute_instruction(instruction_t instruction, CPU *cpu);
 
-int B(CPU *cpu);
+int B(instruction_t instruction, CPU *cpu);
 
 // MRS – Move PSR into General-Purpose Register
 int is_mrs(uint32_t instruction);

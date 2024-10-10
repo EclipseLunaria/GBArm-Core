@@ -6,45 +6,80 @@
 #include "registers.h"
 
 int execute_instruction(instruction_t instruction, CPU *cpu) {
-    int execution_state;
-    // is branch exchange
-
-    if (((instruction >> 26) & 0b11) == 0) {
-        // is swap
+    if (!evaluate_cond((uint8_t)(instruction >> 28), cpu->registers.cpsr)) {
+        *cpu->registers.PC += 4;
+        return 0;
+    };
+    if (IS_BRANCH(instruction)) {
+        printf("BRANCH\n\n");
+        B(instruction, cpu);
+    }
+    if (IS_MULTIPLY(instruction)) {
+        handle_multiply(instruction, cpu);
+    }
+    if (IS_LONG_MULTIPLY(instruction)) {
+        handle_long_multiply(instruction, cpu);
+    }
+    if (IS_BRANCH_EXCHANGE(instruction)) {
+    }
+    if (IS_SWAP(instruction)) {
         SWP(instruction, cpu);
+    }
+    if (IS_HALFWORD_REGISTER_TRANSFER(instruction) || IS_HALFWORD_IMMEDIATE_TRANSFER(instruction) ||
+        IS_SIGNED_DATA_TRANSFER(instruction)) {
+        STDT(instruction, cpu);
+    }
 
-        // is multiply
-        if (((instruction >> 24) & 0xF && (instruction >> 4 == 0x9)) == 0) {
-            execution_state =
-                ((instruction >> 23) & 1) ? handle_long_multiply(instruction, cpu) : handle_multiply(instruction, cpu);
-        }
-
-        // is PSR
-        MRS(instruction, cpu);
-        MSR_IMM(instruction, cpu);
+    if (IS_REGISTER_MSR(instruction)) {
         MSR_REG(instruction, cpu);
+    }
+    if (IS_MRS_OPERATION(instruction)) {
+        MRS(instruction, cpu);
+    }
 
-        // is ALU
+    if (IS_ALU_OPERTAION(instruction)) {
         alu_execute(instruction, cpu);
     }
-    return execution_state;
+    if (IS_LOAD_STORE_REGISTER_UBYTE(instruction)) {
+        SDT(instruction, cpu);
+    }
+    // if (IS_UNDEFINED(instruction)) {
+    //     return decode_undefined;
+    // }
+    if (IS_BLOCK_DATA_TRANSFER(instruction)) {
+        BDT(instruction, cpu);
+    }
+    // if (IS_COPROCESSOR_DATA_TRANSFER(instruction)) {
+    //     return decode_coprocessor_data_transfer;
+    // }
+    // if (IS_COPROCESSOR_DATA_OPERATION(instruction)) {
+    //     return decode_coprocessor_data_operation;
+    // }
+    // if (IS_COPROCESSOR_REGISTER_TRANSFER(instruction)) {
+    //     return decode_coprocessor_register_transfer;
+    // }
+    if (IS_SOFTWARE_INTERRUPT(instruction)) {
+        return SWI(instruction, cpu);
+    }
+    *cpu->registers.PC += 4;
+    return 0;
 }
 
 // Handles logic for B BL B{cond}
-int B(CPU *cpu) {
-    if (!evaluate_cond((uint8_t)(cpu->loaded_instruction >> 28), cpu->registers.cpsr)) return 0;
-    if (cpu->loaded_instruction & (1 << 26)) {
+int B(instruction_t instruction, CPU *cpu) {
+    if (instruction & (1 << 26)) {
         cpu->registers.LR = cpu->registers.PC + 4;
     }
 
-    int32_t offset = cpu->loaded_instruction & 0x7FFFFF;
+    int32_t offset = (instruction & 0x7FFFFF) * 4;
 
-    if (cpu->loaded_instruction & 0x800000) {
+    if (instruction & 0x800000) {
         // If the sign bit (24th bit) is set, sign-extend the value to 32 bits
         offset |= 0xFF800000;  // Set the upper 8 bits to 1 to make it a
                                // negative value
     }
-    *cpu->registers.PC = offset + 8;
+    printf("OFFSET %x\n", offset);
+    *(cpu->registers.PC) += offset + 4;
     return 0;
 }
 
