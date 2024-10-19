@@ -1,9 +1,26 @@
 #ifndef MEMORY_BUS_H
 #define MEMORY_BUS_H
-#include "error.h"
-#include "core.h"
+
+#include "types.h"
+
+#define MAX_SECTORS 32
 
 
+typedef struct MemorySector {
+    address_t start_address;
+    uint32_t sector_size;
+    byte_t* sector_buffer;
+} MemorySector;
+
+typedef struct MemoryBus {
+    MemorySector sectors[MAX_SECTORS];
+    uint8_t sector_count;
+    byte_t* memory_buffer;
+    uint32_t buffer_length;
+} MemoryBus;
+
+
+extern MemorySector GBA_SECTORS[];
 
 int init_memory_bus(MemorySector sectors[], uint8_t n, MemoryBus* memory_bus);
 int destroy_memory_bus(MemoryBus* memory_bus);

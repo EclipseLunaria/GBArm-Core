@@ -1,7 +1,7 @@
 #ifndef ALU_H
 #define ALU_H
 #include "core.h"
-#include "cpu.h"
+#include "impl_core.h"
 
 extern int (*aluOp[16])(uint32_t, uint32_t, BS_FLAGS*, uint32_t*);
 int ALU_AND(uint32_t op1, uint32_t op2, BS_FLAGS* flags, uint32_t *result);

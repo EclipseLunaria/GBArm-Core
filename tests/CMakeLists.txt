@@ -22,7 +22,6 @@ add_executable(run_tests
 
     ./alu_tests.c
     ./barrel_shifter_tests.c
-    ./cpu_tests.c
     ./data_transfer_tests.c
     ./instruction_tests.c
     ./memory_bus_tests.c

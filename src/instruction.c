@@ -1,10 +1,11 @@
 #include "instruction.h"
 
 #include "barrel_shifter.h"
+#include "core.h"
 #include "constants.h"
-#include "cpu.h"
 #include "registers.h"
 #include "memory_bus.h"
+#include "impl_core.h"
 
 int execute_instruction(instruction_t instruction, CPU *cpu) {
     if (!evaluate_cond((uint8_t)(instruction >> 28), cpu->registers.cpsr)) {

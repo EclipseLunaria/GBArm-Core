@@ -1,5 +1,5 @@
 #include "cpu.h"
-#include "core.h"
+#include "impl_core.h"
 #include "registers.h"
 #include "memory_bus.h"
 
@@ -12,29 +12,6 @@ int init_cpu(CPU *cpu) {
 }
 
 
-int dump_cpu_state(CPU *cpu) {
-    printf("Active Registers:\n");
-    int col_printed = 0;
-    for (int i = 0; i < 16; ++i) {
-        printf("%sR%-2d: %x      %s",
-               (cpu->registers.current_registers->p_registers[i] != (&cpu->registers.register_data.registers[i])) ? "*"
-                                                                                                                  : "",
-               i, *cpu->registers.current_registers->p_registers[i], i % 4 == 0 ? "" : "");
-        col_printed++;
-
-        if (col_printed == 4) {
-            col_printed = 0;
-            printf("\n");
-        }
-        // if (i % 4 == 0) printf("\n");
-    }
-
-    printf("Program State:\n");
-    printf("PC:    0x%08x,     LR: 0x%08x\nCPSR:  0x%08x,     Execution Mode: %d\n", *cpu->registers.PC,
-           *cpu->registers.LR, cpu->registers.cpsr, cpu->registers.current_mode);
-
-    return 0;
-}
 
 uint8_t evaluate_cond(uint8_t opcode, uint32_t CPSR_state) {
     if (opcode == 0xE) return 1;

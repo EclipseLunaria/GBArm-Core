@@ -1,3 +1,6 @@
+#include <stdio.h>
+#include <ctype.h>
+
 #include "utils.h"
 
 uint32_t sLen(char * s){
