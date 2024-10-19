@@ -1,11 +1,13 @@
 #include "instruction.h"
 
+#include "alu.h"
+#include "impl_core.h"
 #include "barrel_shifter.h"
 #include "core.h"
 #include "constants.h"
 #include "registers.h"
 #include "memory_bus.h"
-#include "impl_core.h"
+#include "multiply.h"
 
 int execute_instruction(instruction_t instruction, CPU *cpu) {
     if (!evaluate_cond((uint8_t)(instruction >> 28), cpu->registers.cpsr)) {
@@ -83,6 +85,7 @@ int B(instruction_t instruction, CPU *cpu) {
     return 0;
 }
 
+#define IS_PRIVILAGED(x) x != USER_MODE
 #define MRS_INSTR_MASK 0x0FB0FFFF
 #define MRS_INSTR_VALUE 0x01000000
 

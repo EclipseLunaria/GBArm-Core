@@ -2,8 +2,6 @@
 #define REGISTERS_H
 #include "core.h"
 
-#define MODE_USER 0
-#define IS_PRIVILAGED(x) x != USER_MODE
 
 int init_registers(CpuRegister *cpu_register);
 

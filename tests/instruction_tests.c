@@ -2,8 +2,6 @@
 #include <CUnit/Basic.h>
 #include <stdint.h>
 #include "instruction.h"
-#include "alu.h"
-#include "cpu.h"
 #include "test_macros.h"
 
 

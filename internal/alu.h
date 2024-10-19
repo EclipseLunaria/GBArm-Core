@@ -1,5 +1,6 @@
 #ifndef ALU_H
 #define ALU_H
+
 #include "core.h"
 #include "impl_core.h"
 

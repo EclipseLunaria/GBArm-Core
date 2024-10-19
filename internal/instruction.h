@@ -1,12 +1,7 @@
 #ifndef INSTRUCTION_H
 #define INSTRUCTION_H
-#include "alu.h"
-#include "barrel_shifter.h"
-#include "core.h"
-#include "multiply.h"
-#include "registers.h"
 
-int execute_instruction(instruction_t instruction, CPU *cpu);
+#include "core.h"
 
 int B(instruction_t instruction, CPU *cpu);
 

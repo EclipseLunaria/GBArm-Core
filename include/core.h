@@ -19,4 +19,6 @@ typedef struct CPU {
 
 int init_cpu(CPU *cpu);
 
+int execute_instruction(instruction_t instruction, CPU *cpu);
+
 #endif

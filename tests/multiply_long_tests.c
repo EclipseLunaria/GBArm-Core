@@ -1,7 +1,6 @@
 #include <CUnit/Basic.h>
 #include <CUnit/CUnit.h>
 
-#include "cpu.h"
 #include "multiply.h"
 #include "test_macros.h"
 
