@@ -8,9 +8,6 @@
 #include "types.h"
 #include "memory_bus.h"
 
-// Useful Constants
-
-
 
 // CPU Funtionality
 
