@@ -1,8 +1,9 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
-#define USER_MODE 0
 #define SUPERVISOR_MODE 1
+#define IS_PRIVILAGED(x) x != USER_MODE
+#define USER_MODE 0
 
 #define IS_MULTIPLY(x) (x & 0x0FC00090) == 0x00000090
 #define IS_LONG_MULTIPLY(x) (x & 0x0F800090) == 0x00800090

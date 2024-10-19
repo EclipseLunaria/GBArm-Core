@@ -2,8 +2,9 @@
 #include <CUnit/CUnit.h>
 
 #include "memory_bus.h"
-#include "instruction.h"
 #include "test_macros.h"
+#include "data_transfer.h"
+
 
 void test_store_register_writeback_byte_data_up() {
     CPU cpu;

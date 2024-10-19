@@ -1,9 +1,10 @@
 #include <CUnit/CUnit.h>
 #include <CUnit/Basic.h>
 #include <stdint.h>
-#include "instruction.h"
-#include "test_macros.h"
 
+#include "test_macros.h"
+#include "branch.h"
+#include "psr.h"
 
 void test_direct_branch_call(){
     CPU cpu;

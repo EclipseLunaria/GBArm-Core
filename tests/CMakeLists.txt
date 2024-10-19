@@ -11,6 +11,7 @@ add_executable(run_tests
     test_macros.c
     ../include/core.h
     ../src/registers.c
+    ../src/branch.c
     ../src/cpu.c
     ../src/memory_bus.c
     ../src/alu.c
@@ -18,6 +19,9 @@ add_executable(run_tests
     ../src/constants.c
     ../src/instruction.c
     ../src/multiply.c
+    ../src/data_transfer.c
+    ../src/psr.c
+    ../src/interrupt.c
     ../src/utils.c
 
     ./alu_tests.c
