@@ -1,6 +1,6 @@
-#include "impl_core.h"
-#include "registers.h"
-#include "memory_bus.h"
+#include "internal/impl_core.h"
+#include "internal/registers.h"
+#include "internal/memory_bus.h"
 
 int init_cpu(CPU *cpu) {
     memset(cpu, 0, sizeof(CPU));

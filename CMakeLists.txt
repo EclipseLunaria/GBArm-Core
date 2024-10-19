@@ -8,9 +8,7 @@ set(ARM_CORE_HEADERS
     include/alu.h
     include/barrel_shifter.h
     include/constants.h
-    include/cpu.h
     include/error.h
-    include/instruction.h
     include/memory_bus.h
     include/multiply.h
     include/registers.h

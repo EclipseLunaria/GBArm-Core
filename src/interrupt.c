@@ -1,5 +1,5 @@
-#include "interrupt.h"
-#include "registers.h"
+#include "internal/interrupt.h"
+#include "internal/registers.h"
 
 // Software Interrupt
 int SWI(instruction_t instruction, CPU *cpu) {

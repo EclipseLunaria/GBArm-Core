@@ -1,14 +1,14 @@
 #include "types.h"
 
-#include "alu.h"
-#include "impl_core.h"
 #include "core.h"
-#include "constants.h"
-#include "multiply.h"
-#include "branch.h"
-#include "psr.h"
-#include "data_transfer.h"
-#include "interrupt.h"
+#include "internal/alu.h"
+#include "internal/impl_core.h"
+#include "internal/constants.h"
+#include "internal/multiply.h"
+#include "internal/branch.h"
+#include "internal/psr.h"
+#include "internal/data_transfer.h"
+#include "internal/interrupt.h"
 
 int execute_instruction(instruction_t instruction, CPU *cpu) {
     if (!evaluate_cond((uint8_t)(instruction >> 28), cpu->registers.cpsr)) {

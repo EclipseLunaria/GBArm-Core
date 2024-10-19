@@ -1,4 +1,4 @@
-#include "barrel_shifter.h"
+#include "internal/barrel_shifter.h"
 
 int (*shiftOp[4])(uint32_t, uint8_t, BS_FLAGS*, uint32_t*) = {
     BS_LSL,

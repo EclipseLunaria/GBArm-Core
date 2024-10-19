@@ -4,8 +4,7 @@
 #include <CUnit/Basic.h>
 #include <CUnit/CUnit.h>
 
-#include "core.h"
-#include "registers.h"
+#include "types.h"
 
 #define ADD_TEST(test)                             \
     if (NULL == CU_add_test(suite, #test, test)) { \

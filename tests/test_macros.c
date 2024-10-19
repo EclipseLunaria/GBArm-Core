@@ -1,4 +1,5 @@
 #include "test_macros.h"
+#include "internal/registers.h"
 
 void ASSERT_REGISTER_EQUALS(reg_t reg, uint32_t expected, CpuRegister* registers) {
     uint32_t value;

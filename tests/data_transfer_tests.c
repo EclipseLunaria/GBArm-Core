@@ -1,9 +1,10 @@
 #include <CUnit/Basic.h>
 #include <CUnit/CUnit.h>
 
-#include "memory_bus.h"
+#include "internal/memory_bus.h"
+#include "internal/data_transfer.h"
+#include "internal/registers.h"
 #include "test_macros.h"
-#include "data_transfer.h"
 
 
 void test_store_register_writeback_byte_data_up() {

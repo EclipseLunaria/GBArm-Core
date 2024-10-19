@@ -1,8 +1,8 @@
 #include <malloc.h>
 #include <string.h>
 
-#include "memory_bus.h"
-#include "error.h"
+#include "internal/memory_bus.h"
+#include "internal/error.h"
 
 MemorySector GBA_SECTORS[] = {
     {.start_address = 0x0, .sector_size = 16 * 1024},        {.start_address = 0x02000000, .sector_size = 256 * 1024},

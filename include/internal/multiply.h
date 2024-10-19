@@ -1,5 +1,4 @@
 #include "core.h"
-#include "registers.h"
 
 //Multiply and Multiply-Accumulate (MUL, MLA)
 int handle_multiply(uint32_t instruction, CPU* cpu);

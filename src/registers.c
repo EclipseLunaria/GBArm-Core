@@ -1,7 +1,6 @@
-#include "registers.h"
+#include "internal/registers.h"
 
 #include <stdio.h>
-
 
 int init_registers(CpuRegister *cpuRegister) {
     const int size[] = {7, 2, 2, 2, 2};
