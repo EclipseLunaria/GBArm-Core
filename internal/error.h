@@ -11,7 +11,7 @@
 
 #define CHECK_ERROR(func, msg, ...)                                                                                  \
     int ERROR_VALUE = func;                                                                                          \
-    if (ERROR_VALUE < 0) {                                                                                          \ 
+    if (ERROR_VALUE < 0) {                                                                                          \
         PRINT_ERROR("ERROR: trace level: %d\n\tFile: %s:%d\n\tfunction: %s\n\t", ERROR_VALUE, __FILE__, __LINE__, #func) \
         PRINT_ERROR(msg, ##__VA_ARGS__);                                                                                  \
         PRINT_ERROR("\n");                                                                                                \
