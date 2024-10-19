@@ -1,7 +1,6 @@
 #ifndef REGISTERS_H
 #define REGISTERS_H
 #include "core.h"
-#include "types.h"
 
 #define MODE_USER 0
 #define IS_PRIVILAGED(x) x != USER_MODE

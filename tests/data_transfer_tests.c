@@ -1,7 +1,7 @@
 #include <CUnit/Basic.h>
 #include <CUnit/CUnit.h>
 
-#include "cpu.h"
+#include "memory_bus.h"
 #include "instruction.h"
 #include "test_macros.h"
 

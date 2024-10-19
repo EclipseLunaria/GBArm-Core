@@ -1,4 +1,5 @@
 #include "memory_bus.h"
+#include "core.h"
 
 MemorySector GBA_SECTORS[] = {
     {.start_address = 0x0, .sector_size = 16 * 1024},        {.start_address = 0x02000000, .sector_size = 256 * 1024},

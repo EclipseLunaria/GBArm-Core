@@ -1,5 +1,6 @@
 #include <CUnit/CUnit.h>
 #include <CUnit/Basic.h>
+#include <stdint.h>
 #include "instruction.h"
 #include "alu.h"
 #include "cpu.h"
@@ -9,9 +10,9 @@
 void test_direct_branch_call(){
     CPU cpu;
     init_cpu(&cpu);
-    cpu.loaded_instruction = 0xEA000007;
+    uint32_t instruction = 0xEA000007;
     printf("\nPC BEFORE: %x",*cpu.registers.PC);
-    B(&cpu, &cpu);
+    B(instruction, &cpu);
     printf("\nPC AFTER: %x",*cpu.registers.PC);
     CU_ASSERT_EQUAL(*cpu.registers.PC, 0xF)
 }

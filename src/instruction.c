@@ -4,6 +4,7 @@
 #include "constants.h"
 #include "cpu.h"
 #include "registers.h"
+#include "memory_bus.h"
 
 int execute_instruction(instruction_t instruction, CPU *cpu) {
     if (!evaluate_cond((uint8_t)(instruction >> 28), cpu->registers.cpsr)) {
@@ -11,6 +12,7 @@ int execute_instruction(instruction_t instruction, CPU *cpu) {
         return 0;
     };
     if (IS_BRANCH(instruction)) {
+   
         printf("BRANCH\n\n");
         B(instruction, cpu);
     }

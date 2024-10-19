@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.10)
 
 project(arm_core_tests C) 
 include_directories(../include)
-
+include_directories(../internal)
 add_subdirectory(lib/cunit/CUnit)
 
 add_executable(run_tests
@@ -12,10 +12,6 @@ add_executable(run_tests
     ../include/core.h
     ../src/registers.c
     ../src/cpu.c
-    ../include/registers.h
-    ../include/error.h
-    ../include/types.h
-    ../include/cpu.h
     ../src/memory_bus.c
     ../src/alu.c
     ../src/barrel_shifter.c

@@ -2,22 +2,46 @@
 #define CORE_H
 
 #include <assert.h>
-#include <constants.h>
 #include <ctype.h>
+#include <stdint.h>
 #include <memory.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "error.h"
-#include "memory_bus.h"
-#include "types.h"
+#include <constants.h>
+// type definitions
+typedef uint8_t byte_t;
+typedef uint16_t halfword_t;
+typedef uint32_t word_t;
+typedef uint32_t address_t;
+typedef uint8_t flag_t;
+typedef uint8_t reg_t;
+typedef uint32_t instruction_t;
 
-#define PRINTX(x) printf("\n #x: %x\n", x)
 
+// Useful Constants
 #define AVAILABLE_REGISTERS 16
-
 #define KB 1024
+#define MAX_SECTORS 32
 
+
+
+typedef struct MemorySector {
+    address_t start_address;
+    uint32_t sector_size;
+    byte_t* sector_buffer;
+} MemorySector;
+
+typedef struct MemoryBus {
+    MemorySector sectors[MAX_SECTORS];
+    uint8_t sector_count;
+    byte_t* memory_buffer;
+    uint32_t buffer_length;
+} MemoryBus;
+
+
+extern MemorySector GBA_SECTORS[];
+// error 
 typedef struct CPSR {
     unsigned mode_bits : 5;   // Mode Bits
     unsigned T : 1;           // State Bit       (0=ARM, 1=THUMB) - Do not change manually!
@@ -87,4 +111,5 @@ typedef struct CPU {
     CPSR *CPSR;
 } CPU;
 
+int init_cpu(CPU *cpu);
 #endif

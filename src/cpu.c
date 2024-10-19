@@ -1,6 +1,7 @@
 #include "cpu.h"
-
 #include "core.h"
+#include "registers.h"
+#include "memory_bus.h"
 
 int init_cpu(CPU *cpu) {
     memset(cpu, 0, sizeof(CPU));
@@ -10,19 +11,6 @@ int init_cpu(CPU *cpu) {
     return 0;
 }
 
-int clock_cpu(CPU *cpu) {
-    cpu->clock_cycles += 1;
-
-    // if no sleep cycles -> wait
-    if (cpu->sleep_cycles) {
-        --cpu->sleep_cycles;
-        return 0;
-    }
-
-    // load instruction to cpu
-
-    return 0;
-}
 
 int dump_cpu_state(CPU *cpu) {
     printf("Active Registers:\n");
