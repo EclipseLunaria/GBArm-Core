@@ -37,7 +37,7 @@ int read_hex(char * h, uint32_t *value){
     if (!strncmp(h, "0x",2)) h+=2;
     uint32_t v;
     int result = sscanf(h, "%x", &v);
-    printf("%x", v);
+
     *value = v;
     return result;
 }

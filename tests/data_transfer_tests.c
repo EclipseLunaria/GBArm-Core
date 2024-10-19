@@ -104,7 +104,6 @@ void test_store_halfword() {
 
     halfword_t actual;
     memory_read_halfword(offset, &cpu.memory, &actual);
-    printf("stored word: %x\n\n", actual);
     CU_ASSERT_EQUAL(actual, 0x1FF);
 }
 void test_load_double_word() {
@@ -195,7 +194,6 @@ void test_load_usigned_halfword() {
 
     word_t actual;
     read_register(rd, &cpu.registers, &actual);
-    printf("stored word: %x\n\n", actual);
     CU_ASSERT_EQUAL(actual, 0xFFF);
 }
 void test_load_signed_byte() {
@@ -225,7 +223,6 @@ void test_load_signed_byte() {
 
     word_t actual;
     read_register(rd, &cpu.registers, &actual);
-    printf("actual: %d", actual);
     CU_ASSERT_EQUAL(actual, -100)
 }
 void test_load_signed_halfword() {
@@ -255,7 +252,6 @@ void test_load_signed_halfword() {
 
     word_t actual;
     read_register(rd, &cpu.registers, &actual);
-    printf("actual: %d", actual);
     CU_ASSERT_EQUAL(actual, -1)
 }
 

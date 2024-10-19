@@ -12,8 +12,6 @@ int execute_instruction(instruction_t instruction, CPU *cpu) {
         return 0;
     };
     if (IS_BRANCH(instruction)) {
-   
-        printf("BRANCH\n\n");
         B(instruction, cpu);
     }
     if (IS_MULTIPLY(instruction)) {
@@ -80,7 +78,6 @@ int B(instruction_t instruction, CPU *cpu) {
         offset |= 0xFF800000;  // Set the upper 8 bits to 1 to make it a
                                // negative value
     }
-    printf("OFFSET %x\n", offset);
     *(cpu->registers.PC) += offset + 4;
     return 0;
 }
@@ -242,7 +239,6 @@ int STDT(instruction_t instruction, CPU *cpu) {
     address_t offset_address = U ? address + offset : address - offset;
     if (P) address = offset_address;
     if (TW) write_register(rn, address, &cpu->registers);
-    printf("addr: %x", address);
     // Handle operation flow
     if (L) {
         switch (opcode) {
@@ -250,7 +246,6 @@ int STDT(instruction_t instruction, CPU *cpu) {
                 // load unsigned half word.
                 halfword_t value;
                 memory_read_halfword(address, &cpu->memory, &value);
-                printf("\nvalue: %x addr: %x\n", value, address);
                 write_register(rd, value, &cpu->registers);
                 break;
 
@@ -276,7 +271,6 @@ int STDT(instruction_t instruction, CPU *cpu) {
                 halfword_t halfword_value;
                 memory_read_halfword(address, &cpu->memory, &halfword_value);
                 rd_value = (uint32_t)halfword_value;
-                printf("\nrd value: %x\n", rd_value);
                 if (rd_value & 0x8000) {
                     rd_value |= 0xFFFF0000;
                 } else {
@@ -298,7 +292,6 @@ int STDT(instruction_t instruction, CPU *cpu) {
                 word_t second_register_value;  // rd + 1
                 memory_read_word(address, &cpu->memory, &rd_value);
                 memory_read_word(address + 4, &cpu->memory, &second_register_value);
-                printf("\nregister values hi, lo: %d, %d\n", rd_value, second_register_value);
 
                 write_register(rd, rd_value, &cpu->registers);
                 write_register(rd + 1, second_register_value, &cpu->registers);
@@ -326,7 +319,6 @@ int BDT(instruction_t instruction, CPU *cpu) {
 
     uint32_t address;
     read_register(rn, &cpu->registers, &address);
-    // printf("\n Register: %x\n", address);
     for (int i = 0; i < 16; ++i) {
         if (!((instruction >> i) & 1)) continue;
 

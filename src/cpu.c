@@ -43,6 +43,5 @@ uint8_t evaluate_cond(uint8_t opcode, uint32_t CPSR_state) {
                          ((cpsr->C && !cpsr->Z) << 4) | ((cpsr->N == cpsr->V) << 5) |
                          ((!cpsr->Z && (cpsr->N == cpsr->V)) << 6) | (cpsr->V << 7);
     uint8_t v = evalStates >> (opcode / 2) & 1;
-    printf("\neval: %x\n", evalStates);
     return opcode % 2 == 0 ? v : !v;
 }

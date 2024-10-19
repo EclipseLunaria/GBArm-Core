@@ -1,6 +1,6 @@
 #include "memory_bus.h"
 #include "core.h"
-
+#include "error.h"
 MemorySector GBA_SECTORS[] = {
     {.start_address = 0x0, .sector_size = 16 * 1024},        {.start_address = 0x02000000, .sector_size = 256 * 1024},
     {.start_address = 0x03000000, .sector_size = 32 * 1024}, {.start_address = 0x04000000, .sector_size = 0x03FE},
@@ -53,7 +53,6 @@ int destroy_memory_bus(MemoryBus* memory_bus) {
 
 int memory_write_byte(address_t address, byte_t byte, MemoryBus* memory_bus) {
     MemorySector* psector = get_memory_sector(address, memory_bus);
-    printf("ADDRESSW: %x, P: %x\n", address, psector->start_address);
 
     if (!psector || psector->start_address + psector->sector_size <= address) {
         THROW_ERROR("Attempting to write to inaccessable memory location: $%x, check the allocated sectors", address);
@@ -67,7 +66,6 @@ int memory_write_halfword(address_t address, halfword_t halfword, MemoryBus* mem
     if (!psector || psector->start_address + psector->sector_size <= address) {
         THROW_ERROR("Attempting to write to inaccessable memory location: $%x, check the allocated sectors", address);
     }
-    printf("\nVALUE: %x %x %x\n", address, psector->start_address, psector->sector_size);
     if (address - psector->start_address > psector->sector_size - 2) {
         THROW_ERROR("Insufficient addressings space for halfword");
     }
@@ -90,12 +88,8 @@ int memory_write_word(address_t address, word_t word, MemoryBus* memory_bus) {
 
 int memory_read_byte(address_t address, MemoryBus* memory_bus, byte_t* byte) {
     MemorySector* sector = get_memory_sector(address, memory_bus);
-    printf("ADDRESS: %x, P: %x\n", address, sector->start_address);
     if (!sector || address - sector->start_address >= sector->sector_size) {
-        printf("\n\n\naddress %x \n\n\n\n", address);
-        return -1;
-        // THROW_ERROR("Attempting to write to inaccessable memory location: $%x, check the allocated sectors",
-        // address);
+        THROW_ERROR("Attempting to write to inaccessable memory location: $%x, check the allocated sectors", address);
     }
 
     *byte = sector->sector_buffer[address - sector->start_address];
@@ -127,7 +121,6 @@ MemorySector* get_memory_sector(address_t address, MemoryBus* memory_bus) {
 
     for (int i = 0; i < memory_bus->sector_count; ++i) {
         if (memory_bus->sectors[i].start_address <= address) {
-            printf("%d start_address: %x", i, memory_bus->sectors[i].start_address);
             current_sector = &memory_bus->sectors[i];
         }
     }

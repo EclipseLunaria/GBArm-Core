@@ -4,8 +4,6 @@
 #include <CUnit/TestDB.h>
 #include <CUnit/TestRun.h>
 
-#include "test_macros.h"
-
 extern int add_alu_tests();
 extern int add_register_tests();
 extern int add_instruction_tests();
@@ -16,13 +14,17 @@ extern int add_memory_bus_tests();
 extern int add_data_transfer_tests();
 
 
-int main() {
+int main(int argc, char ** argv) {
     if (CUE_SUCCESS != CU_initialize_registry()){
         return CU_get_error();
     }
-    
-    add_alu_tests();
 
+    int log_mode = CU_BRM_VERBOSE;
+    if (argc > 1 && !strcmp(argv[1], "-s")){ 
+       log_mode = CU_BRM_SILENT;
+
+    }
+    add_alu_tests();
     add_register_tests();
     add_instruction_tests();
     add_utils_tests();
@@ -33,11 +35,6 @@ int main() {
 
     CU_pTestRegistry test_registry =CU_get_registry();
     
-    for (int i = 0; i < test_registry->uiNumberOfSuites; ++i){
-        CU_pSuite suite = CU_get_suite_by_index(i, test_registry);
-        CU_ErrorCode result = CU_run_suite(suite); 
-         
-    }
-    CU_basic_set_mode(CU_BRM_VERBOSE);
+    CU_basic_set_mode(log_mode);
     CU_basic_run_tests();
 }

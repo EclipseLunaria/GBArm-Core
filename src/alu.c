@@ -183,7 +183,6 @@ uint32_t ALU_ROR(uint32_t value, uint8_t shift_amount, CPU* cpu){
 }
 
 int eval_register_operand(uint32_t operand_bits, BS_FLAGS *flags, CPU *cpu, uint32_t *result){
-    // printf("OP BITS %x", operand_bits);
     uint32_t shift_amount;
     uint32_t rm = operand_bits & 0xF;
     uint8_t is_reg_shift = (operand_bits >> 4 & 1);
@@ -192,7 +191,6 @@ int eval_register_operand(uint32_t operand_bits, BS_FLAGS *flags, CPU *cpu, uint
     uint32_t rm_value;
     
     read_register(rm, &(cpu->registers), &rm_value);
-    // printf(" REG VAL: %x", rm_value);
     if (rm == 15) {
         *result = rm_value + 8;
         return 0;
@@ -241,18 +239,15 @@ int alu_execute(uint32_t instruction, CPU *cpu) {
     uint8_t rn = (instruction >> 16) & 0xF;
     uint32_t rn_value;
     read_register(rn, &cpu->registers,&rn_value);
-    // printf("RN: %d, RNVAL: %x, OP2: %x", rn, rn_value, op2);
     aluOp[opcode](rn_value, op2,&flags,&reg_output);
     
     uint8_t writable_operation = (opcode >> 2) != 0b10;
-    // printf("WRITABLE: %d, REGV: %x", writable_operation, reg_output);
     
     uint8_t rd = (instruction >> 12) & 0xF;    
     if (writable_operation){
         write_register(rd, reg_output, &cpu->registers);
     }
 
-        printf("n OP2: %x, Rn: %x, Rd: %x output %x", op2, rn_value, rd, reg_output);
     // handle writing flags to register
     uint8_t S = (instruction >> 20) & 1;
     if (S) {

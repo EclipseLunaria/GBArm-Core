@@ -1,5 +1,8 @@
 project(arm_core)
 
+include_directories(./include)
+include_directories(./internal)
+
 set(ARM_CORE_HEADERS
     include/core.h
     include/alu.h
