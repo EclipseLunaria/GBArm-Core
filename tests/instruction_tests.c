@@ -11,7 +11,7 @@ void test_direct_branch_call(){
     init_cpu(&cpu);
     cpu.loaded_instruction = 0xEA000007;
     printf("\nPC BEFORE: %x",*cpu.registers.PC);
-    B(&cpu);
+    B(&cpu, &cpu);
     printf("\nPC AFTER: %x",*cpu.registers.PC);
     CU_ASSERT_EQUAL(*cpu.registers.PC, 0xF)
 }
