@@ -1,33 +1,31 @@
+cmake_minimum_required(VERSION 3.28)
 project(arm_core)
 
 include_directories(./include)
-include_directories(./internal)
-
-set(ARM_CORE_HEADERS
-    include/core.h
-    include/alu.h
-    include/barrel_shifter.h
-    include/constants.h
-    include/error.h
-    include/memory_bus.h
-    include/multiply.h
-    include/registers.h
-    include/types.h
-    include/utils.h
-)
 
 set(ARM_CORE_SOURCES
-    src/alu.c
-    src/barrel_shifter.c
-    src/constants.c
-    src/cpu.c
-    src/instruction.c
-    src/memory_bus.c
-    src/multiply.c
-    src/registers.c
-    src/utils.c
-)
+    ./src/alu.c
+    ./src/barrel_shifter.c
+    ./src/branch.c
+    ./src/constants.c
+    ./src/cpu.c
+    ./src/data_transfer.c
+    ./src/instruction.c
+    ./src/interrupt.c
+    ./src/memory_bus.c
+    ./src/multiply.c
+    ./src/psr.c
+    ./src/registers.c
+    ./src/utils.c
+    )
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+
+add_executable(test_main
+    ./src/main.c
+    ${ARM_CORE_SOURCES}
+    )
 add_library(arm_core STATIC ${ARM_CORE_SOURCES})
 
 target_include_directories(arm_core PUBLIC
@@ -35,3 +33,6 @@ target_include_directories(arm_core PUBLIC
     $<INSTALL_INTERFACE:include>
 )
 
+target_include_directories(arm_core PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/internal
+)

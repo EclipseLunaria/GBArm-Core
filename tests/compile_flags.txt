@@ -1,5 +1,2 @@
-Wall
 -I
 ../include
--I
-../internal

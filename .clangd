@@ -1,7 +1,5 @@
-
-CompileFlag:
-  Add:
-    - I./internal
-    - I./include
-    - I/usr/include
-    - I/usr/local/include
+CompileFlags:
+  Add: 
+    - "-I./src"
+    - "-I./include"
+    - "-I./include/internal"
