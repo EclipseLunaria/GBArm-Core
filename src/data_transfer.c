@@ -1,9 +1,9 @@
-#include "internal/data_transfer.h"
+#include "data_transfer.h"
 
-#include "internal/barrel_shifter.h"
-#include "internal/constants.h"
-#include "internal/impl_core.h"
-#include "internal/registers.h"
+#include "barrel_shifter.h"
+#include "constants.h"
+#include "impl_core.h"
+#include "registers.h"
 #include "types.h"
 
 // Single data transfer

@@ -1,7 +1,7 @@
-#include "internal/multiply.h"
+#include "multiply.h"
 
-#include "internal/error.h"
-#include "internal/registers.h"
+#include "error.h"
+#include "registers.h"
 
 // Multiply and Multiply-Accumulate (MUL, MLA)
 int handle_multiply(uint32_t instruction, CPU* cpu) {

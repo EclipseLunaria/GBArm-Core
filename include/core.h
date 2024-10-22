@@ -6,7 +6,7 @@
 #include <memory.h>
 
 #include "types.h"
-#include "internal/memory_bus.h"
+#include "memory_bus.h"
 
 
 // CPU Funtionality

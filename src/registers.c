@@ -1,4 +1,4 @@
-#include "internal/registers.h"
+#include "registers.h"
 
 #include <stdio.h>
 

@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.28)
 project(arm_core)
 
 include_directories(./include)
+include_directories(./internal)
 
 set(ARM_CORE_SOURCES
     ./src/alu.c
@@ -34,5 +35,5 @@ target_include_directories(arm_core PUBLIC
 )
 
 target_include_directories(arm_core PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/include/internal
+    ${CMAKE_CURRENT_SOURCE_DIR}/internal
 )

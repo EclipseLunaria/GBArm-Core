@@ -3,7 +3,7 @@
 #include <string.h>
 
 #include "core.h"
-#include "internal/utils.h"
+#include "utils.h"
 
 uint32_t sLen(char * s){
     uint32_t i;

@@ -1,7 +1,7 @@
-#include "internal/alu.h"
-#include "internal/error.h"
-#include "internal/barrel_shifter.h"
-#include "internal/registers.h"
+#include "alu.h"
+#include "error.h"
+#include "barrel_shifter.h"
+#include "registers.h"
 
 int ALU_AND(uint32_t op1, uint32_t op2, BS_FLAGS* flags, uint32_t *result){
     *result = op1 & op2;

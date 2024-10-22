@@ -1,4 +1,4 @@
-#include "internal/branch.h"
+#include "branch.h"
 
 #include "core.h"
 
