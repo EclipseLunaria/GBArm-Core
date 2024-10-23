@@ -1,6 +1,5 @@
 *.o
-Main
 run_tests
-*build/**/*
-
 .cache
+*/build/**/*
+build
