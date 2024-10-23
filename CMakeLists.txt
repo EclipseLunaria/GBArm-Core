@@ -11,6 +11,7 @@ set(ARM_CORE_SOURCES
     src/constants.c
     src/cpu.c
     src/instruction.c
+    src/interrupt.c
     src/memory_bus.c
     src/multiply.c
     src/registers.c

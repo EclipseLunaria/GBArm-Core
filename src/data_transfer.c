@@ -41,7 +41,7 @@ int SDT(instruction_t instruction, CPU *cpu) {
         reg_t rm = instruction & 0xF;
         uint32_t rm_value;
         read_register(rm, &cpu->registers, &rm_value);
-        offset = imm_shift ? shiftOp[shift_type](imm_shift, rm_value, &flags, &offset) : rm_value;
+        offset = imm_shift ? shiftOperation[shift_type](imm_shift, rm_value, &flags, &offset) : rm_value;
     }
     address_t offset_address = U ? rn_value + offset : rn_value - offset;
     // set to offset if preindexed

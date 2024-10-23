@@ -1,7 +1,7 @@
 #include <CUnit/Basic.h>
 #include <CUnit/CUnit.h>
 
-#include "internal/memory_bus.h"
+#include "memory_bus.h"
 #include "test_macros.h"
 #include "types.h"
 

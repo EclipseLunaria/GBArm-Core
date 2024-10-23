@@ -210,7 +210,7 @@ int eval_register_operand(uint32_t operand_bits, BS_FLAGS *flags, CPU *cpu, uint
         shift_amount = immediate_shift; 
     }
     
-    shiftOp[(operand_bits >> 5) & 0b11](rm_value, shift_amount, flags, result);
+    shiftOperation[(operand_bits >> 5) & 0b11](rm_value, shift_amount, flags, result);
     return 0;
 }
 

@@ -3,9 +3,9 @@
 #include <stdint.h>
 
 #include "test_macros.h"
-#include "internal/branch.h"
-#include "internal/psr.h"
-#include "internal/registers.h"
+#include "branch.h"
+#include "psr.h"
+#include "registers.h"
 
 void test_direct_branch_call(){
     CPU cpu;

@@ -1,7 +1,7 @@
 #include <CUnit/CUnit.h>
 #include <CUnit/Basic.h>
 #include "test_macros.h"
-#include "internal/utils.h"
+#include "utils.h"
 
 void test_is_hex() {
     char * h1 = "0xFF";

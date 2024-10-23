@@ -1,6 +1,6 @@
 #include <CUnit/CUnit.h>
 #include <CUnit/Basic.h>
-#include "internal/registers.h"
+#include "registers.h"
 
 
 void test_register_init_pc_pointer(){

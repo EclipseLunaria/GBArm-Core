@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.10)
 project(arm_core_tests C) 
 
 include_directories(../include)
-
+include_directories(../internal)
 add_subdirectory(lib/cunit/CUnit)
 
 add_executable(run_tests

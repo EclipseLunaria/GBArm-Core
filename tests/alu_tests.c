@@ -4,8 +4,8 @@
 #include "test_macros.h"
 #include "core.h"
 
-#include "internal/alu.h"
-#include "internal/registers.h"
+#include "alu.h"
+#include "registers.h"
 
 void test_AND_no_shift(){
     BS_FLAGS flags;
