@@ -41,7 +41,6 @@ typedef struct Registers {
     uint32_t und_registers[2];
     uint32_t spsr_registers[5];
     uint32_t cpsr;
-    CPSR *p_cpsr;
 } Registers;
 
 typedef struct RegisterSet {
