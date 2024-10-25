@@ -6,14 +6,18 @@ include_directories(./internal)
 
 
 set(ARM_CORE_SOURCES
+    include/core.h
     src/alu.c
     src/barrel_shifter.c
+    src/branch.c
     src/constants.c
     src/cpu.c
+    src/data_transfer.c
     src/instruction.c
     src/interrupt.c
     src/memory_bus.c
     src/multiply.c
+    src/psr.c
     src/registers.c
     src/utils.c
     src/branch.c
