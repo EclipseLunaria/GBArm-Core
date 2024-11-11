@@ -2,7 +2,6 @@
 #define PSR_H
 
 #include "core.h"
-#include "constants.h"
 // MRS – Move PSR into General-Purpose Register
 int is_mrs(uint32_t instruction);
 int MRS(instruction_t instruction_t, CPU *cpu);

@@ -3,6 +3,10 @@
 #include "registers.h"
 #include "impl_core.h"
 #include "barrel_shifter.h"
+#include "internal/constants.h"
+#include "internal/registers.h"
+#include "internal/impl_core.h"
+#include "internal/barrel_shifter.h"
 
 #define MRS_INSTR_MASK 0x0FB0FFFF
 #define MRS_INSTR_VALUE 0x01000000
