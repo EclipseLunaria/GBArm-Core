@@ -1,9 +1,9 @@
 #include <CUnit/Basic.h>
 #include <CUnit/CUnit.h>
 
-#include "memory_bus.h"
-#include "data_transfer.h"
-#include "registers.h"
+#include "../include/memory_bus.h"
+#include "../internal/data_transfer.h"
+#include "../internal/registers.h"
 #include "test_macros.h"
 
 

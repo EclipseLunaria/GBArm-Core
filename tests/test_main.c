@@ -12,6 +12,8 @@ extern int add_multiply_tests();
 extern int add_multiply_long_tests();
 extern int add_memory_bus_tests();
 extern int add_data_transfer_tests();
+extern int add_psr_tests();
+extern int add_branch_tests();
 
 
 int main(int argc, char ** argv) {
@@ -32,6 +34,8 @@ int main(int argc, char ** argv) {
     add_multiply_long_tests();
     add_memory_bus_tests();
     add_data_transfer_tests();
+	add_psr_tests();
+	add_branch_tests();
 
     CU_pTestRegistry test_registry =CU_get_registry();
     

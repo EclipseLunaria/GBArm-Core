@@ -3,11 +3,12 @@
 #include "registers.h"
 #include "impl_core.h"
 #include "barrel_shifter.h"
-#include "internal/constants.h"
-#include "internal/registers.h"
-#include "internal/impl_core.h"
-#include "internal/barrel_shifter.h"
+#include "constants.h"
+#include "registers.h"
+#include "impl_core.h"
+#include "barrel_shifter.h"
 
+#include <stdio.h>
 #define MRS_INSTR_MASK 0x0FB0FFFF
 #define MRS_INSTR_VALUE 0x01000000
 
@@ -37,14 +38,15 @@ int MSR_REG(instruction_t instruction, CPU *cpu) {
     reg_t rm = instruction & 0xF;
     uint32_t rm_value;
     read_register(rm, &cpu->registers, &rm_value);
-
-    if (cpu->registers.current_mode != USER_MODE && c) {
+	printf("f: %d, c: %d, rm: %d\n\n", f,c,rm);
+    if ((cpu->CPSR->mode_bits & 0xf) != USER_MODE && c) {
+		printf("Mode: %x, Flags: %x\n", cpu->CPSR->mode_bits, rm & 0xff);
         // clear flags
-        cpu->registers.cpsr &= 0xFFFFFFF0;
-        cpu->registers.cpsr |= rm_value & 0xF;
+        cpu->registers.cpsr &= 0xFFFFFF00;
+        cpu->registers.cpsr |= rm_value & 0xFF;
     }
     if (f) {
-        cpu->registers.cpsr = 0x0FFFFFFFF;
+        cpu->registers.cpsr &= 0x0FFFFFFF;
         cpu->registers.cpsr |= rm_value & 0xF0000000;
     }
 

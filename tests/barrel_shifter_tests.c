@@ -1,7 +1,7 @@
 #include <CUnit/CUnit.h>
 #include <CUnit/Basic.h>
-#include "impl_core.h"
-#include "barrel_shifter.h"
+#include "../internal/impl_core.h"
+#include "../internal/barrel_shifter.h"
 
 // REGISTER ALU
 

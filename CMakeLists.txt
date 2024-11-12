@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.28)
 project(arm_core)
 
-include_directories(./include)
-include_directories(./internal)
 
+include_directories(include)
+include_directories(internal)
 
 set(ARM_CORE_SOURCES
     include/core.h
@@ -27,11 +27,6 @@ set(ARM_CORE_SOURCES
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-
-add_executable(test_main
-    ./src/main.c
-    ${ARM_CORE_SOURCES}
-    )
 add_library(arm_core STATIC ${ARM_CORE_SOURCES})
 
 target_include_directories(arm_core PUBLIC
@@ -42,3 +37,7 @@ target_include_directories(arm_core PUBLIC
 target_include_directories(arm_core PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/internal
 )
+
+enable_testing()
+
+add_subdirectory(tests)

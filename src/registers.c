@@ -52,8 +52,10 @@ int init_registers(CpuRegister *cpuRegister) {
 }
 
 int set_mode(uint8_t mode, CpuRegister *cpu_reg) {
-    mode &= 0xF;
-    if (mode >= 6) return -1;
+    mode &= 0x1F;
+    if (mode >= 0x1f) return -1;
+	CPSR * cpsr = (CPSR*)cpu_reg;
+	cpsr->mode_bits = mode;
     if (mode == 0 && cpu_reg->current_mode != 0) cpu_reg->cpsr = *cpu_reg->current_registers->p_spsr;
     cpu_reg->current_mode = mode;
     // cpu_reg->current_registers = &cpu_reg->register_sets[mode];
@@ -63,9 +65,14 @@ int set_mode(uint8_t mode, CpuRegister *cpu_reg) {
 
     return 0;
 }
+
+RegisterSet* get_current_registers(CpuRegister* cpu_reg){
+	return &cpu_reg->register_sets[cpu_reg->cpsr &0xf];	
+}
 int read_register(uint8_t reg_number, CpuRegister *cpu_reg, uint32_t *buf) {
     if (reg_number >= 16) return -1;
-    *buf = *cpu_reg->current_registers->p_registers[reg_number];
+    //*buf = *cpu_reg->current_registers->p_registers[reg_number];
+	*buf = *get_current_registers(cpu_reg)->p_registers[reg_number];
     return 0;
 }
 
@@ -77,7 +84,8 @@ int read_user_register(uint8_t reg_number, CpuRegister *cpu_reg, uint32_t *buf) 
 
 int write_register(uint8_t reg_number, uint32_t value, CpuRegister *cpu_reg) {
     if (reg_number >= 16) return -1;
-    *cpu_reg->current_registers->p_registers[reg_number] = value;
+    //*cpu_reg->current_registers->p_registers[reg_number] = value;
+	*get_current_registers(cpu_reg)->p_registers[reg_number] = value;
     return 0;
 }
 int write_user_register(uint8_t reg_number, uint32_t value, CpuRegister *cpu_reg) {

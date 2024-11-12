@@ -1,7 +1,7 @@
 #include <CUnit/CUnit.h>
 #include <CUnit/Basic.h>
-#include "registers.h"
-
+#include "../internal/registers.h"
+#include "test_macros.h"
 
 void test_register_init_pc_pointer(){
     CpuRegister reg;
@@ -79,27 +79,7 @@ void test_write_read_default_register() {
     CU_ASSERT_EQUAL(100, regValue)
 }
 
-void test_current_reg_pointer_after_mode_set(){
-    CpuRegister reg;
-    init_registers(&reg);
-    // // RegisterSet *pStart = reg.current_registers;
-    // set_mode(1, &reg);
-    // CU_ASSERT_PTR_NOT_EQUAL(reg.current_registers, pStart)
-}
 
-void test_write_mode_set_then_read_on_banked_register(){
-    // CpuRegister reg;
-    // init_registers(&reg);
-    // uint32_t first;
-    // uint32_t second;
-    // write_register(9, 5050, &reg);
-    // read_register(9, &reg, &first);
-    // CU_ASSERT_EQUAL(first, 5050)
-    // set_mode(1, &reg);
-
-    // CU_ASSERT_NOT_EQUAL(second, first)
-
-}
 
 void test_write_mode_set_then_read_on_default_register(){
     CpuRegister reg;
@@ -135,80 +115,18 @@ int add_register_tests(){
 
     if (suite == NULL) return CU_get_error();
 
-    if (NULL == CU_add_test(suite, "test init register values", test_register_value_init)) {
-        CU_cleanup_registry();
-        return CU_get_error();
-    }
-    if (NULL == CU_add_test(suite, "test init PC pointer", test_register_init_pc_pointer)) {
-        CU_cleanup_registry();
-        return CU_get_error();
-    }
-
-    if (NULL == CU_add_test(suite, "test init register values", test_register_init_values)) {
-        CU_cleanup_registry();
-        return CU_get_error();
-    }
-
-    if (NULL == CU_add_test(suite, "test init user register pointers", test_user_register_pointers)) {
-        CU_cleanup_registry();
-        return CU_get_error();
-    }
-
-    if (NULL == CU_add_test(suite, "test init fiq register pointers", test_fiq_pointer_register_init)) {
-        CU_cleanup_registry();
-        return CU_get_error();
-    }
-
-    if (NULL == CU_add_test(suite, "test init fiq register bank values", test_fiq_save_bank_pointers)) {
-        CU_cleanup_registry();
-        return CU_get_error();
-    }
-
-    if (NULL == CU_add_test(suite, "test current register init", test_current_register_initialize)) {
-        CU_cleanup_registry();
-        return CU_get_error();
-    }
-
-    
-
-    if (NULL == CU_add_test(suite, "test write normal register in default mode", test_write_default_register)) {
-        CU_cleanup_registry();
-        return CU_get_error();
-    }
-    
-
-    
-    if (NULL == CU_add_test(suite, "test write then read normal register in default mode", test_write_read_default_register)) {
-        CU_cleanup_registry();
-        return CU_get_error();
-    }
-
-
-
-    if (NULL == CU_add_test(suite, "test read normal register in default mode", test_read_default_register)) {
-        CU_cleanup_registry();
-        return CU_get_error();
-    }
-    
-    if (NULL == CU_add_test(suite, "test cur register pointer after mode switch", test_current_reg_pointer_after_mode_set)) {
-        CU_cleanup_registry();
-        return CU_get_error();
-    }
-    
-    if (NULL == CU_add_test(suite, "test write-modeset read on banked register", test_write_mode_set_then_read_on_banked_register)) {
-        CU_cleanup_registry();
-        return CU_get_error();
-    }
-    
-    if (NULL == CU_add_test(suite, "test  fiq register bank pointer initialized", test_fiq_register_bank_pointer_initialized)) {
-        CU_cleanup_registry();
-        return CU_get_error();
-    }
-    
-    if (NULL == CU_add_test(suite, "test register init pc and lr", test_register_init_pc_and_lr)) {
-        CU_cleanup_registry();
-        return CU_get_error();
-    }
+	ADD_TEST(test_register_value_init)
+	ADD_TEST(test_register_init_pc_pointer)
+	ADD_TEST(test_register_init_values)
+	ADD_TEST(test_user_register_pointers)
+	ADD_TEST(test_fiq_pointer_register_init)
+	ADD_TEST(test_fiq_save_bank_pointers)
+    ADD_TEST(test_current_register_initialize)
+	ADD_TEST(test_write_default_register)	
+	ADD_TEST(test_write_read_default_register)
+    ADD_TEST(test_read_default_register)
+	ADD_TEST(test_fiq_register_bank_pointer_initialized)
+    ADD_TEST(test_register_init_pc_and_lr)
 
     
    

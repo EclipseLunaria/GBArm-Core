@@ -1,10 +1,11 @@
 #include "branch.h"
+#include <stdio.h>
 
 #include "core.h"
 
 int B(instruction_t instruction, CPU *cpu) {
-    if (instruction & (1 << 26)) {
-        cpu->registers.LR = cpu->registers.PC + 4;
+    if ((instruction >> 24) & 1) {
+        *cpu->registers.LR = *cpu->registers.PC + 4;
     }
 
     int32_t offset = (instruction & 0x7FFFFF) * 4;

@@ -1,0 +1,284 @@
+[
+{
+  "directory": "/home/jackson/C/CBAEmulator/lib/arm_core/build",
+  "command": "/usr/bin/cc  -I/home/jackson/C/CBAEmulator/lib/arm_core/include -I/home/jackson/C/CBAEmulator/lib/arm_core/internal  -o CMakeFiles/arm_core.dir/src/alu.c.o -c /home/jackson/C/CBAEmulator/lib/arm_core/src/alu.c",
+  "file": "/home/jackson/C/CBAEmulator/lib/arm_core/src/alu.c",
+  "output": "CMakeFiles/arm_core.dir/src/alu.c.o"
+},
+{
+  "directory": "/home/jackson/C/CBAEmulator/lib/arm_core/build",
+  "command": "/usr/bin/cc  -I/home/jackson/C/CBAEmulator/lib/arm_core/include -I/home/jackson/C/CBAEmulator/lib/arm_core/internal  -o CMakeFiles/arm_core.dir/src/barrel_shifter.c.o -c /home/jackson/C/CBAEmulator/lib/arm_core/src/barrel_shifter.c",
+  "file": "/home/jackson/C/CBAEmulator/lib/arm_core/src/barrel_shifter.c",
+  "output": "CMakeFiles/arm_core.dir/src/barrel_shifter.c.o"
+},
+{
+  "directory": "/home/jackson/C/CBAEmulator/lib/arm_core/build",
+  "command": "/usr/bin/cc  -I/home/jackson/C/CBAEmulator/lib/arm_core/include -I/home/jackson/C/CBAEmulator/lib/arm_core/internal  -o CMakeFiles/arm_core.dir/src/branch.c.o -c /home/jackson/C/CBAEmulator/lib/arm_core/src/branch.c",
+  "file": "/home/jackson/C/CBAEmulator/lib/arm_core/src/branch.c",
+  "output": "CMakeFiles/arm_core.dir/src/branch.c.o"
+},
+{
+  "directory": "/home/jackson/C/CBAEmulator/lib/arm_core/build",
+  "command": "/usr/bin/cc  -I/home/jackson/C/CBAEmulator/lib/arm_core/include -I/home/jackson/C/CBAEmulator/lib/arm_core/internal  -o CMakeFiles/arm_core.dir/src/constants.c.o -c /home/jackson/C/CBAEmulator/lib/arm_core/src/constants.c",
+  "file": "/home/jackson/C/CBAEmulator/lib/arm_core/src/constants.c",
+  "output": "CMakeFiles/arm_core.dir/src/constants.c.o"
+},
+{
+  "directory": "/home/jackson/C/CBAEmulator/lib/arm_core/build",
+  "command": "/usr/bin/cc  -I/home/jackson/C/CBAEmulator/lib/arm_core/include -I/home/jackson/C/CBAEmulator/lib/arm_core/internal  -o CMakeFiles/arm_core.dir/src/cpu.c.o -c /home/jackson/C/CBAEmulator/lib/arm_core/src/cpu.c",
+  "file": "/home/jackson/C/CBAEmulator/lib/arm_core/src/cpu.c",
+  "output": "CMakeFiles/arm_core.dir/src/cpu.c.o"
+},
+{
+  "directory": "/home/jackson/C/CBAEmulator/lib/arm_core/build",
+  "command": "/usr/bin/cc  -I/home/jackson/C/CBAEmulator/lib/arm_core/include -I/home/jackson/C/CBAEmulator/lib/arm_core/internal  -o CMakeFiles/arm_core.dir/src/data_transfer.c.o -c /home/jackson/C/CBAEmulator/lib/arm_core/src/data_transfer.c",
+  "file": "/home/jackson/C/CBAEmulator/lib/arm_core/src/data_transfer.c",
+  "output": "CMakeFiles/arm_core.dir/src/data_transfer.c.o"
+},
+{
+  "directory": "/home/jackson/C/CBAEmulator/lib/arm_core/build",
+  "command": "/usr/bin/cc  -I/home/jackson/C/CBAEmulator/lib/arm_core/include -I/home/jackson/C/CBAEmulator/lib/arm_core/internal  -o CMakeFiles/arm_core.dir/src/instruction.c.o -c /home/jackson/C/CBAEmulator/lib/arm_core/src/instruction.c",
+  "file": "/home/jackson/C/CBAEmulator/lib/arm_core/src/instruction.c",
+  "output": "CMakeFiles/arm_core.dir/src/instruction.c.o"
+},
+{
+  "directory": "/home/jackson/C/CBAEmulator/lib/arm_core/build",
+  "command": "/usr/bin/cc  -I/home/jackson/C/CBAEmulator/lib/arm_core/include -I/home/jackson/C/CBAEmulator/lib/arm_core/internal  -o CMakeFiles/arm_core.dir/src/interrupt.c.o -c /home/jackson/C/CBAEmulator/lib/arm_core/src/interrupt.c",
+  "file": "/home/jackson/C/CBAEmulator/lib/arm_core/src/interrupt.c",
+  "output": "CMakeFiles/arm_core.dir/src/interrupt.c.o"
+},
+{
+  "directory": "/home/jackson/C/CBAEmulator/lib/arm_core/build",
+  "command": "/usr/bin/cc  -I/home/jackson/C/CBAEmulator/lib/arm_core/include -I/home/jackson/C/CBAEmulator/lib/arm_core/internal  -o CMakeFiles/arm_core.dir/src/memory_bus.c.o -c /home/jackson/C/CBAEmulator/lib/arm_core/src/memory_bus.c",
+  "file": "/home/jackson/C/CBAEmulator/lib/arm_core/src/memory_bus.c",
+  "output": "CMakeFiles/arm_core.dir/src/memory_bus.c.o"
+},
+{
+  "directory": "/home/jackson/C/CBAEmulator/lib/arm_core/build",
+  "command": "/usr/bin/cc  -I/home/jackson/C/CBAEmulator/lib/arm_core/include -I/home/jackson/C/CBAEmulator/lib/arm_core/internal  -o CMakeFiles/arm_core.dir/src/multiply.c.o -c /home/jackson/C/CBAEmulator/lib/arm_core/src/multiply.c",
+  "file": "/home/jackson/C/CBAEmulator/lib/arm_core/src/multiply.c",
+  "output": "CMakeFiles/arm_core.dir/src/multiply.c.o"
+},
+{
+  "directory": "/home/jackson/C/CBAEmulator/lib/arm_core/build",
+  "command": "/usr/bin/cc  -I/home/jackson/C/CBAEmulator/lib/arm_core/include -I/home/jackson/C/CBAEmulator/lib/arm_core/internal  -o CMakeFiles/arm_core.dir/src/psr.c.o -c /home/jackson/C/CBAEmulator/lib/arm_core/src/psr.c",
+  "file": "/home/jackson/C/CBAEmulator/lib/arm_core/src/psr.c",
+  "output": "CMakeFiles/arm_core.dir/src/psr.c.o"
+},
+{
+  "directory": "/home/jackson/C/CBAEmulator/lib/arm_core/build",
+  "command": "/usr/bin/cc  -I/home/jackson/C/CBAEmulator/lib/arm_core/include -I/home/jackson/C/CBAEmulator/lib/arm_core/internal  -o CMakeFiles/arm_core.dir/src/registers.c.o -c /home/jackson/C/CBAEmulator/lib/arm_core/src/registers.c",
+  "file": "/home/jackson/C/CBAEmulator/lib/arm_core/src/registers.c",
+  "output": "CMakeFiles/arm_core.dir/src/registers.c.o"
+},
+{
+  "directory": "/home/jackson/C/CBAEmulator/lib/arm_core/build",
+  "command": "/usr/bin/cc  -I/home/jackson/C/CBAEmulator/lib/arm_core/include -I/home/jackson/C/CBAEmulator/lib/arm_core/internal  -o CMakeFiles/arm_core.dir/src/utils.c.o -c /home/jackson/C/CBAEmulator/lib/arm_core/src/utils.c",
+  "file": "/home/jackson/C/CBAEmulator/lib/arm_core/src/utils.c",
+  "output": "CMakeFiles/arm_core.dir/src/utils.c.o"
+},
+{
+  "directory": "/home/jackson/C/CBAEmulator/lib/arm_core/build/tests",
+  "command": "/usr/bin/cc  -I/home/jackson/C/CBAEmulator/lib/arm_core/include -I/home/jackson/C/CBAEmulator/lib/arm_core/internal -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/../include -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/../internal -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit  -o CMakeFiles/run_arm_tests.dir/test_main.c.o -c /home/jackson/C/CBAEmulator/lib/arm_core/tests/test_main.c",
+  "file": "/home/jackson/C/CBAEmulator/lib/arm_core/tests/test_main.c",
+  "output": "tests/CMakeFiles/run_arm_tests.dir/test_main.c.o"
+},
+{
+  "directory": "/home/jackson/C/CBAEmulator/lib/arm_core/build/tests",
+  "command": "/usr/bin/cc  -I/home/jackson/C/CBAEmulator/lib/arm_core/include -I/home/jackson/C/CBAEmulator/lib/arm_core/internal -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/../include -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/../internal -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit  -o CMakeFiles/run_arm_tests.dir/test_macros.c.o -c /home/jackson/C/CBAEmulator/lib/arm_core/tests/test_macros.c",
+  "file": "/home/jackson/C/CBAEmulator/lib/arm_core/tests/test_macros.c",
+  "output": "tests/CMakeFiles/run_arm_tests.dir/test_macros.c.o"
+},
+{
+  "directory": "/home/jackson/C/CBAEmulator/lib/arm_core/build/tests",
+  "command": "/usr/bin/cc  -I/home/jackson/C/CBAEmulator/lib/arm_core/include -I/home/jackson/C/CBAEmulator/lib/arm_core/internal -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/../include -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/../internal -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit  -o CMakeFiles/run_arm_tests.dir/alu_tests.c.o -c /home/jackson/C/CBAEmulator/lib/arm_core/tests/alu_tests.c",
+  "file": "/home/jackson/C/CBAEmulator/lib/arm_core/tests/alu_tests.c",
+  "output": "tests/CMakeFiles/run_arm_tests.dir/alu_tests.c.o"
+},
+{
+  "directory": "/home/jackson/C/CBAEmulator/lib/arm_core/build/tests",
+  "command": "/usr/bin/cc  -I/home/jackson/C/CBAEmulator/lib/arm_core/include -I/home/jackson/C/CBAEmulator/lib/arm_core/internal -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/../include -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/../internal -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit  -o CMakeFiles/run_arm_tests.dir/barrel_shifter_tests.c.o -c /home/jackson/C/CBAEmulator/lib/arm_core/tests/barrel_shifter_tests.c",
+  "file": "/home/jackson/C/CBAEmulator/lib/arm_core/tests/barrel_shifter_tests.c",
+  "output": "tests/CMakeFiles/run_arm_tests.dir/barrel_shifter_tests.c.o"
+},
+{
+  "directory": "/home/jackson/C/CBAEmulator/lib/arm_core/build/tests",
+  "command": "/usr/bin/cc  -I/home/jackson/C/CBAEmulator/lib/arm_core/include -I/home/jackson/C/CBAEmulator/lib/arm_core/internal -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/../include -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/../internal -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit  -o CMakeFiles/run_arm_tests.dir/data_transfer_tests.c.o -c /home/jackson/C/CBAEmulator/lib/arm_core/tests/data_transfer_tests.c",
+  "file": "/home/jackson/C/CBAEmulator/lib/arm_core/tests/data_transfer_tests.c",
+  "output": "tests/CMakeFiles/run_arm_tests.dir/data_transfer_tests.c.o"
+},
+{
+  "directory": "/home/jackson/C/CBAEmulator/lib/arm_core/build/tests",
+  "command": "/usr/bin/cc  -I/home/jackson/C/CBAEmulator/lib/arm_core/include -I/home/jackson/C/CBAEmulator/lib/arm_core/internal -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/../include -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/../internal -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit  -o CMakeFiles/run_arm_tests.dir/instruction_tests.c.o -c /home/jackson/C/CBAEmulator/lib/arm_core/tests/instruction_tests.c",
+  "file": "/home/jackson/C/CBAEmulator/lib/arm_core/tests/instruction_tests.c",
+  "output": "tests/CMakeFiles/run_arm_tests.dir/instruction_tests.c.o"
+},
+{
+  "directory": "/home/jackson/C/CBAEmulator/lib/arm_core/build/tests",
+  "command": "/usr/bin/cc  -I/home/jackson/C/CBAEmulator/lib/arm_core/include -I/home/jackson/C/CBAEmulator/lib/arm_core/internal -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/../include -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/../internal -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit  -o CMakeFiles/run_arm_tests.dir/memory_bus_tests.c.o -c /home/jackson/C/CBAEmulator/lib/arm_core/tests/memory_bus_tests.c",
+  "file": "/home/jackson/C/CBAEmulator/lib/arm_core/tests/memory_bus_tests.c",
+  "output": "tests/CMakeFiles/run_arm_tests.dir/memory_bus_tests.c.o"
+},
+{
+  "directory": "/home/jackson/C/CBAEmulator/lib/arm_core/build/tests",
+  "command": "/usr/bin/cc  -I/home/jackson/C/CBAEmulator/lib/arm_core/include -I/home/jackson/C/CBAEmulator/lib/arm_core/internal -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/../include -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/../internal -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit  -o CMakeFiles/run_arm_tests.dir/multiply_tests.c.o -c /home/jackson/C/CBAEmulator/lib/arm_core/tests/multiply_tests.c",
+  "file": "/home/jackson/C/CBAEmulator/lib/arm_core/tests/multiply_tests.c",
+  "output": "tests/CMakeFiles/run_arm_tests.dir/multiply_tests.c.o"
+},
+{
+  "directory": "/home/jackson/C/CBAEmulator/lib/arm_core/build/tests",
+  "command": "/usr/bin/cc  -I/home/jackson/C/CBAEmulator/lib/arm_core/include -I/home/jackson/C/CBAEmulator/lib/arm_core/internal -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/../include -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/../internal -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit  -o CMakeFiles/run_arm_tests.dir/multiply_long_tests.c.o -c /home/jackson/C/CBAEmulator/lib/arm_core/tests/multiply_long_tests.c",
+  "file": "/home/jackson/C/CBAEmulator/lib/arm_core/tests/multiply_long_tests.c",
+  "output": "tests/CMakeFiles/run_arm_tests.dir/multiply_long_tests.c.o"
+},
+{
+  "directory": "/home/jackson/C/CBAEmulator/lib/arm_core/build/tests",
+  "command": "/usr/bin/cc  -I/home/jackson/C/CBAEmulator/lib/arm_core/include -I/home/jackson/C/CBAEmulator/lib/arm_core/internal -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/../include -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/../internal -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit  -o CMakeFiles/run_arm_tests.dir/register_tests.c.o -c /home/jackson/C/CBAEmulator/lib/arm_core/tests/register_tests.c",
+  "file": "/home/jackson/C/CBAEmulator/lib/arm_core/tests/register_tests.c",
+  "output": "tests/CMakeFiles/run_arm_tests.dir/register_tests.c.o"
+},
+{
+  "directory": "/home/jackson/C/CBAEmulator/lib/arm_core/build/tests",
+  "command": "/usr/bin/cc  -I/home/jackson/C/CBAEmulator/lib/arm_core/include -I/home/jackson/C/CBAEmulator/lib/arm_core/internal -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/../include -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/../internal -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit  -o CMakeFiles/run_arm_tests.dir/utils_tests.c.o -c /home/jackson/C/CBAEmulator/lib/arm_core/tests/utils_tests.c",
+  "file": "/home/jackson/C/CBAEmulator/lib/arm_core/tests/utils_tests.c",
+  "output": "tests/CMakeFiles/run_arm_tests.dir/utils_tests.c.o"
+},
+{
+  "directory": "/home/jackson/C/CBAEmulator/lib/arm_core/build/tests/lib/cunit/CUnit",
+  "command": "/usr/bin/cc  -I/home/jackson/C/CBAEmulator/lib/arm_core/include -I/home/jackson/C/CBAEmulator/lib/arm_core/internal -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit  -Wall -Werror -Werror=strict-prototypes -o CMakeFiles/cunit.dir/Sources/Basic/Basic.c.o -c /home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Basic/Basic.c",
+  "file": "/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Basic/Basic.c",
+  "output": "tests/lib/cunit/CUnit/CMakeFiles/cunit.dir/Sources/Basic/Basic.c.o"
+},
+{
+  "directory": "/home/jackson/C/CBAEmulator/lib/arm_core/build/tests/lib/cunit/CUnit",
+  "command": "/usr/bin/cc  -I/home/jackson/C/CBAEmulator/lib/arm_core/include -I/home/jackson/C/CBAEmulator/lib/arm_core/internal -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit  -Wall -Werror -Werror=strict-prototypes -o CMakeFiles/cunit.dir/Sources/Automated/Automated.c.o -c /home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Automated/Automated.c",
+  "file": "/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Automated/Automated.c",
+  "output": "tests/lib/cunit/CUnit/CMakeFiles/cunit.dir/Sources/Automated/Automated.c.o"
+},
+{
+  "directory": "/home/jackson/C/CBAEmulator/lib/arm_core/build/tests/lib/cunit/CUnit",
+  "command": "/usr/bin/cc  -I/home/jackson/C/CBAEmulator/lib/arm_core/include -I/home/jackson/C/CBAEmulator/lib/arm_core/internal -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit  -Wall -Werror -Werror=strict-prototypes -o CMakeFiles/cunit.dir/Sources/Automated/AutomatedJUnitXml.c.o -c /home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Automated/AutomatedJUnitXml.c",
+  "file": "/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Automated/AutomatedJUnitXml.c",
+  "output": "tests/lib/cunit/CUnit/CMakeFiles/cunit.dir/Sources/Automated/AutomatedJUnitXml.c.o"
+},
+{
+  "directory": "/home/jackson/C/CBAEmulator/lib/arm_core/build/tests/lib/cunit/CUnit",
+  "command": "/usr/bin/cc  -I/home/jackson/C/CBAEmulator/lib/arm_core/include -I/home/jackson/C/CBAEmulator/lib/arm_core/internal -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit  -Wall -Werror -Werror=strict-prototypes -o CMakeFiles/cunit.dir/Sources/CI/CUnitCI.c.o -c /home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/CI/CUnitCI.c",
+  "file": "/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/CI/CUnitCI.c",
+  "output": "tests/lib/cunit/CUnit/CMakeFiles/cunit.dir/Sources/CI/CUnitCI.c.o"
+},
+{
+  "directory": "/home/jackson/C/CBAEmulator/lib/arm_core/build/tests/lib/cunit/CUnit",
+  "command": "/usr/bin/cc  -I/home/jackson/C/CBAEmulator/lib/arm_core/include -I/home/jackson/C/CBAEmulator/lib/arm_core/internal -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit  -Wall -Werror -Werror=strict-prototypes -o CMakeFiles/cunit.dir/Sources/Framework/CUError.c.o -c /home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Framework/CUError.c",
+  "file": "/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Framework/CUError.c",
+  "output": "tests/lib/cunit/CUnit/CMakeFiles/cunit.dir/Sources/Framework/CUError.c.o"
+},
+{
+  "directory": "/home/jackson/C/CBAEmulator/lib/arm_core/build/tests/lib/cunit/CUnit",
+  "command": "/usr/bin/cc  -I/home/jackson/C/CBAEmulator/lib/arm_core/include -I/home/jackson/C/CBAEmulator/lib/arm_core/internal -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit  -Wall -Werror -Werror=strict-prototypes -o CMakeFiles/cunit.dir/Sources/Framework/MessageHandlers.c.o -c /home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Framework/MessageHandlers.c",
+  "file": "/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Framework/MessageHandlers.c",
+  "output": "tests/lib/cunit/CUnit/CMakeFiles/cunit.dir/Sources/Framework/MessageHandlers.c.o"
+},
+{
+  "directory": "/home/jackson/C/CBAEmulator/lib/arm_core/build/tests/lib/cunit/CUnit",
+  "command": "/usr/bin/cc  -I/home/jackson/C/CBAEmulator/lib/arm_core/include -I/home/jackson/C/CBAEmulator/lib/arm_core/internal -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit  -Wall -Werror -Werror=strict-prototypes -o CMakeFiles/cunit.dir/Sources/Framework/MyMem.c.o -c /home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Framework/MyMem.c",
+  "file": "/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Framework/MyMem.c",
+  "output": "tests/lib/cunit/CUnit/CMakeFiles/cunit.dir/Sources/Framework/MyMem.c.o"
+},
+{
+  "directory": "/home/jackson/C/CBAEmulator/lib/arm_core/build/tests/lib/cunit/CUnit",
+  "command": "/usr/bin/cc  -I/home/jackson/C/CBAEmulator/lib/arm_core/include -I/home/jackson/C/CBAEmulator/lib/arm_core/internal -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit  -Wall -Werror -Werror=strict-prototypes -o CMakeFiles/cunit.dir/Sources/Framework/TestDB.c.o -c /home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Framework/TestDB.c",
+  "file": "/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Framework/TestDB.c",
+  "output": "tests/lib/cunit/CUnit/CMakeFiles/cunit.dir/Sources/Framework/TestDB.c.o"
+},
+{
+  "directory": "/home/jackson/C/CBAEmulator/lib/arm_core/build/tests/lib/cunit/CUnit",
+  "command": "/usr/bin/cc  -I/home/jackson/C/CBAEmulator/lib/arm_core/include -I/home/jackson/C/CBAEmulator/lib/arm_core/internal -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit  -Wall -Werror -Werror=strict-prototypes -o CMakeFiles/cunit.dir/Sources/Framework/TestRun.c.o -c /home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Framework/TestRun.c",
+  "file": "/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Framework/TestRun.c",
+  "output": "tests/lib/cunit/CUnit/CMakeFiles/cunit.dir/Sources/Framework/TestRun.c.o"
+},
+{
+  "directory": "/home/jackson/C/CBAEmulator/lib/arm_core/build/tests/lib/cunit/CUnit",
+  "command": "/usr/bin/cc  -I/home/jackson/C/CBAEmulator/lib/arm_core/include -I/home/jackson/C/CBAEmulator/lib/arm_core/internal -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit  -Wall -Werror -Werror=strict-prototypes -o CMakeFiles/cunit.dir/Sources/Framework/Util.c.o -c /home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Framework/Util.c",
+  "file": "/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Framework/Util.c",
+  "output": "tests/lib/cunit/CUnit/CMakeFiles/cunit.dir/Sources/Framework/Util.c.o"
+},
+{
+  "directory": "/home/jackson/C/CBAEmulator/lib/arm_core/build/tests/lib/cunit/CUnit",
+  "command": "/usr/bin/cc  -I/home/jackson/C/CBAEmulator/lib/arm_core/include -I/home/jackson/C/CBAEmulator/lib/arm_core/internal -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit  -Wall -Werror -Werror=strict-prototypes -o CMakeFiles/cunit.dir/Sources/Console/Console.c.o -c /home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Console/Console.c",
+  "file": "/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Console/Console.c",
+  "output": "tests/lib/cunit/CUnit/CMakeFiles/cunit.dir/Sources/Console/Console.c.o"
+},
+{
+  "directory": "/home/jackson/C/CBAEmulator/lib/arm_core/build/tests/lib/cunit/CUnit",
+  "command": "/usr/bin/cc -DCUNIT_BUILD_TESTS -DCUNIT_DO_NOT_DEFINE_UNLESS_BUILDING_TESTS -DMEMTRACE -I/home/jackson/C/CBAEmulator/lib/arm_core/include -I/home/jackson/C/CBAEmulator/lib/arm_core/internal -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Framework -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Test -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit  -Wall -Werror -Werror=strict-prototypes -o CMakeFiles/cunit_test.dir/Sources/Basic/Basic.c.o -c /home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Basic/Basic.c",
+  "file": "/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Basic/Basic.c",
+  "output": "tests/lib/cunit/CUnit/CMakeFiles/cunit_test.dir/Sources/Basic/Basic.c.o"
+},
+{
+  "directory": "/home/jackson/C/CBAEmulator/lib/arm_core/build/tests/lib/cunit/CUnit",
+  "command": "/usr/bin/cc -DCUNIT_BUILD_TESTS -DCUNIT_DO_NOT_DEFINE_UNLESS_BUILDING_TESTS -DMEMTRACE -I/home/jackson/C/CBAEmulator/lib/arm_core/include -I/home/jackson/C/CBAEmulator/lib/arm_core/internal -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Framework -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Test -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit  -Wall -Werror -Werror=strict-prototypes -o CMakeFiles/cunit_test.dir/Sources/Automated/Automated.c.o -c /home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Automated/Automated.c",
+  "file": "/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Automated/Automated.c",
+  "output": "tests/lib/cunit/CUnit/CMakeFiles/cunit_test.dir/Sources/Automated/Automated.c.o"
+},
+{
+  "directory": "/home/jackson/C/CBAEmulator/lib/arm_core/build/tests/lib/cunit/CUnit",
+  "command": "/usr/bin/cc -DCUNIT_BUILD_TESTS -DCUNIT_DO_NOT_DEFINE_UNLESS_BUILDING_TESTS -DMEMTRACE -I/home/jackson/C/CBAEmulator/lib/arm_core/include -I/home/jackson/C/CBAEmulator/lib/arm_core/internal -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Framework -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Test -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit  -Wall -Werror -Werror=strict-prototypes -o CMakeFiles/cunit_test.dir/Sources/Automated/AutomatedJUnitXml.c.o -c /home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Automated/AutomatedJUnitXml.c",
+  "file": "/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Automated/AutomatedJUnitXml.c",
+  "output": "tests/lib/cunit/CUnit/CMakeFiles/cunit_test.dir/Sources/Automated/AutomatedJUnitXml.c.o"
+},
+{
+  "directory": "/home/jackson/C/CBAEmulator/lib/arm_core/build/tests/lib/cunit/CUnit",
+  "command": "/usr/bin/cc -DCUNIT_BUILD_TESTS -DCUNIT_DO_NOT_DEFINE_UNLESS_BUILDING_TESTS -DMEMTRACE -I/home/jackson/C/CBAEmulator/lib/arm_core/include -I/home/jackson/C/CBAEmulator/lib/arm_core/internal -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Framework -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Test -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit  -Wall -Werror -Werror=strict-prototypes -o CMakeFiles/cunit_test.dir/Sources/CI/CUnitCI.c.o -c /home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/CI/CUnitCI.c",
+  "file": "/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/CI/CUnitCI.c",
+  "output": "tests/lib/cunit/CUnit/CMakeFiles/cunit_test.dir/Sources/CI/CUnitCI.c.o"
+},
+{
+  "directory": "/home/jackson/C/CBAEmulator/lib/arm_core/build/tests/lib/cunit/CUnit",
+  "command": "/usr/bin/cc -DCUNIT_BUILD_TESTS -DCUNIT_DO_NOT_DEFINE_UNLESS_BUILDING_TESTS -DMEMTRACE -I/home/jackson/C/CBAEmulator/lib/arm_core/include -I/home/jackson/C/CBAEmulator/lib/arm_core/internal -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Framework -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Test -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit  -Wall -Werror -Werror=strict-prototypes -o CMakeFiles/cunit_test.dir/Sources/Framework/CUError.c.o -c /home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Framework/CUError.c",
+  "file": "/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Framework/CUError.c",
+  "output": "tests/lib/cunit/CUnit/CMakeFiles/cunit_test.dir/Sources/Framework/CUError.c.o"
+},
+{
+  "directory": "/home/jackson/C/CBAEmulator/lib/arm_core/build/tests/lib/cunit/CUnit",
+  "command": "/usr/bin/cc -DCUNIT_BUILD_TESTS -DCUNIT_DO_NOT_DEFINE_UNLESS_BUILDING_TESTS -DMEMTRACE -I/home/jackson/C/CBAEmulator/lib/arm_core/include -I/home/jackson/C/CBAEmulator/lib/arm_core/internal -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Framework -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Test -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit  -Wall -Werror -Werror=strict-prototypes -o CMakeFiles/cunit_test.dir/Sources/Framework/MessageHandlers.c.o -c /home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Framework/MessageHandlers.c",
+  "file": "/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Framework/MessageHandlers.c",
+  "output": "tests/lib/cunit/CUnit/CMakeFiles/cunit_test.dir/Sources/Framework/MessageHandlers.c.o"
+},
+{
+  "directory": "/home/jackson/C/CBAEmulator/lib/arm_core/build/tests/lib/cunit/CUnit",
+  "command": "/usr/bin/cc -DCUNIT_BUILD_TESTS -DCUNIT_DO_NOT_DEFINE_UNLESS_BUILDING_TESTS -DMEMTRACE -I/home/jackson/C/CBAEmulator/lib/arm_core/include -I/home/jackson/C/CBAEmulator/lib/arm_core/internal -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Framework -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Test -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit  -Wall -Werror -Werror=strict-prototypes -o CMakeFiles/cunit_test.dir/Sources/Framework/MyMem.c.o -c /home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Framework/MyMem.c",
+  "file": "/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Framework/MyMem.c",
+  "output": "tests/lib/cunit/CUnit/CMakeFiles/cunit_test.dir/Sources/Framework/MyMem.c.o"
+},
+{
+  "directory": "/home/jackson/C/CBAEmulator/lib/arm_core/build/tests/lib/cunit/CUnit",
+  "command": "/usr/bin/cc -DCUNIT_BUILD_TESTS -DCUNIT_DO_NOT_DEFINE_UNLESS_BUILDING_TESTS -DMEMTRACE -I/home/jackson/C/CBAEmulator/lib/arm_core/include -I/home/jackson/C/CBAEmulator/lib/arm_core/internal -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Framework -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Test -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit  -Wall -Werror -Werror=strict-prototypes -o CMakeFiles/cunit_test.dir/Sources/Framework/TestDB.c.o -c /home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Framework/TestDB.c",
+  "file": "/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Framework/TestDB.c",
+  "output": "tests/lib/cunit/CUnit/CMakeFiles/cunit_test.dir/Sources/Framework/TestDB.c.o"
+},
+{
+  "directory": "/home/jackson/C/CBAEmulator/lib/arm_core/build/tests/lib/cunit/CUnit",
+  "command": "/usr/bin/cc -DCUNIT_BUILD_TESTS -DCUNIT_DO_NOT_DEFINE_UNLESS_BUILDING_TESTS -DMEMTRACE -I/home/jackson/C/CBAEmulator/lib/arm_core/include -I/home/jackson/C/CBAEmulator/lib/arm_core/internal -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Framework -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Test -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit  -Wall -Werror -Werror=strict-prototypes -o CMakeFiles/cunit_test.dir/Sources/Framework/TestRun.c.o -c /home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Framework/TestRun.c",
+  "file": "/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Framework/TestRun.c",
+  "output": "tests/lib/cunit/CUnit/CMakeFiles/cunit_test.dir/Sources/Framework/TestRun.c.o"
+},
+{
+  "directory": "/home/jackson/C/CBAEmulator/lib/arm_core/build/tests/lib/cunit/CUnit",
+  "command": "/usr/bin/cc -DCUNIT_BUILD_TESTS -DCUNIT_DO_NOT_DEFINE_UNLESS_BUILDING_TESTS -DMEMTRACE -I/home/jackson/C/CBAEmulator/lib/arm_core/include -I/home/jackson/C/CBAEmulator/lib/arm_core/internal -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Framework -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Test -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit  -Wall -Werror -Werror=strict-prototypes -o CMakeFiles/cunit_test.dir/Sources/Framework/Util.c.o -c /home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Framework/Util.c",
+  "file": "/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Framework/Util.c",
+  "output": "tests/lib/cunit/CUnit/CMakeFiles/cunit_test.dir/Sources/Framework/Util.c.o"
+},
+{
+  "directory": "/home/jackson/C/CBAEmulator/lib/arm_core/build/tests/lib/cunit/CUnit",
+  "command": "/usr/bin/cc -DCUNIT_BUILD_TESTS -DCUNIT_DO_NOT_DEFINE_UNLESS_BUILDING_TESTS -DMEMTRACE -I/home/jackson/C/CBAEmulator/lib/arm_core/include -I/home/jackson/C/CBAEmulator/lib/arm_core/internal -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Framework -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Test -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit  -Wall -Werror -Werror=strict-prototypes -o CMakeFiles/cunit_test.dir/Sources/Console/Console.c.o -c /home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Console/Console.c",
+  "file": "/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Console/Console.c",
+  "output": "tests/lib/cunit/CUnit/CMakeFiles/cunit_test.dir/Sources/Console/Console.c.o"
+},
+{
+  "directory": "/home/jackson/C/CBAEmulator/lib/arm_core/build/tests/lib/cunit/CUnit",
+  "command": "/usr/bin/cc -DCUNIT_BUILD_TESTS -DCUNIT_DO_NOT_DEFINE_UNLESS_BUILDING_TESTS -DMEMTRACE -I/home/jackson/C/CBAEmulator/lib/arm_core/include -I/home/jackson/C/CBAEmulator/lib/arm_core/internal -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Framework -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Test -I/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit  -Wall -Werror -Werror=strict-prototypes -o CMakeFiles/cunit_test.dir/Sources/Test/test_cunit.c.o -c /home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Test/test_cunit.c",
+  "file": "/home/jackson/C/CBAEmulator/lib/arm_core/tests/lib/cunit/CUnit/Sources/Test/test_cunit.c",
+  "output": "tests/lib/cunit/CUnit/CMakeFiles/cunit_test.dir/Sources/Test/test_cunit.c.o"
+}
+]

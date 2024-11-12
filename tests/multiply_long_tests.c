@@ -2,8 +2,8 @@
 #include <CUnit/CUnit.h>
 
 #include "test_macros.h"
-#include "multiply.h"
-#include "registers.h"
+#include "../internal/multiply.h"
+#include "../internal/registers.h"
 
 void test_correct_long_multiply_instruction_set_bits() {
     CPU cpu;
